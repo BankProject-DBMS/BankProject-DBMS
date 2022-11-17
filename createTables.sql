@@ -171,4 +171,5 @@ CREATE TABLE PhysicalLoanInstallment (
     primary key (InstallmentID) ,
     foreign key(LoanID) references physicalloan(LoanID)
 );
+-- hello udara
 
