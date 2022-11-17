@@ -172,4 +172,5 @@ CREATE TABLE PhysicalLoanInstallment (
     foreign key(LoanID) references physicalloan(LoanID)
 );
 -- hello udara
+-- bye inuka
 
