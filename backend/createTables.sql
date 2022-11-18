@@ -1,5 +1,5 @@
 CREATE Table Branch (
-	BranchID varchar(5),
+	BranchID INT NOT NULL AUTO_INCREMENT,
     City varchar(20),
     Address varchar(200),
 	primary key(BranchID)
@@ -7,7 +7,7 @@ CREATE Table Branch (
 
     
 CREATE Table Employee (
-	EmployeeID varchar(5),
+	EmployeeID INT NOT NULL AUTO_INCREMENT,
     Name varchar(20),
     Position varchar(200),
     BranchID varchar(5),
@@ -19,7 +19,7 @@ CREATE Table Employee (
 );
 
 CREATE Table Customer (
-	CustomerID varchar(5),
+	CustomerID INT NOT NULL AUTO_INCREMENT,
     Name varchar(20),
     dateofbirth date,
     Address varchar(200),
@@ -32,7 +32,7 @@ CREATE Table Customer (
 
 CREATE TABLE OnlineCustomer
 (
-	OnlineID varchar (10),
+	OnlineID INT NOT NULL AUTO_INCREMENT,
     CustomerID varchar(5),
     Password varchar(10),
     PRIMARY KEY (OnlineID),
@@ -41,14 +41,14 @@ CREATE TABLE OnlineCustomer
 
 CREATE TABLE FDAccountType
 (
-	TypeID varchar (5),
+	TypeID INT NOT NULL AUTO_INCREMENT,
     Duration numeric(3,0),
     InterestRate numeric(4,2),
 	primary key(TypeID)
 );
 
 CREATE Table CashAccountType (
-	TypeID varchar(5),
+	TypeID INT NOT NULL AUTO_INCREMENT,
     Type varchar(20),
     Minimum numeric(15,2),
     Amount numeric(15,2),
@@ -57,13 +57,13 @@ CREATE Table CashAccountType (
 );
 
 CREATE Table LoanType (
-	TypeID varchar(10),
+	TypeID INT NOT NULL AUTO_INCREMENT,
     InterestRate numeric(4,2),
     primary key(TypeID)
 );
 
 CREATE Table CashAccount (
-	AccountID varchar(15),
+	AccountID INT NOT NULL AUTO_INCREMENT,
     CustomerID varchar(5),
     DateCreated date,
     TypeID varchar(5),
@@ -75,7 +75,7 @@ CREATE Table CashAccount (
 
 CREATE TABLE FDAccount
 (
-	AccountID varchar(15),
+	AccountID INT NOT NULL AUTO_INCREMENT,
     TypeID varchar(5),
     SavingsAccountID varchar(15),
     Amount numeric(15,2),
@@ -86,7 +86,7 @@ CREATE TABLE FDAccount
 );
 
 CREATE Table Transaction (
-	TransactionID varchar(10),
+	TransactionID INT NOT NULL AUTO_INCREMENT,
     FromAccount varchar(15),
     ToAccount varchar(15),
     Amount numeric(15,2),
@@ -98,7 +98,7 @@ CREATE Table Transaction (
 );
 
 CREATE Table Withdrawal (
-	TransactionID varchar(10),
+	TransactionID INT NOT NULL AUTO_INCREMENT,
     AccountID varchar(15),
     Amount numeric(15,2),
     Remark varchar(50),
@@ -108,7 +108,7 @@ CREATE Table Withdrawal (
 );
 
 CREATE Table Deposit (
-	TransactionID varchar(10),
+	TransactionID INT NOT NULL AUTO_INCREMENT,
     AccountID varchar(15),
     Amount numeric(15,2),
     Remark varchar(50),
@@ -119,7 +119,7 @@ CREATE Table Deposit (
 
 
 CREATE Table PhysicalLoan (
-	LoanID varchar(5),
+	LoanID INT NOT NULL AUTO_INCREMENT,
     CustomerID varchar(5),
     BranchID varchar(5),
     EmployeeID varchar(5),
@@ -136,7 +136,7 @@ CREATE Table PhysicalLoan (
 );
 
 CREATE TABLE OnlineLoan (
-	LoanID varchar(5),
+	LoanID INT NOT NULL AUTO_INCREMENT,
     CustomerID varchar(5),
     FDAccountID varchar(5),
     Amount numeric(13,2),
@@ -151,7 +151,7 @@ CREATE TABLE OnlineLoan (
 );
 
 CREATE TABLE OnlineLoanInstallment (
-	InstallmentID varchar(5),
+	InstallmentID INT NOT NULL AUTO_INCREMENT,
 	LoanID varchar(5),
     DeadlineDate date,
     Amount numeric(13,2),
@@ -161,7 +161,7 @@ CREATE TABLE OnlineLoanInstallment (
 );
 
 CREATE TABLE PhysicalLoanInstallment (
-	InstallmentID varchar(5),
+	InstallmentID INT NOT NULL AUTO_INCREMENT,
 	LoanID varchar(5),
     DeadlineDate date,
     Amount numeric(13,2),
@@ -169,7 +169,5 @@ CREATE TABLE PhysicalLoanInstallment (
     primary key (InstallmentID) ,
     foreign key(LoanID) references physicalloan(LoanID)
 );
--- hello udara
--- bye inuka
--- hi
+
 
