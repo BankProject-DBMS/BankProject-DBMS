@@ -1,3 +1,5 @@
+drop table if exists PhysicalLoanInstallment,OnlineLoanInstallment,OnlineLoan,PhysicalLoan,Deposit,Withdrawal,Transaction,FDAccount,CashAccount,LoanType,CashAccountType,FDAccountType,OnlineCustomer,Customer,Employee,Branch;
+
 CREATE Table Branch (
 	BranchID INT NOT NULL AUTO_INCREMENT,
     City varchar(20),
