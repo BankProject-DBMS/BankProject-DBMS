@@ -2,7 +2,6 @@ CREATE Table Branch (
 	BranchID varchar(5),
     City varchar(20),
     Address varchar(200),
-    ManagerID varchar(5),
 	primary key(BranchID)
 );
 
@@ -12,6 +11,7 @@ CREATE Table Employee (
     Name varchar(20),
     Position varchar(200),
     BranchID varchar(5),
+    isManager boolean,
     OnlineID varchar(5),
     Password varchar(20),
 	primary key(EmployeeID),
@@ -29,8 +29,6 @@ CREATE Table Customer (
 );
 
 
-ALTER TABLE branch
-ADD FOREIGN KEY (ManagerID) references Employee(EmployeeID);
 
 CREATE TABLE OnlineCustomer
 (
