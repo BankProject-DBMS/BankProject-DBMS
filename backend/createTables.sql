@@ -16,7 +16,6 @@ CREATE Table Employee (
     isManager boolean,
     OnlineID varchar(10),
     Password varchar(20),
-    isManager boolean,
 	primary key(EmployeeID),
     foreign key(BranchID) references Branch(BranchID)
 );
