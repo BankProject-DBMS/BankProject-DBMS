@@ -14,7 +14,7 @@ CREATE Table Employee (
     Position varchar(200),
     BranchID INT,
     isManager boolean,
-    OnlineID INT,
+    OnlineID varchar(10),
     Password varchar(20),
 	primary key(EmployeeID),
     foreign key(BranchID) references Branch(BranchID)
@@ -42,14 +42,14 @@ CREATE TABLE OnlineCustomer
 
 CREATE TABLE FDAccountType
 (
-	TypeID INT NOT NULL AUTO_INCREMENT,
+	TypeID varchar(7),
     Duration numeric(3,0),
     InterestRate numeric(4,2),
 	primary key(TypeID)
 );
 
 CREATE Table CashAccountType (
-	TypeID INT NOT NULL AUTO_INCREMENT,
+	TypeID varchar(5),
     Type varchar(20),
     Minimum numeric(15,2),
     WCountMax int,
@@ -58,7 +58,8 @@ CREATE Table CashAccountType (
 );
 
 CREATE Table LoanType (
-	TypeID INT NOT NULL AUTO_INCREMENT,
+	TypeID varchar(5),
+    Type varchar(20),
     InterestRate numeric(4,2),
     primary key(TypeID)
 );
@@ -67,7 +68,7 @@ CREATE Table CashAccount (
 	AccountID INT NOT NULL AUTO_INCREMENT,
     CustomerID INT,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    TypeID INT,
+    TypeID varchar(5),
     Balance numeric(15,2),
     WCount int,
     primary key (AccountID),
@@ -78,7 +79,7 @@ CREATE Table CashAccount (
 CREATE TABLE FDAccount
 (
 	AccountID INT NOT NULL AUTO_INCREMENT,
-    TypeID INT,
+    TypeID varchar(7),
     SavingsAccountID INT,
     Amount numeric(15,2),
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -126,7 +127,7 @@ CREATE Table PhysicalLoan (
     BranchID INT,
     EmployeeID INT,
     Amount numeric(15,2),
-    TypeID INT,
+    TypeID varchar(5),
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     SavingsAccountID INT,
 	primary key(LoanID),
@@ -142,7 +143,7 @@ CREATE TABLE OnlineLoan (
     CustomerID INT,
     FDAccountID INT,
     Amount numeric(13,2),
-    TypeID INT,
+    TypeID varchar(5),
     SavingsAccountID INT,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key(LoanID),
@@ -173,3 +174,6 @@ CREATE TABLE PhysicalLoanInstallment (
 );
 
 
+-- suggestions for upgrading the database
+-- 1. give special privilages to customers who are also employees
+-- 2. refresh the wcount of the cash account at the end of the month
