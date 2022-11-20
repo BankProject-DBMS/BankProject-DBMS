@@ -1,0 +1,100 @@
+INSERT INTO branch(City, Address)
+VALUES
+	("Moratuwa", "1st Lane, Katubadda"),
+    ("Borella", "D.S.Senanayake Mawatha, Punchi Borella"),
+    ("Anuradhapura", "1st Lane, Pooja Nagaraya");
+    
+INSERT INTO customer(Name, dateofbirth, Address, Phone, occupation)
+VALUES
+	("A.L. Abeweera", '2000-04-01', "No: 2nd Lane, Bandaragama", '+94761234567', 'CS Engineer'),
+    ("U.M. Wijesighe", '2000-03-02', "No: 45, Papiliyana, Boralesgamuwa", "+94764964790", 'Engineer'),
+    ("Nimesh Ranchagoda", '2000-08-17', "No; 144, Angoda", "+94774964790", "Tennis Trainer"),
+    ("Inuka Ampavila", '2000-10-16', "No: 15, Rathanapitiya, Boralesgamuwa", "+94774567891" ,"Shooter"),
+    ("Radith Samarakoon", '1998-12-12', "No: 12, Galle Road, Mount Laviniya", "+94724561232", "Full Stack Developer"),
+    ("Akmal A. Jasmin", '1999-01-01', "No: 54, Galle Road, Kalutara", "+94724561232", "Full Stack Developer");
+
+INSERT INTO FDAccountType(TypeID, Duration, Interestrate)
+VALUES
+	("F061300", 6, 13.0),
+    ("F121450", 12, 14.5),
+    ("F361500", 36, 15.0);
+
+INSERT INTO cashaccounttype(TypeID, Type, Minimum, WCountMax, InterestRate )
+VALUES
+	("C0", "Current", 0.00, 0, 0 ),
+    ("SC", "Children", 0.00, 5, 12 ),
+    ("ST", "Teen", 500.00, 5, 11),
+    ("SA", "Adult", 1000.00, 5, 10),
+    ("SS", "Senior", 1000.00, 5, 13);
+
+INSERT INTO loantype(TypeID, Type, InterestRate)
+VALUES
+    ('H1050', 'Housing', 10.5),
+    ('V1150', 'Vehicle', 11.5),
+    ('P1250', 'Personal', 12.5),
+    ('B1450', 'Business', 14.5),
+    ('L1350', 'Land', 13.5);
+
+INSERT INTO cashaccount(customerID, TypeID, Balance, WCount)
+VALUES
+    (1, "SA", 1004000.00, 4),
+    (2, "SA", 2834000.00, 2),
+    (3, "SA", 3000561.00, 3),
+    (4, "C0", 141000.00, 0),
+    (5, "ST", 1341.00, 4),
+    (6, "SS", 4240010.00, 5);
+
+INSERT INTO fdaccount(TypeID, SavingsAccountID, Amount)
+VALUES
+    ('F061300', 1, 100000),
+    ('F121450', 2, 200000),
+    ('F361500', 3, 300000);
+
+
+INSERT INTO onlineloan(CustomerID, FDAccountID, Amount, TypeID, SavingsAccountID)
+VALUES
+    (1, 1, 100000, 'H1050', 1),
+    (2, 2, 200000, 'V1150', 2),
+    (3, 3, 300000, 'P1250', 3);
+
+INSERT INTO Employee(Name, Position, BranchID, isManager, OnlineID, Password)
+VALUES
+	("A.N.Cabral","L1-Employee",1,0,"cabral","12345"),
+    ("Vasudewa","L1-Employee",2,0,"vasu","12345"),
+    ("Mahinda R","L2-Employee",3,0,"MR","12345"),
+    ("Basil","L1-Employee",1,0,"basil","12345"),
+    ("Ranil W.","Manager",1,1,"ranil","12345"),
+    ("Gotabaya R","Manager",2,1,"gota","12345"),
+    ("Ravi K","Manager",3,1,"ravi","12345");
+    
+    
+INSERT INTO physicalloan(CustomerID, BranchID, EmployeeID, Amount, TypeID, SavingsAccountID)
+VALUES
+    (4, 1, 1, 100000, 'B1450', 4),
+    (5, 2, 2, 200000, 'L1350', 5),
+    (6, 3, 3, 300000, 'H1050', 6);
+
+INSERT INTO Onlinecustomer(CustomerID, Password)
+VALUES
+    (1, '123456'),
+    (2, '456789'),
+    (3, '159456'),
+    (4, '345615');
+    
+INSERT INTO deposit(AccountID, Amount, Remark)
+VALUES
+    (1, 10000.00, 'Monthly Saving'),
+    (4, 350000.00, 'For car'),
+    (5, 4500.00, 'Groccery'),
+    (6, 45000.00, 'Laptop');
+
+INSERT INTO Withdrawal(AccountID, Amount, Remark)
+VALUES
+    (1, 1000, "credit score is 800"),
+    (2, 2000, "credit score is 640"),
+    (3, 3000, "credit score is 700");
+
+INSERT INTO Transaction(FromAccount, ToAccount, Amount, Remark)
+VALUES
+    (6, 4, 10000, 'Rent'),
+    (1, 2, 20000, 'Salary');
