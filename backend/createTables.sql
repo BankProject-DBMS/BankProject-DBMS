@@ -31,7 +31,6 @@ CREATE Table Customer (
 );
 
 
-
 CREATE TABLE OnlineCustomer
 (
 	OnlineID INT NOT NULL AUTO_INCREMENT,
@@ -53,7 +52,7 @@ CREATE Table CashAccountType (
 	TypeID INT NOT NULL AUTO_INCREMENT,
     Type varchar(20),
     Minimum numeric(15,2),
-    Amount numeric(15,2),
+    WCountMax int,
     InterestRate numeric(4,2),
     primary key (TypeID)
 );
@@ -67,9 +66,10 @@ CREATE Table LoanType (
 CREATE Table CashAccount (
 	AccountID INT NOT NULL AUTO_INCREMENT,
     CustomerID INT,
-    DateCreated date,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     TypeID INT,
     Balance numeric(15,2),
+    WCount int,
     primary key (AccountID),
     foreign key (CustomerID) references Customer(CustomerID),
     foreign key (TypeID) references CashAccountType(TypeID)
@@ -81,7 +81,7 @@ CREATE TABLE FDAccount
     TypeID INT,
     SavingsAccountID INT,
     Amount numeric(15,2),
-    DateCreated date,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key (AccountID),
     foreign key (TypeID) references FDAccountType(TypeID),
     foreign key (SavingsAccountID) references CashAccount(AccountID)
@@ -93,7 +93,7 @@ CREATE Table Transaction (
     ToAccount INT,
     Amount numeric(15,2),
     Remark varchar(50),
-    Date date,
+    TransactionTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	primary key (TransactionID),
     foreign key (FromAccount) references CashAccount(AccountID),
     foreign key (ToAccount) references CashAccount(AccountID)
@@ -104,7 +104,7 @@ CREATE Table Withdrawal (
     AccountID INT,
     Amount numeric(15,2),
     Remark varchar(50),
-    Date date,
+    WithdrawalTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	primary key (TransactionID),
     foreign key (AccountID) references CashAccount(AccountID)
 );
@@ -114,7 +114,7 @@ CREATE Table Deposit (
     AccountID INT,
     Amount numeric(15,2),
     Remark varchar(50),
-    Date date,
+    DepositTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	primary key (TransactionID),
     foreign key (AccountID) references CashAccount(AccountID)
 );
@@ -127,7 +127,7 @@ CREATE Table PhysicalLoan (
     EmployeeID INT,
     Amount numeric(15,2),
     TypeID INT,
-    DateCreated date,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     SavingsAccountID INT,
 	primary key(LoanID),
     foreign key(BranchID) references Branch(BranchID),
@@ -144,7 +144,7 @@ CREATE TABLE OnlineLoan (
     Amount numeric(13,2),
     TypeID INT,
     SavingsAccountID INT,
-    DateCreated date,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key(LoanID),
     foreign key(CustomerID) references Customer(CustomerID),
     foreign key(FDAccountID) references FDAccount(AccountID),
