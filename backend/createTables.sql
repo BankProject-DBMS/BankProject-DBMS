@@ -1,25 +1,27 @@
+drop table if exists PhysicalLoanInstallment,OnlineLoanInstallment,OnlineLoan,PhysicalLoan,Deposit,Withdrawal,Transaction,FDAccount,CashAccount,LoanType,CashAccountType,FDAccountType,OnlineCustomer,Customer,Employee,Branch;
+
 CREATE Table Branch (
-	BranchID varchar(5),
+	BranchID INT NOT NULL AUTO_INCREMENT,
     City varchar(20),
     Address varchar(200),
-    ManagerID varchar(5),
 	primary key(BranchID)
 );
 
     
 CREATE Table Employee (
-	EmployeeID varchar(5),
+	EmployeeID INT NOT NULL AUTO_INCREMENT,
     Name varchar(20),
     Position varchar(200),
-    BranchID varchar(5),
-    OnlineID varchar(5),
+    BranchID INT,
+    isManager boolean,
+    OnlineID varchar(10),
     Password varchar(20),
 	primary key(EmployeeID),
     foreign key(BranchID) references Branch(BranchID)
 );
 
 CREATE Table Customer (
-	CustomerID varchar(5),
+	CustomerID INT NOT NULL AUTO_INCREMENT,
     Name varchar(20),
     dateofbirth date,
     Address varchar(200),
@@ -29,21 +31,18 @@ CREATE Table Customer (
 );
 
 
-ALTER TABLE branch
-ADD FOREIGN KEY (ManagerID) references Employee(EmployeeID);
-
 CREATE TABLE OnlineCustomer
 (
-	OnlineID varchar (10),
-    CustomerID varchar(5),
+	OnlineID INT NOT NULL AUTO_INCREMENT,
+    CustomerID INT,
     Password varchar(10),
     PRIMARY KEY (OnlineID),
-    foreign key (CustomerID) references customer(CustomerID)
+    foreign key (CustomerID) references Customer(CustomerID)
 );
 
 CREATE TABLE FDAccountType
 (
-	TypeID varchar (5),
+	TypeID varchar(7),
     Duration numeric(3,0),
     InterestRate numeric(4,2),
 	primary key(TypeID)
@@ -53,23 +52,25 @@ CREATE Table CashAccountType (
 	TypeID varchar(5),
     Type varchar(20),
     Minimum numeric(15,2),
-    Amount numeric(15,2),
+    WCountMax int,
     InterestRate numeric(4,2),
     primary key (TypeID)
 );
 
 CREATE Table LoanType (
-	TypeID varchar(10),
+	TypeID varchar(5),
+    Type varchar(20),
     InterestRate numeric(4,2),
     primary key(TypeID)
 );
 
 CREATE Table CashAccount (
-	AccountID varchar(15),
-    CustomerID varchar(5),
-    DateCreated date,
+	AccountID INT NOT NULL AUTO_INCREMENT,
+    CustomerID INT,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     TypeID varchar(5),
     Balance numeric(15,2),
+    WCount int,
     primary key (AccountID),
     foreign key (CustomerID) references Customer(CustomerID),
     foreign key (TypeID) references CashAccountType(TypeID)
@@ -77,58 +78,58 @@ CREATE Table CashAccount (
 
 CREATE TABLE FDAccount
 (
-	AccountID varchar(15),
-    TypeID varchar(5),
-    SavingsAccountID varchar(15),
+	AccountID INT NOT NULL AUTO_INCREMENT,
+    TypeID varchar(7),
+    SavingsAccountID INT,
     Amount numeric(15,2),
-    DateCreated date,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key (AccountID),
     foreign key (TypeID) references FDAccountType(TypeID),
     foreign key (SavingsAccountID) references CashAccount(AccountID)
 );
 
 CREATE Table Transaction (
-	TransactionID varchar(10),
-    FromAccount varchar(15),
-    ToAccount varchar(15),
+	TransactionID INT NOT NULL AUTO_INCREMENT,
+    FromAccount INT,
+    ToAccount INT,
     Amount numeric(15,2),
     Remark varchar(50),
-    Date date,
+    TransactionTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	primary key (TransactionID),
     foreign key (FromAccount) references CashAccount(AccountID),
     foreign key (ToAccount) references CashAccount(AccountID)
 );
 
 CREATE Table Withdrawal (
-	TransactionID varchar(10),
-    AccountID varchar(15),
+	TransactionID INT NOT NULL AUTO_INCREMENT,
+    AccountID INT,
     Amount numeric(15,2),
     Remark varchar(50),
-    Date date,
+    WithdrawalTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	primary key (TransactionID),
     foreign key (AccountID) references CashAccount(AccountID)
 );
 
 CREATE Table Deposit (
-	TransactionID varchar(10),
-    AccountID varchar(15),
+	TransactionID INT NOT NULL AUTO_INCREMENT,
+    AccountID INT,
     Amount numeric(15,2),
     Remark varchar(50),
-    Date date,
+    DepositTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	primary key (TransactionID),
     foreign key (AccountID) references CashAccount(AccountID)
 );
 
 
 CREATE Table PhysicalLoan (
-	LoanID varchar(5),
-    CustomerID varchar(5),
-    BranchID varchar(5),
-    EmployeeID varchar(5),
+	LoanID INT NOT NULL AUTO_INCREMENT,
+    CustomerID INT,
+    BranchID INT,
+    EmployeeID INT,
     Amount numeric(15,2),
-    TypeID varchar(10),
-    DateCreated date,
-    SavingsAccountID varchar(15),
+    TypeID varchar(5),
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    SavingsAccountID INT,
 	primary key(LoanID),
     foreign key(BranchID) references Branch(BranchID),
     foreign key(CustomerID) references Customer(CustomerID),
@@ -138,13 +139,13 @@ CREATE Table PhysicalLoan (
 );
 
 CREATE TABLE OnlineLoan (
-	LoanID varchar(5),
-    CustomerID varchar(5),
-    FDAccountID varchar(5),
+	LoanID INT NOT NULL AUTO_INCREMENT,
+    CustomerID INT,
+    FDAccountID INT,
     Amount numeric(13,2),
-    TypeID varchar(10),
-    SavingsAccountID varchar(15),
-    DateCreated date,
+    TypeID varchar(5),
+    SavingsAccountID INT,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key(LoanID),
     foreign key(CustomerID) references Customer(CustomerID),
     foreign key(FDAccountID) references FDAccount(AccountID),
@@ -153,25 +154,26 @@ CREATE TABLE OnlineLoan (
 );
 
 CREATE TABLE OnlineLoanInstallment (
-	InstallmentID varchar(5),
-	LoanID varchar(5),
+	InstallmentID INT NOT NULL AUTO_INCREMENT,
+	LoanID INT,
     DeadlineDate date,
     Amount numeric(13,2),
     Paid boolean,
     primary key (InstallmentID) ,
-    foreign key (LoanID) references onlineloan(LoanID)
+    foreign key (LoanID) references OnlineLoan(LoanID)
 );
 
 CREATE TABLE PhysicalLoanInstallment (
-	InstallmentID varchar(5),
-	LoanID varchar(5),
+	InstallmentID INT NOT NULL AUTO_INCREMENT,
+	LoanID INT,
     DeadlineDate date,
     Amount numeric(13,2),
     Paid boolean,
     primary key (InstallmentID) ,
-    foreign key(LoanID) references physicalloan(LoanID)
+    foreign key(LoanID) references PhysicalLoan(LoanID)
 );
--- hello udara
--- bye inuka
--- hi
 
+
+-- suggestions for upgrading the database
+-- 1. give special privilages to customers who are also employees
+-- 2. refresh the wcount of the cash account at the end of the month
