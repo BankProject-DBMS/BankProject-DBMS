@@ -1,6 +1,6 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-import AuthenticationForm from './Forms/AuthenticationForm';
+// import AuthenticationForm from './Forms/AuthenticationForm';
 import CustomerReg from './Forms/CustomerReg';
 
 function App() {

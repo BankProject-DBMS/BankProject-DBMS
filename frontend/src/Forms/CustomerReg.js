@@ -1,37 +1,43 @@
 import React, { useState } from "react";
 
 export default function CustomerReg() {
-    const [name, setName] = useState("")
+    const [name, setName] = useState('')
+    const [date, setDate] = useState('')
+    const [address, setAddress] = useState('')
+    const [phone, setPhone] = useState('')
+    const [occupation, setOccupation] = useState('')
 
-    function handleSubmit() {
-        console.log(name);
+
+    function handleSubmit(event) {
+        console.log({ name, date, address, phone, occupation });
         console.log("submitted");
+        event.preventDefault();
     }
 
-
-    return (<div>
-
-        <label>
-            <p>Name</p>
-            <input name="name" placeholder="Full Name" onChange={(e) => { name = e.target.value }} />
-        </label>
-        <label>
-            <p>Date of Birth</p>
-            <input name="dob" placeholder="DD/MM/YYYY" />
-        </label>
-        <label>
-            <p>Address</p>
-            <input name="address" placeholder="Address" />
-        </label>
-        <label>
-            <p>Phone</p>
-            <input name="phone" placeholder="Phone" />
-        </label>
-        <label>
-            <p>Occupation</p>
-            <input name="occupation" placeholder="Occupation" />
-        </label>
-        <br />
-        <button onClick={handleSubmit}>Submit</button>
-    </div>)
+    // TODO Consider using https://formik.org
+    return (
+        <div className="form">
+            <label>
+                <p>Name</p>
+                <input name="name" value={name} placeholder="Full Name" onChange={(e) => setName(e.target.value)} />
+            </label>
+            <label>
+                <p>Date of Birth</p>
+                <input type='date' value={date} name="dob" onChange={(e) => setDate(e.target.value)} />
+            </label>
+            <label>
+                <p>Address</p>
+                <input name="address" value={address} placeholder="Address" onChange={(e) => setAddress(e.target.value)} />
+            </label>
+            <label>
+                <p>Phone</p>
+                <input value={phone} name="phone" placeholder="Phone" onChange={(e) => setPhone(e.target.value)} />
+            </label>
+            <label>
+                <p>Occupation</p>
+                <input value={occupation} name="occupation" placeholder="Occupation" onChange={(e) => setOccupation(e.target.value)} />
+            </label>
+            <br />
+            <button onClick={handleSubmit}>Submit</button>
+        </div>)
 }    
