@@ -177,3 +177,6 @@ CREATE TABLE PhysicalLoanInstallment (
 -- suggestions for upgrading the database
 -- 1. give special privilages to customers who are also employees
 -- 2. refresh the wcount of the cash account at the end of the month
+-- 3. proper structure for loans 
+-- 4. NIC and identification details for persons
+-- 5. Children accounts special format

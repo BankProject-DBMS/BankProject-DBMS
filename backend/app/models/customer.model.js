@@ -26,6 +26,7 @@ Customer.getAll = (name, result) => {
 
         console.log("Customers: ", res);
         result(null, res);
+        return;
     });
 
 
