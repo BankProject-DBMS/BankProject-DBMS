@@ -1,3 +1,20 @@
+-- delete data in all tables
+DELETE FROM Transaction;
+DELETE FROM Withdrawal;
+DELETE FROM Deposit;
+DELETE FROM OnlineCustomer;
+DELETE FROM PhysicalLoan;
+DELETE FROM Employee;
+DELETE FROM OnlineLoan;
+DELETE FROM FDAccount;
+DELETE FROM CashAccount;
+DELETE FROM LoanType;
+DELETE FROM CashAccountType;
+DELETE FROM FDAccountType;
+DELETE FROM Customer;
+DELETE FROM Branch;
+
+-- insert data into tables
 INSERT INTO Branch(City, Address)
 VALUES
 	("Moratuwa", "1st Lane, Katubadda"),
