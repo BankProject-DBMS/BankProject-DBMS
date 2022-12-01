@@ -1,10 +1,27 @@
-INSERT INTO branch(City, Address)
+-- delete data in all tables
+DELETE FROM Transaction;
+DELETE FROM Withdrawal;
+DELETE FROM Deposit;
+DELETE FROM OnlineCustomer;
+DELETE FROM PhysicalLoan;
+DELETE FROM Employee;
+DELETE FROM OnlineLoan;
+DELETE FROM FDAccount;
+DELETE FROM CashAccount;
+DELETE FROM LoanType;
+DELETE FROM CashAccountType;
+DELETE FROM FDAccountType;
+DELETE FROM Customer;
+DELETE FROM Branch;
+
+-- insert data into tables
+INSERT INTO Branch(City, Address)
 VALUES
 	("Moratuwa", "1st Lane, Katubadda"),
     ("Borella", "D.S.Senanayake Mawatha, Punchi Borella"),
     ("Anuradhapura", "1st Lane, Pooja Nagaraya");
     
-INSERT INTO customer(Name, dateofbirth, Address, Phone, occupation)
+INSERT INTO Customer(Name, dateofbirth, Address, Phone, occupation)
 VALUES
 	("A.L. Abeweera", '2000-04-01', "No: 2nd Lane, Bandaragama", '+94761234567', 'CS Engineer'),
     ("U.M. Wijesighe", '2000-03-02', "No: 45, Papiliyana, Boralesgamuwa", "+94764964790", 'Engineer'),
@@ -19,7 +36,7 @@ VALUES
     ("F121450", 12, 14.5),
     ("F361500", 36, 15.0);
 
-INSERT INTO cashaccounttype(TypeID, Type, Minimum, WCountMax, InterestRate )
+INSERT INTO CashAccountType(TypeID, Type, Minimum, WCountMax, InterestRate )
 VALUES
 	("C0", "Current", 0.00, 0, 0 ),
     ("SC", "Children", 0.00, 5, 12 ),
@@ -27,7 +44,7 @@ VALUES
     ("SA", "Adult", 1000.00, 5, 10),
     ("SS", "Senior", 1000.00, 5, 13);
 
-INSERT INTO loantype(TypeID, Type, InterestRate)
+INSERT INTO LoanType(TypeID, Type, InterestRate)
 VALUES
     ('H1050', 'Housing', 10.5),
     ('V1150', 'Vehicle', 11.5),
@@ -35,7 +52,7 @@ VALUES
     ('B1450', 'Business', 14.5),
     ('L1350', 'Land', 13.5);
 
-INSERT INTO cashaccount(customerID, TypeID, Balance, WCount)
+INSERT INTO CashAccount(customerID, TypeID, Balance, WCount)
 VALUES
     (1, "SA", 1004000.00, 4),
     (2, "SA", 2834000.00, 2),
@@ -44,14 +61,14 @@ VALUES
     (5, "ST", 1341.00, 4),
     (6, "SS", 4240010.00, 5);
 
-INSERT INTO fdaccount(TypeID, SavingsAccountID, Amount)
+INSERT INTO FDAccount(TypeID, SavingsAccountID, Amount)
 VALUES
     ('F061300', 1, 100000),
     ('F121450', 2, 200000),
     ('F361500', 3, 300000);
 
 
-INSERT INTO onlineloan(CustomerID, FDAccountID, Amount, TypeID, SavingsAccountID)
+INSERT INTO OnlineLoan(CustomerID, FDAccountID, Amount, TypeID, SavingsAccountID)
 VALUES
     (1, 1, 100000, 'H1050', 1),
     (2, 2, 200000, 'V1150', 2),
@@ -68,20 +85,20 @@ VALUES
     ("Ravi K","Manager",3,1,"ravi","12345");
     
     
-INSERT INTO physicalloan(CustomerID, BranchID, EmployeeID, Amount, TypeID, SavingsAccountID)
+INSERT INTO PhysicalLoan(CustomerID, BranchID, EmployeeID, Amount, TypeID, SavingsAccountID)
 VALUES
     (4, 1, 1, 100000, 'B1450', 4),
     (5, 2, 2, 200000, 'L1350', 5),
     (6, 3, 3, 300000, 'H1050', 6);
 
-INSERT INTO Onlinecustomer(CustomerID, Password)
+INSERT INTO OnlineCustomer(CustomerID, Password)
 VALUES
     (1, '123456'),
     (2, '456789'),
     (3, '159456'),
     (4, '345615');
     
-INSERT INTO deposit(AccountID, Amount, Remark)
+INSERT INTO Deposit(AccountID, Amount, Remark)
 VALUES
     (1, 10000.00, 'Monthly Saving'),
     (4, 350000.00, 'For car'),
