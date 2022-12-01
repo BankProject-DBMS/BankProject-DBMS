@@ -1,11 +1,11 @@
-const Customer = require("./app/models/customer.model");
+const express = require('express');
+const cors = require('cors');
 
-Customer.getAll("Inuka", (err, data) => {
-    if (err) {
-        console.log("Error");
-    }
-    else {
-        console.log(data);
-    }
-    return;
-})
+const app = express();
+const port = 3000;
+
+app.use(
+  cors({
+    origin: ['http://127.0.0.1:3000', 'http://localhost:3000'],
+  })
+);
