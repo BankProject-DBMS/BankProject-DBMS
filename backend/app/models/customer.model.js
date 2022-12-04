@@ -12,7 +12,7 @@ Customer.getAll = (name, result) => {
   let query = 'SELECT * FROM Customer';
 
   if (name) {
-    query += ` WHERE name LIKE '%${sql.escape(name)}%'`;
+    query += ` WHERE name LIKE ${sql.escape(`%${name}%`)}`;
   }
 
   sql.query(query, (err, res) => {
