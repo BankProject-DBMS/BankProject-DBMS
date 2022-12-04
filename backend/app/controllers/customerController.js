@@ -1,8 +1,8 @@
 const CustomerModel = require('../models/customer.model');
 
 exports.findAll = (req, res) => {
-  const name = req.query.name;
-  console.log(req);
+  console.log(req.body);
+  const name = req.body.name;
   CustomerModel.getAll(name, (err, data) => {
     if (err)
       res.status(500).send({
@@ -11,5 +11,16 @@ exports.findAll = (req, res) => {
       });
     else res.send(data);
   });
-  // res.send({ test: 'test' });
+};
+
+exports.createCustomer = (req, res) => {
+  console.log(req.body);
+  const customer = req.body.customer;
+  CustomerModel.create(customer, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || 'Some error occurred while creating customers.',
+      });
+    else res.send(data);
+  });
 };

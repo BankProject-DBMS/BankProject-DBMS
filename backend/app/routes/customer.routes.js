@@ -5,5 +5,7 @@ module.exports = (app) => {
 
   router.post('/', customers.findAll);
 
+  router.post('/add', customers.createCustomer);
+
   app.use('/customers', router);
 };
