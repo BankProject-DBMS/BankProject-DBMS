@@ -11,9 +11,12 @@ export function getCustomers() {
     return await Promise.reject(err);
   }*/
   return axios
-    .get(`${HOST}/branches`)
+    .post(`${HOST}/customers`)
     .then((response) => {
       return response.data;
     })
-    .catch((err) => Promise.reject('Failed to get customers list!'));
+    .catch((err) => {
+      console.log(err);
+      return Promise.reject('Failed to get customers list!')
+    });
 }

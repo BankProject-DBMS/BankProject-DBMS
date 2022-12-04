@@ -1,5 +1,6 @@
 import React from "react";
 
+
 import { getCustomers } from "../api/customers";
 import { Table } from "antd";
 
@@ -7,9 +8,8 @@ export default function CustomerList() {
 
 
 
-    const dataSource = getCustomers();
-    console.log(dataSource);
-    /*
+
+
     const columns = [
         {
             title: 'Name',
@@ -26,13 +26,33 @@ export default function CustomerList() {
             dataIndex: 'Address',
             key: 'Address',
         },
-    ];*/
+    ];
 
+    const [Customer, setCustomer] = React.useState();
+    //const [loading, setLoading] = useState(true);
+
+    React.useEffect(() => loadCustomerList(), []);
+
+    /*const onDelete = (id) => {
+      deleteEmployee(id);
+      loadEmployeeList();
+    };*/
+
+    function loadCustomerList() {
+        getCustomers()
+            .then((data) => {
+                setCustomer(data);
+            })
+            .catch((err) => alert(err));
+    }
+
+    //loadCustomerList();
+    //console.log(Customer);
     return (<div>
 
         <h1>Customer List</h1>
 
-        {/* <Table dataSource={dataSource} columns={columns} /> */}
+        {<Table dataSource={Customer} columns={columns} />}
 
     </div>);
 }
