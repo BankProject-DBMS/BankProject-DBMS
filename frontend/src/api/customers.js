@@ -20,3 +20,15 @@ export function getCustomers() {
       return Promise.reject('Failed to get customers list!')
     });
 }
+
+export function addCustomer(object) {
+  return axios
+    .post(`${HOST}/customers/add`, object)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((err) => {
+      console.log(err);
+      return Promise.reject('Failed to add to customers list!')
+    });
+}

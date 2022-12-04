@@ -1,17 +1,22 @@
 import React, { useState } from "react";
+import { addCustomer } from "../api/customers";
 
 export default function CustomerReg() {
     const [name, setName] = useState('')
-    const [date, setDate] = useState('')
+    const [dateofbirth, setDate] = useState('')
     const [address, setAddress] = useState('')
     const [phone, setPhone] = useState('')
     const [occupation, setOccupation] = useState('')
 
 
     function handleSubmit(event) {
-        console.log({ name, date, address, phone, occupation });
+        //console.log({ name, date, address, phone, occupation });
         console.log("submitted");
+
+        const customer = { name, dateofbirth, address, phone, occupation };
+        addCustomer({ customer });
         event.preventDefault();
+
     }
 
     // TODO Consider using https://formik.org
@@ -23,7 +28,7 @@ export default function CustomerReg() {
             </label>
             <label>
                 <p>Date of Birth</p>
-                <input type='date' value={date} name="dob" onChange={(e) => setDate(e.target.value)} />
+                <input type='date' value={dateofbirth} name="dob" onChange={(e) => setDate(e.target.value)} />
             </label>
             <label>
                 <p>Address</p>
