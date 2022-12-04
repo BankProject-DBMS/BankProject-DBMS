@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <div className="App">
+      <nav></nav>
       {/* <CustomerReg className="centered" /> */}
       {/* <CustomerList className="customer" /> */}
       <BrowserRouter>
