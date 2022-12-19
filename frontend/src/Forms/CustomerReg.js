@@ -43,23 +43,18 @@ export default function CustomerReg() {
           <Form className='customer--reg--form'>
             <span>
               <Field type='text' name='name' placeholder='Full Name' />
-              <ErrorMessage name='name' component='span' />
             </span>
             <span>
               <Field type='date' name='dob' placeholder='Date of Birth' />
-              <ErrorMessage name='dob' component='span' />
             </span>
             <span>
               <Field type='text' name='address' placeholder='Address' />
-              <ErrorMessage name='address' component='span' />
             </span>
             <span>
               <Field type='text' name='phone' placeholder='Phone' />
-              <ErrorMessage name='phone' component='span' />
             </span>
             <span>
               <Field type='text' name='occupation' placeholder='Occupation' />
-              <ErrorMessage name='occupation' component='span' />
             </span>
 
             <Button
@@ -70,6 +65,16 @@ export default function CustomerReg() {
             >
               Submit
             </Button>
+            {Object.values(props.touched).includes(true) &&
+              Object.values(props.errors).length !== 0 && (
+                <div className='customer--reg--form--errors'>
+                  <ErrorMessage name='name' component='div' />
+                  <ErrorMessage name='dob' component='div' />
+                  <ErrorMessage name='address' component='div' />
+                  <ErrorMessage name='phone' component='div' />
+                  <ErrorMessage name='occupation' component='div' />
+                </div>
+              )}
           </Form>
         )}
       </Formik>

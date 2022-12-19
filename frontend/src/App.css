@@ -18,7 +18,7 @@
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   position: relative;
   display: inline-block;
-  width: 50%;
+  width: 500px;
   min-width: 0;
   background-color: #ffffff;
   background-image: none;
@@ -27,4 +27,19 @@
   border-color: #d9d9d9;
   border-radius: 6px;
   transition: all 0.2s;
+}
+
+.customer--reg--form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.customer--reg--form--submit {
+  width: 100px;
+}
+
+.customer--reg--form--errors {
+  color: red;
 }
