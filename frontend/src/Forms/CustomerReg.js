@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button } from 'antd';
 import { addCustomer } from '../api/customers';
@@ -17,11 +16,15 @@ export default function CustomerReg() {
     occupation: Yup.string().required(),
   });
   const handleSubmit = (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-
-      setSubmitting(false);
-    }, 400);
+    setSubmitting(true);
+    const customer = {
+      name: values.name,
+      dateofbirth: values.dob,
+      address: values.address,
+      phone: values.phone,
+      occupation: values.occupation,
+    };
+    addCustomer({ customer }).then(() => setSubmitting(false));
   };
   return (
     <div>
