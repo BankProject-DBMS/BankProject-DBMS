@@ -5,6 +5,10 @@ module.exports = (app) => {
 
   router.post('/', customers.findAll);
 
+  router.get('/:id', customers.getFromID);
+
+  router.put('/:id', customers.updateCustomer);
+
   router.post('/add', customers.createCustomer);
 
   app.use('/customers', router);

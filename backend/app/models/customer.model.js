@@ -29,7 +29,7 @@ Customer.getAll = (name, result) => {
 };
 
 Customer.findById = (id, result) => {
-  sql.query('SELECT * FROM customer WHERE customerID = ?', id, (err, res) => {
+  sql.query('SELECT * FROM Customer WHERE customerID = ?', id, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(err, null);
@@ -78,6 +78,36 @@ Customer.removeAll = (result) => {
     console.log(`Deleted ${res.affectedRows} customers`);
     result(null, res);
   });
+};
+
+Customer.updateById = (id, customer, result) => {
+  console.log({ customer, id });
+  sql.query(
+    'UPDATE Customer SET Name = ?, dateOfBirth = ?, Address = ?, Phone = ?, occupation = ? WHERE CustomerID = ?',
+    [
+      customer.Name,
+      customer.dateofbirth,
+      customer.Address,
+      customer.Phone,
+      customer.occupation,
+      id,
+    ],
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result(err, null);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        result({ kind: 'not_found' }, null);
+        return;
+      }
+
+      console.log('Updated customer: ', { id: id, ...customer });
+      result(null, { id: id, ...customer });
+    }
+  );
 };
 
 module.exports = Customer;

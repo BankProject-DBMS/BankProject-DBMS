@@ -26,24 +26,15 @@ export default function CustomerList() {
     },
   ];
 
+  const [customers, setCustomers] = React.useState();
 
-  const [Customer, setCustomer] = React.useState();
-  //const [loading, setLoading] = useState(true);
-
+  // customer list is loaded on the first component render
   React.useEffect(() => loadCustomerList(), []);
-
-  /*const onDelete = (id) => {
-React.useEffect(() => loadCustomerList(), []);
-
-/*const onDelete = (id) => {
-    deleteEmployee(id);
-    loadEmployeeList();
-  };*/
 
   function loadCustomerList() {
     getCustomers()
       .then((data) => {
-        setCustomer(data);
+        setCustomers(data);
       })
       .catch((err) => alert(err));
   }
@@ -54,7 +45,7 @@ React.useEffect(() => loadCustomerList(), []);
     <div>
       <h1>Customer List</h1>
 
-      {<Table dataSource={Customer} columns={columns} />}
+      {<Table dataSource={customers} columns={columns} />}
     </div>
   );
 }
