@@ -26,15 +26,19 @@ export default function CustomerList() {
     },
   ];
 
+
   const [Customer, setCustomer] = React.useState();
   //const [loading, setLoading] = useState(true);
 
   React.useEffect(() => loadCustomerList(), []);
 
   /*const onDelete = (id) => {
-      deleteEmployee(id);
-      loadEmployeeList();
-    };*/
+React.useEffect(() => loadCustomerList(), []);
+
+/*const onDelete = (id) => {
+    deleteEmployee(id);
+    loadEmployeeList();
+  };*/
 
   function loadCustomerList() {
     getCustomers()
