@@ -7,9 +7,6 @@ import { Table } from "antd";
 export default function CustomerList() {
 
 
-
-
-
     const columns = [
         {
             title: 'Name',
