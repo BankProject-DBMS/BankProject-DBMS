@@ -15,11 +15,11 @@ function App() {
       {/* <CustomerList className="customer" /> */}
       <BrowserRouter>
         <Routes>
-          <Route path='/'>
-            <Route exact path='/' element={<EmployeeHome />} />
-            <Route path='/customer-register' element={<CustomerReg />} />
-            <Route path='/customer-list' element={<CustomerList />} />
-            <Route path='/customer/:customerId' element={<CustomerEditor />} />
+          <Route path='/employeePortal'>
+            <Route exact path='/employeePortal' element={<EmployeeHome />} />
+            <Route path='customer-register' element={<CustomerReg />} />
+            <Route path='customer-list' element={<CustomerList />} />
+            <Route path='customer/:customerId' element={<CustomerEditor />} />
           </Route>
         </Routes>
       </BrowserRouter>
