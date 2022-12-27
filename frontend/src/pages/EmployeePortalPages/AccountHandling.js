@@ -1,10 +1,13 @@
 import React from 'react';
-import CustomerReg from '../../Forms/CustomerReg';
+import FixedDepositReg from '../../Forms/FixedDepositReg';
 
 export default function AccountHandling() {
-    return (
-        <div>
-            <CustomerReg />
-        </div>
-    )
+  return (
+    <div>
+      <div>
+        <h2>Fixed Deposit </h2>
+      </div>
+      <FixedDepositReg />
+    </div>
+  );
 }

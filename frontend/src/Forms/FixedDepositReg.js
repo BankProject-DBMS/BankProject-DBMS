@@ -17,6 +17,7 @@ export default function FixedDepositReg() {
       type: values.myRadioGroup,
       amount: values.amount,
     };
+    //console.log(fd);
     addFD({ fd }).then(() => setSubmitting(false));
   };
   return (
@@ -58,18 +59,27 @@ export default function FixedDepositReg() {
                   id='radioOne'
                   checked={props.values.myRadioGroup === 'one'}
                   name='myRadioGroup'
-                  value='one'
+                  value='6'
                 />
-                <label htmlFor='radioOne'>One</label>
+                <label htmlFor='radioOne'>6 Months</label>
 
                 <Field
                   type='radio'
                   id='radioTwo'
                   checked={props.values.myRadioGroup === 'two'}
                   name='myRadioGroup'
-                  value='two'
+                  value='12'
                 />
-                <label htmlFor='radioTwo'>Two</label>
+                <label htmlFor='radioTwo'>1 Year</label>
+
+                <Field
+                  type='radio'
+                  id='radioThree'
+                  defaultChecked={props.values.myRadioGroup === 'two'}
+                  name='myRadioGroup'
+                  value='36'
+                />
+                <label htmlFor='radioThree'>3 Years</label>
               </div>
               <Button
                 className='customer--reg--form--submit'
