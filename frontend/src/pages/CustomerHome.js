@@ -1,42 +1,30 @@
 import React from 'react';
 import { Navigate, useNavigate, Outlet } from 'react-router-dom';
 import { Breadcrumb, Layout, Menu } from 'antd';
-import { getUserAccounts } from '../api/accounts';
+import { getCustomerAccounts } from '../api/accounts';
 const { Header, Content, Footer } = Layout;
 
-export default function CustomerHome() {
-  const [cashAccs, setCashAccs] = React.useState();
-  const [FdAccs, setFdAccs] = React.useState();
-  const [LoanAccs, setLoanAccs] = React.useState();
+export default function CustomerHome(props) {
+  const [accounts, setAccounts] = React.useState([]);
 
-  React.useEffect(() => loadAccountList(), []);
-
-  function loadAccountList() {
-    getUserAccounts()
-      .then((data) => {
-        const Cash = data.Cash;
-        const FD = data.FD;
-        const Loan = data.Loan;
-        setCashAccs(Cash);
-        setFdAccs(FD);
-        setLoanAccs(Loan);
-      })
+  React.useEffect(() => {
+    getCustomerAccounts(props.customerID)
+      .then((data) => setAccounts(data))
       .catch((err) => alert(err));
-  }
+  }, [props?.customerID]);
 
-  console.log(cashAccs);
-  console.log(LoanAccs);
-  console.log(FdAccs);
+  console.log(accounts);
 
-  const cas = cashAccs.map((cashAcc)=>{
-    
-  })
-  return(
+  const accountsList = accounts.map((account) => (
+    <li key={account.AccountID}>{account.AccountID}</li>
+  ));
+
+  return (
     <div>
-        <div>
-            <h2>Cash Accounts</h2>
-
-        </div>
+      <div>
+        <h2>Cash Accounts</h2>
+        <ul>{accountsList}</ul>
+      </div>
     </div>
   );
 }

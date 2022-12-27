@@ -30,3 +30,13 @@ export async function getAccount(accountID) {
     return await Promise.reject('Failed to get accounts list!');
   }
 }
+
+export async function getCustomerAccounts(customerID) {
+  try {
+    const response = await axios.get(`${HOST}/accounts/customer/${customerID}`);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return await Promise.reject('Failed to get accounts list!');
+  }
+}

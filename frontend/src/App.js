@@ -23,7 +23,11 @@ function App() {
             <Route path='customer/:customerId' element={<CustomerEditor />} />
           </Route>
           <Route path='/customerPortal'>
-            <Route exact path='/customerPortal' element={<CustomerHome />} />
+            <Route
+              exact
+              path='/customerPortal'
+              element={<CustomerHome customerID={1} />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
