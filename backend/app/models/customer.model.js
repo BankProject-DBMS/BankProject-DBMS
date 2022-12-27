@@ -18,7 +18,7 @@ Customer.getAll = (name, result) => {
   sql.query(query, (err, res) => {
     if (err) {
       console.log('error: ', err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
@@ -37,7 +37,7 @@ Customer.findById = (id, result) => {
     }
 
     if (res.length) {
-      console.log('found tutorial: ', res[0]);
+      console.log('found customer: ', res[0]);
       result(null, res[0]);
       return;
     }

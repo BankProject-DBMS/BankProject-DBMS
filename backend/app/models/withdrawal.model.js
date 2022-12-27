@@ -1,11 +1,10 @@
 const sql = require('./db.js');
 
 const Withdrawal = function (withdrawal) {
-    
-    this.AccountID = withdrawal.AccountID;
-    this.Amount = withdrawal.Amount;
-    this.Remark = withdrawal.Remark;
-    this.WithdrawalTime = withdrawal.WithdrawalTime;
+  this.AccountID = withdrawal.AccountID;
+  this.Amount = withdrawal.Amount;
+  this.Remark = withdrawal.Remark;
+  this.WithdrawalTime = withdrawal.WithdrawalTime;
 };
 
 Withdrawal.getAll = (transactionID, result) => {
@@ -14,7 +13,7 @@ Withdrawal.getAll = (transactionID, result) => {
   sql.query(query, (err, res) => {
     if (err) {
       console.log('error: ', err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
@@ -25,19 +24,23 @@ Withdrawal.getAll = (transactionID, result) => {
 };
 
 Withdrawal.findById = (id, result) => {
-  sql.query('SELECT * FROM Withdrawal WHERE TransactionID = ?', id, (err, res) => {
-    if (err) {
-      console.log('error: ', err);
-      result(err, null);
-      return;
-    }
+  sql.query(
+    'SELECT * FROM Withdrawal WHERE TransactionID = ?',
+    id,
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result(err, null);
+        return;
+      }
 
-    if (res.length) {
-      console.log('found tutorial: ', res[0]);
-      result(null, res[0]);
-      return;
+      if (res.length) {
+        console.log('found tutorial: ', res[0]);
+        result(null, res[0]);
+        return;
+      }
     }
-  });
+  );
 };
 
 Withdrawal.create = (newWithdrawal, result) => {
