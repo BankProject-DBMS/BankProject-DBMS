@@ -57,7 +57,6 @@ export default function FixedDepositReg() {
                 <Field
                   type='radio'
                   id='radioOne'
-                  checked={props.values.myRadioGroup === 'one'}
                   name='myRadioGroup'
                   value='6'
                 />
@@ -66,7 +65,6 @@ export default function FixedDepositReg() {
                 <Field
                   type='radio'
                   id='radioTwo'
-                  checked={props.values.myRadioGroup === 'two'}
                   name='myRadioGroup'
                   value='12'
                 />
@@ -75,7 +73,6 @@ export default function FixedDepositReg() {
                 <Field
                   type='radio'
                   id='radioThree'
-                  defaultChecked={props.values.myRadioGroup === 'two'}
                   name='myRadioGroup'
                   value='36'
                 />
