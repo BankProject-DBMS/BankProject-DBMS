@@ -1,21 +1,28 @@
 const sql = require('./db.js');
 
-const fdTypes = {}
 const fixedDeposit = function (fd) {
-    this.savings = fd.savings;
-    this.type = fd.type;
-    this.amount = fd.amount;
+  this.SavingsAccountID = fd.savings;
+  this.TypeID = fdTypes[fd.type];
+  this.Amount = fd.amount;
 };
 
-Fd.create = (newFd, result) => {
-    sql.query('INSERT INTO Customer SET ?', newFd, (err, res) => {
-        if (err) {
-            console.log('error: ', err);
-            result(err, null);
-            return;
-        }
+fixedDeposit.create = (newFd, result) => {
+  const fdTypes = { 6: 'F061300', 12: 'F121450', 36: 'F361500' };
+  const fixedD = {
+    SavingsAccountID: newFd.savings,
+    TypeID: fdTypes[newFd.type],
+    Amount: newFd.amount,
+  };
+  sql.query('INSERT INTO fdaccount SET ?', fixedD, (err, res) => {
+    console.log('Created FD:', fixedD);
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
+    }
 
-        console.log('Created Customer:', newCustomer);
-        result(null, newCustomer);
-    });
+    console.log('Created FD:', fixedD);
+    result(null, fixedD);
+  });
 };
+module.exports = fixedDeposit;
