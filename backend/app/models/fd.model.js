@@ -13,7 +13,8 @@ fixedDeposit.create = (newFd, result) => {
     TypeID: fdTypes[newFd.type],
     Amount: newFd.amount,
   };
-  sql.query('INSERT INTO FDAccount SET ?', fixedD, (err, res) => {
+
+  sql.query('INSERT INTO fdaccount SET ?', fixedD, (err, res) => {
     console.log('Created FD:', fixedD);
     if (err) {
       console.log('error: ', err);
