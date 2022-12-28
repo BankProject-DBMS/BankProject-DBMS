@@ -108,6 +108,21 @@ Transaction.create = (newTransaction, result) => {
           result({ kind: 'error', ...err }, null);
           return;
         }
+        console.log('updated balance', res);
+        sql.query(
+          `UPDATE Account SET Balance = Balance + ? WHERE AccountID = ?`,
+          [amount, toAccount],
+          (err, res) => {
+            if (err) {
+              console.log('error: ', err);
+              result({ kind: 'error', ...err }, null);
+              return;
+            }
+
+            console.log('updated balance', res);
+            result({ kind: 'success' }, newTransaction);
+          }
+        );
       }
     );
 

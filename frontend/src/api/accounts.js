@@ -15,7 +15,7 @@ export async function getAccounts() {
 // add new cash account
 export async function addAccount(newAccount) {
   try {
-    const response = await axios.post(`${HOST}/accounts/add`, newAccount);
+    const response = await axios.post(`${HOST}/accounts/create`, newAccount);
     console.log(response);
   } catch (err) {
     console.log(err);

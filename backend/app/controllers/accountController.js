@@ -36,7 +36,12 @@ exports.getFromID = (req, res) => {
 
 // Create a new account
 exports.create = (req, res) => {
-  const account = req.body;
+  const account = {
+    CustomerID: req.body.account.customerID,
+    TypeID: req.body.account.accountType,
+    Balance: req.body.account.initialBalance,
+    WCount: req.body.account.initialWithdrawals,
+  };
   AccountModel.create(account, (err, data) => {
     if (err.kind === 'error') {
       res.status(500).send({
