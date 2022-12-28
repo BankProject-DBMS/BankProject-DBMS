@@ -10,6 +10,8 @@ import CustomerEditor from './pages/EmployeePortalPages/CustomerEditor';
 import AccountReg from './Forms/AccountReg';
 import AccountList from './Forms/AccountsList';
 import FixedDepositReg from './Forms/FixedDepositReg';
+import LoanReg from './Forms/LoanReg';
+import LoanList from './Forms/LoanList';
 
 // import for customer portal
 import CustomerHome from './pages/CustomerHome';
@@ -34,6 +36,8 @@ function App() {
             <Route path='account-register' element={<AccountReg/>}/>
             <Route path='account-list' element={<AccountList/>}/>
             <Route path='fixed-deposit-register' element={<FixedDepositReg/>}/>
+            <Route path='loan-register' element={<LoanReg/>}/>
+            <Route path='loan-list' element={<LoanList/>}/>
 
           </Route>
 
