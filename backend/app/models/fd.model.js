@@ -14,7 +14,7 @@ fixedDeposit.create = (newFd, result) => {
     Amount: newFd.amount,
   };
 
-  sql.query('INSERT INTO fdaccount SET ?', fixedD, (err, res) => {
+  sql.query('INSERT INTO FDAccount SET ?', fixedD, (err, res) => {
     console.log('Created FD:', fixedD);
     if (err) {
       console.log('error: ', err);
@@ -30,10 +30,10 @@ fixedDeposit.create = (newFd, result) => {
 //get all fds for a given customer ID
 fixedDeposit.getAll = (customerID, result) => {
   let query =
-    'SELECT fdaccount.AccountID,fdaccount.TypeID,SavingsAccountID,Amount,fdaccount.DateCreated from fdaccount join cashaccount on fdaccount.SavingsAccountID = cashaccount.AccountID';
+    'SELECT FDAccount.AccountID,FDAccount.TypeID,SavingsAccountID,Amount,FDAccount.DateCreated from FDAccount join CashAccount on FDAccount.SavingsAccountID = CashAccount.AccountID';
 
   if (customerID) {
-    query += ` WHERE cashaccount.CustomerID = ${sql.escape(customerID)}`;
+    query += ` WHERE CashAccount.CustomerID = ${sql.escape(customerID)}`;
   }
 
   sql.query(query, (err, res) => {

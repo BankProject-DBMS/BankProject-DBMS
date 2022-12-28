@@ -85,7 +85,7 @@ export default function CustomerHome(props) {
         renderItem={(item) => (
           <List.Item>
             <Typography.Text mark>
-              Account Number : {<bold>{item.key}</bold>}
+              Account Number : {<b>{item.key}</b>}
             </Typography.Text>{' '}
             {item}
           </List.Item>
@@ -105,7 +105,7 @@ export default function CustomerHome(props) {
         renderItem={(item) => (
           <List.Item>
             <Typography.Text mark>
-              Account Number : {<bold>{item.key}</bold>}
+              Account Number : {<b>{item.key}</b>}
             </Typography.Text>{' '}
             {item}
           </List.Item>
@@ -129,7 +129,7 @@ export default function CustomerHome(props) {
         renderItem={(item) => (
           <List.Item>
             <Typography.Text mark>
-              Loan ID Number : {<bold>{item.key}</bold>}
+              Loan ID Number : {<b>{item.key}</b>}
             </Typography.Text>{' '}
             {item}
           </List.Item>
@@ -151,7 +151,7 @@ export default function CustomerHome(props) {
         renderItem={(item) => (
           <List.Item>
             <Typography.Text mark>
-              Account Number : {<bold>{item.key}</bold>}
+              Account Number : {<b>{item.key}</b>}
             </Typography.Text>{' '}
             {item}
           </List.Item>

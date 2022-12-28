@@ -11,7 +11,7 @@ const onlineLoan = function (loan) {
 //get all phyical loans for a given customer ID or get all online loans
 onlineLoan.getAll = (customerID, result) => {
   let query =
-    'SELECT LoanID, Amount, FDAccountID, TypeID, SavingsAccountID from onlineloan';
+    'SELECT LoanID, Amount, FDAccountID, TypeID, SavingsAccountID from OnlineLoan';
 
   if (customerID) {
     query += ` WHERE CustomerID = ${sql.escape(customerID)}`;
