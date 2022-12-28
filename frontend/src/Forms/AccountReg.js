@@ -63,11 +63,20 @@ export default function AccountReg() {
                 <Field type='date' name='dateCreated' placeholder='Account Created Date' />
               </span>
               <span>
-                <Field type='radio' name='accountType' placeholder='Account Type' value='Children Account' />
-                <Field type='radio' name='accountType' placeholder='Account Type' value='Teen Account' />
-                <Field type='radio' name='accountType' placeholder='Account Type' value='Adult Account' />
-                <Field type='radio' name='accountType' placeholder='Account Type' value='Senior Account' />
-                <Field type='radio' name='accountType' placeholder='Account Type' value='Checking Account' />
+                <div name='AccountType'>
+
+                  <Field type='radio' name='accountType' value='Children Account' />
+                  <label htmlFor='Children Account'>Children Account</label>
+                  <Field type='radio' name='accountType' value='Teen Account' />
+                  <label htmlFor='Teen Account'>Teen Account</label>
+                  <Field type='radio' name='accountType' value='Adult Account' />
+                  <label htmlFor='Adult Account'>Adult Account</label>
+                  <Field type='radio' name='accountType' value='Senior Account' />
+                  <label htmlFor='Senior Account'>Senior Account</label>
+                  <Field type='radio' name='accountType' value='Checking Account' />
+                  <label htmlFor='Checking Account'>Checking Account</label>
+                  
+                </div>
               </span>
               <span>
                 <Field type='text' name='initialBalance' placeholder='Initial Balance' />
