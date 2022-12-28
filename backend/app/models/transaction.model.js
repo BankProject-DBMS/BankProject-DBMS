@@ -95,38 +95,29 @@ Transaction.create = (newTransaction, result) => {
 
     console.log('created transaction: ', newTransaction);
     // after creating a transaction, update the balance of both accounts
-    const fromAccount = newTransaction.FromAccount;
-    const toAccount = newTransaction.ToAccount;
-    const amount = newTransaction.Amount;
+    const fromAccount = newTransaction.fromAccount;
+    const toAccount = newTransaction.toAccount;
+    const amount = newTransaction.amount;
 
-    sql.query(
-      `UPDATE Account SET Balance = Balance - ? WHERE AccountID = ?`,
-      [amount, fromAccount],
-      (err, res) => {
+    const query1 = `UPDATE CashAccount SET Balance = Balance - ? WHERE AccountID = ?`;
+    const query2 = `UPDATE CashAccount SET Balance = Balance + ? WHERE AccountID = ?`;
+
+    console.log({ query1, query2 });
+    sql.query(query1, [amount, fromAccount], (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error', ...err }, null);
+        return;
+      }
+      sql.query(query2, [amount, toAccount], (err, res) => {
         if (err) {
           console.log('error: ', err);
           result({ kind: 'error', ...err }, null);
           return;
         }
-        console.log('updated balance', res);
-        sql.query(
-          `UPDATE Account SET Balance = Balance + ? WHERE AccountID = ?`,
-          [amount, toAccount],
-          (err, res) => {
-            if (err) {
-              console.log('error: ', err);
-              result({ kind: 'error', ...err }, null);
-              return;
-            }
-
-            console.log('updated balance', res);
-            result({ kind: 'success' }, newTransaction);
-          }
-        );
-      }
-    );
-
-    result({ kind: 'success' }, newTransaction);
+        result({ kind: 'success' }, newTransaction);
+      });
+    });
   });
 };
 
@@ -151,24 +142,5 @@ Transaction.findById = (id, result) => {
     }
   );
 };
-
-// get balance of an account
-function getBalance(accountID, result) {
-  const query = `SELECT Balance FROM Account WHERE AccountID = ?`;
-  sql.query(query, accountID, (err, res) => {
-    if (err) {
-      console.log('error: ', err);
-      result({ kind: 'error', ...err }, null);
-      return;
-    }
-
-    if (res.length) {
-      console.log('found balance: ', res[0].Balance);
-      result({ kind: 'success' }, res[0].Balance);
-    } else {
-      result({ kind: 'not_found' }, null);
-    }
-  });
-}
 
 module.exports = Transaction;

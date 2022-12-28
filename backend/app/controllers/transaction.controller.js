@@ -39,6 +39,7 @@ exports.getAllIncoming = (req, res) => {
 exports.findFromTo = (req, res) => {
   const fromAccount = req.params.from;
   const toAccount = req.params.to;
+  console.log(fromAccount, toAccount);
   TransactionModel.findFromTo(fromAccount, toAccount, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
@@ -63,11 +64,11 @@ exports.create = (req, res) => {
   }
 
   // Create a Transaction
-  const transaction = new TransactionModel({
+  const transaction = {
     fromAccount: req.body.fromAccount,
     toAccount: req.body.toAccount,
     amount: req.body.amount,
-  });
+  };
 
   // Save Transaction in the database
   TransactionModel.create(transaction, (err, data) => {
@@ -76,6 +77,8 @@ exports.create = (req, res) => {
         message:
           err.err || 'Some error occurred while creating the Transaction.',
       });
+    } else {
+      res.send(data);
     }
   });
 };
