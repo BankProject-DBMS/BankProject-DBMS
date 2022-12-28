@@ -73,7 +73,7 @@ VALUES
 
 INSERT INTO OnlineLoan(CustomerID, FDAccountID, Amount, TypeID, SavingsAccountID)
 VALUES
-    (1, 1, 100000, 'H1050', 1),
+    (4, 1, 100000, 'H1050', 1),
     (2, 2, 200000, 'V1150', 2),
     (3, 3, 300000, 'P1250', 3);
 
