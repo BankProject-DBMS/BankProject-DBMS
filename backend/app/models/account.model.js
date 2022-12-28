@@ -64,4 +64,26 @@ Account.create = (newAccount, result) => {
   });
 };
 
+// SQL query to update balance of an account
+Account.updateBalance = (id, amount, result) => {
+  sql.query(
+    'UPDATE CashAccount SET Balance = Balance + ? WHERE AccountID = ?',
+    [balance, id],
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error', ...err }, null);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        result({ kind: 'not_found' }, null);
+      } else {
+        console.log('updated account: ', { id: id, ...balance });
+        result({ kind: 'success' }, { id: id, ...balance });
+      }
+    }
+  );
+};
+
 module.exports = Account;
