@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { HOST } from './config';
 
+// get all accounts in the bank
 export async function getAccounts() {
   try {
     const response = await axios.get(`${HOST}/accounts`);
@@ -11,6 +12,7 @@ export async function getAccounts() {
   }
 }
 
+// add new cash account
 export async function addAccount(newAccount) {
   try {
     const response = await axios.post(`${HOST}/accounts/add`, newAccount);
@@ -21,6 +23,7 @@ export async function addAccount(newAccount) {
   }
 }
 
+// get details of account given account id
 export async function getAccount(accountID) {
   try {
     const response = await axios.get(`${HOST}/accounts/${accountID}`);
@@ -31,6 +34,7 @@ export async function getAccount(accountID) {
   }
 }
 
+// get all cash accounts of a given customer id
 export async function getCustomerAccounts(customerID) {
   try {
     const response = await axios.get(`${HOST}/accounts/customer/${customerID}`);
