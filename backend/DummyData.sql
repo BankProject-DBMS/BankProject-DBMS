@@ -66,7 +66,9 @@ INSERT INTO FDAccount(TypeID, SavingsAccountID, Amount)
 VALUES
     ('F061300', 1, 100000),
     ('F121450', 2, 200000),
-    ('F361500', 3, 300000);
+    ('F361500', 3, 300000),
+    ('F361500', 5, 300000),
+    ('F361500', 5, 300000);
 
 
 INSERT INTO OnlineLoan(CustomerID, FDAccountID, Amount, TypeID, SavingsAccountID)
