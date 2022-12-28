@@ -6,6 +6,11 @@ import { Table } from 'antd';
 export default function CustomerList() {
   const columns = [
     {
+      title: 'Customer ID',
+      dataIndex: 'CustomerID',
+      key: 'CustomerID',
+    },
+    {
       title: 'Name',
       dataIndex: 'Name',
       key: 'Name',

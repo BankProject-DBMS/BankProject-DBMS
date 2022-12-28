@@ -10,7 +10,7 @@ export default function AccountReg() {
     name: Yup.string().required(),
     customerID: Yup.number().required().positive().integer(),
     dateCreated: Yup.date().required(),
-    accountType: Yup.number().required().positive().integer(),
+    accountType: Yup.string().required(),
     initialBalance: Yup.number().required().min(2000.0),
     initialWithdrawals: Yup.number().required().positive().integer(),
   });
@@ -36,7 +36,7 @@ export default function AccountReg() {
           dateCreated: '',
           accountType: '',
           initialBalance: '',
-          initialWithdrawals: '',
+          initialWithdrawals: '0',
         }}
         validationSchema={accountRegSchema}
         onSubmit={handleSubmit}
@@ -64,16 +64,16 @@ export default function AccountReg() {
               </span>
               <span>
                 <div name='AccountType'>
-
-                  <Field type='radio' name='accountType' value='Children Account' />
+                  <h4>Account Type</h4>
+                  <Field type='radio' name='accountType' value='SC' />
                   <label htmlFor='Children Account'>Children Account</label>
-                  <Field type='radio' name='accountType' value='Teen Account' />
+                  <Field type='radio' name='accountType' value='ST' />
                   <label htmlFor='Teen Account'>Teen Account</label>
-                  <Field type='radio' name='accountType' value='Adult Account' />
+                  <Field type='radio' name='accountType' value='SA' />
                   <label htmlFor='Adult Account'>Adult Account</label>
-                  <Field type='radio' name='accountType' value='Senior Account' />
+                  <Field type='radio' name='accountType' value='SS' />
                   <label htmlFor='Senior Account'>Senior Account</label>
-                  <Field type='radio' name='accountType' value='Checking Account' />
+                  <Field type='radio' name='accountType' value='C0' />
                   <label htmlFor='Checking Account'>Checking Account</label>
                   
                 </div>
