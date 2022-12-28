@@ -26,4 +26,30 @@ fixedDeposit.create = (newFd, result) => {
     result(null, fixedD);
   });
 };
+
+//get all fds for a given customer ID
+fixedDeposit.getAll = (customerID, result) => {
+  let query =
+    'SELECT fdaccount.AccountID,fdaccount.TypeID,SavingsAccountID,Amount,fdaccount.DateCreated from fdaccount join cashaccount on fdaccount.SavingsAccountID = cashaccount.AccountID';
+
+  if (customerID) {
+    query += ` WHERE cashaccount.CustomerID = ${sql.escape(customerID)}`;
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error', ...err }, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log('found fds: ', res);
+      result({ kind: 'success' }, res);
+    } else {
+      result({ kind: 'not_found' }, null);
+    }
+  });
+};
+
 module.exports = fixedDeposit;

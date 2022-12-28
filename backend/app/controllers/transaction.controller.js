@@ -74,7 +74,7 @@ exports.create = (req, res) => {
     if (err.kind === 'error') {
       res.status(500).send({
         message:
-          err.message || 'Some error occurred while creating the Transaction.',
+          err.err || 'Some error occurred while creating the Transaction.',
       });
     }
   });
