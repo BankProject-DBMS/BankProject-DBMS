@@ -37,6 +37,11 @@ export default function CustomerHome(props) {
       .catch((err) => alert(err));
   }, [props?.customerID]);
 
+  console.log(accounts);
+  console.log(fds);
+  console.log(oloans);
+  console.log(ploans);
+
   const accountsList = accounts.map((account) => (
     <li key={account.AccountID}>
       <span>
@@ -120,7 +125,7 @@ export default function CustomerHome(props) {
         }
         // footer={<div>Footer</div>}
         bordered
-        dataSource={fdList}
+        dataSource={pLoanList}
         renderItem={(item) => (
           <List.Item>
             <Typography.Text mark>
@@ -142,7 +147,7 @@ export default function CustomerHome(props) {
         }
         // footer={<div>Footer</div>}
         bordered
-        dataSource={fdList}
+        dataSource={oLoanList}
         renderItem={(item) => (
           <List.Item>
             <Typography.Text mark>
