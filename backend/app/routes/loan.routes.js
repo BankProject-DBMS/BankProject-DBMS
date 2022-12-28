@@ -7,5 +7,5 @@ module.exports = (app) => {
   
     router.post('/add', loan.createLoan);
   
-    app.use('/customers', router);
+    app.use('/loans', router);
   };
