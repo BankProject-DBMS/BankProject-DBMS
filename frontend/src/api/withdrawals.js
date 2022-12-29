@@ -11,6 +11,15 @@ export async function getWithdrawals() {
   }
 }
 
+export async function getWithdrawalByID() {
+  try {
+    const response = await axios.post(`${HOST}/withdrawals/findbyid`);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return await Promise.reject('Failed to get withdrawal!');
+  }
+}
 
 export async function addWithdrawal(newWithdrawal) {
   try {
@@ -18,7 +27,7 @@ export async function addWithdrawal(newWithdrawal) {
     console.log(response);
   } catch (err) {
     console.log(err);
-    return await Promise.reject('Failed to add to withdrawals list!');
+    return await Promise.reject('Failed to do the withdrawal!');
   }
 }
 

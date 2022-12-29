@@ -12,14 +12,38 @@ exports.findAll = (req, res) => {
   });
 };
 
-exports.createWithdrawal = (req, res) => {
+exports.findByAccountID = (req, res) => {
   console.log(req.body);
-  const withdrawal = req.body.withdrawal;
-  WithdrawalModel.create(withdrawal, (err, data) => {
+  const id = req.params.AccountID;
+  WithdrawalModel.findByAccountId(id, (err, data) => {
     if (err)
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while retrieving withdrawals.',
+      });
+    else res.send(data);
+  });
+};
+
+
+exports.create = (req, res) => {
+  
+  if (!req.body) {
+    res.status(400).send({
+      message: 'Invalid Content!',
+    });
+  }
+
+  const withdrawal = {
+    accountID: req.body.AccountID,
+    amount: req.body.amount,
+  };
+
+  WithdrawalModel.create(withdrawal, (err, data) => {
+    if (err){
       res.status(500).send({
         message: err.message || 'Some error occurred while creating withdrawal.',
       });
-    else res.send(data);
+    }else res.send(data);
   });
 };
