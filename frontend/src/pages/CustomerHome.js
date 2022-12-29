@@ -16,25 +16,25 @@ export default function CustomerHome(props) {
   React.useEffect(() => {
     getCustomerAccounts(props.customerID)
       .then((data) => setAccounts(data))
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   }, [props?.customerID]);
 
   React.useEffect(() => {
     getCustomerFDs(props.customerID)
       .then((data) => setFDs(data))
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   }, [props?.customerID]);
 
   React.useEffect(() => {
     getCustomerPhysicalLoans(props.customerID)
       .then((data) => setPloans(data))
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   }, [props?.customerID]);
 
   React.useEffect(() => {
     getCustomerOnlineLoans(props.customerID)
       .then((data) => setOLoans(data))
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   }, [props?.customerID]);
 
   console.log(accounts);

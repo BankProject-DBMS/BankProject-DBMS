@@ -38,7 +38,7 @@ export default function WithdrawalList() {
       .then((data) => {
         setWithdrawal(data);
       })
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   }
 
   return (

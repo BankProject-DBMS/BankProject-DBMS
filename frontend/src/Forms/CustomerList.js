@@ -41,7 +41,7 @@ export default function CustomerList() {
       .then((data) => {
         setCustomers(data);
       })
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   }
 
   //loadCustomerList();

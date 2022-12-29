@@ -47,7 +47,7 @@ export default function AccountList() {
       .then((data) => {
         setAccounts(data);
       })
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   }
 
   //loadAccountList();

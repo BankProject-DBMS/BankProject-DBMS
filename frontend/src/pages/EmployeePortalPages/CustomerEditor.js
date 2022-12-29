@@ -44,7 +44,7 @@ export default function CustomerEditor() {
         console.log(data);
         setCustomer({ ...data });
       })
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   }
   return (
     <div>

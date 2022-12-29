@@ -57,7 +57,7 @@ export default function LoanList() {
       .then((data) => {
         setLoans(data);
       })
-      .catch((err) => alert(err));
+      .catch((err) => console.log(err));
   }
 
   //loadLoanList();
