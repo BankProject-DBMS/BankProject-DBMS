@@ -37,10 +37,7 @@ export default function CustomerHome(props) {
       .catch((err) => console.log(err));
   }, [props?.customerID]);
 
-  console.log(accounts);
-  console.log(fds);
-  console.log(oloans);
-  console.log(ploans);
+  const navigate = useNavigate();
 
   const accountsList = accounts.map((account) => (
     <li key={account.AccountID}>
@@ -84,7 +81,10 @@ export default function CustomerHome(props) {
         dataSource={accountsList}
         renderItem={(item) => (
           <List.Item>
-            <Typography.Text mark>
+            <Typography.Text
+              mark
+              onClick={(e) => navigate(`account/${item.key}`)}
+            >
               Account Number : {<b>{item.key}</b>}
             </Typography.Text>{' '}
             {item}

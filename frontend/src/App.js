@@ -9,6 +9,7 @@ import CustomerList from './Forms/CustomerList';
 import CustomerEditor from './pages/EmployeePortalPages/CustomerEditor';
 import AccountReg from './Forms/AccountReg';
 import AccountList from './Forms/AccountsList';
+import AccountView from './pages/CustomerPortalPages/AccountView';
 import FixedDepositReg from './Forms/FixedDepositReg';
 import LoanReg from './Forms/LoanReg';
 import LoanList from './Forms/LoanList';
@@ -51,6 +52,10 @@ function App() {
               exact
               path='/customerPortal'
               element={<CustomerHome customerID={1} />}
+            />
+            <Route
+              path='/customerPortal/account/:accountID'
+              element={<AccountView accountID={1} />}
             />
           </Route>
           {/* Home page */}

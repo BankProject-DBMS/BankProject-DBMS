@@ -27,7 +27,6 @@ export default function WithdrawalList() {
     },
   ];
 
-
   const [Withdrawal, setWithdrawal] = React.useState();
   //const [loading, setLoading] = useState(true);
 
