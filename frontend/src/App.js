@@ -16,6 +16,9 @@ import LoanList from './Forms/LoanList';
 // import for customer portal
 import CustomerHome from './pages/CustomerHome';
 
+// import for home page
+import HomePage from './pages/HomePage';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -50,6 +53,8 @@ function App() {
               element={<CustomerHome customerID={1} />}
             />
           </Route>
+          {/* Home page */}
+          <Route path='/' element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </div>
