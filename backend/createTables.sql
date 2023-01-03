@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS DBMS_BankApp;
+use DBMS_BankApp;
 drop table if exists PhysicalLoanInstallment,OnlineLoanInstallment,OnlineLoan,PhysicalLoan,Deposit,Withdrawal,Transaction,FDAccount,CashAccount,LoanType,CashAccountType,FDAccountType,OnlineCustomer,Customer,Employee,Branch;
 
 CREATE Table Branch (
@@ -17,7 +19,9 @@ CREATE Table Employee (
     OnlineID varchar(10),
     Password varchar(20),
 	primary key(EmployeeID),
-    foreign key(BranchID) references Branch(BranchID)
+    foreign key(BranchID) 
+        references Branch(BranchID)
+        on delete cascade
 );
 
 CREATE Table Customer (
@@ -34,10 +38,13 @@ CREATE Table Customer (
 CREATE TABLE OnlineCustomer
 (
 	OnlineID INT NOT NULL AUTO_INCREMENT,
+    Username varchar(12),
     CustomerID INT,
     Password varchar(10),
     PRIMARY KEY (OnlineID),
-    foreign key (CustomerID) references Customer(CustomerID)
+    foreign key (CustomerID) 
+        references Customer(CustomerID)
+        on delete cascade
 );
 
 CREATE TABLE FDAccountType
@@ -72,7 +79,9 @@ CREATE Table CashAccount (
     Balance numeric(15,2),
     WCount int,
     primary key (AccountID),
-    foreign key (CustomerID) references Customer(CustomerID),
+    foreign key (CustomerID) 
+        references Customer(CustomerID)
+        on delete cascade,
     foreign key (TypeID) references CashAccountType(TypeID)
 );
 
@@ -85,7 +94,9 @@ CREATE TABLE FDAccount
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key (AccountID),
     foreign key (TypeID) references FDAccountType(TypeID),
-    foreign key (SavingsAccountID) references CashAccount(AccountID)
+    foreign key (SavingsAccountID) 
+        references CashAccount(AccountID)
+        on delete cascade
 );
 
 CREATE Table Transaction (
@@ -96,8 +107,12 @@ CREATE Table Transaction (
     Remark varchar(50),
     TransactionTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	primary key (TransactionID),
-    foreign key (FromAccount) references CashAccount(AccountID),
-    foreign key (ToAccount) references CashAccount(AccountID)
+    foreign key (FromAccount) 
+        references CashAccount(AccountID)
+        on delete cascade,
+    foreign key (ToAccount) 
+        references CashAccount(AccountID)
+        on delete cascade
 );
 
 CREATE Table Withdrawal (
@@ -107,7 +122,9 @@ CREATE Table Withdrawal (
     Remark varchar(50),
     WithdrawalTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	primary key (TransactionID),
-    foreign key (AccountID) references CashAccount(AccountID)
+    foreign key (AccountID) 
+        references CashAccount(AccountID)
+        on delete cascade
 );
 
 CREATE Table Deposit (
@@ -117,7 +134,9 @@ CREATE Table Deposit (
     Remark varchar(50),
     DepositTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	primary key (TransactionID),
-    foreign key (AccountID) references CashAccount(AccountID)
+    foreign key (AccountID) 
+        references CashAccount(AccountID)
+        on delete cascade
 );
 
 
@@ -131,11 +150,19 @@ CREATE Table PhysicalLoan (
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     SavingsAccountID INT,
 	primary key(LoanID),
-    foreign key(BranchID) references Branch(BranchID),
-    foreign key(CustomerID) references Customer(CustomerID),
-    foreign key(EmployeeID) references Employee(EmployeeID),
+    foreign key(BranchID) 
+        references Branch(BranchID)
+        on delete cascade,
+    foreign key(CustomerID) 
+        references Customer(CustomerID)
+        on delete cascade,
+    foreign key(EmployeeID) 
+        references Employee(EmployeeID)
+        on delete cascade,
     foreign key(TypeID) references LoanType(TypeID),
-    foreign key(SavingsAccountID) references CashAccount(AccountID)
+    foreign key(SavingsAccountID) 
+        references CashAccount(AccountID)
+        on delete cascade
 );
 
 CREATE TABLE OnlineLoan (
@@ -147,10 +174,16 @@ CREATE TABLE OnlineLoan (
     SavingsAccountID INT,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key(LoanID),
-    foreign key(CustomerID) references Customer(CustomerID),
-    foreign key(FDAccountID) references FDAccount(AccountID),
+    foreign key(CustomerID) 
+        references Customer(CustomerID)
+        on delete cascade,
+    foreign key(FDAccountID) 
+        references FDAccount(AccountID)
+        on delete cascade,
     foreign key(TypeID) references LoanType(TypeID),
-    foreign key(SavingsAccountID) references CashAccount(AccountID)
+    foreign key(SavingsAccountID) 
+        references CashAccount(AccountID)
+        on delete cascade
 );
 
 CREATE TABLE OnlineLoanInstallment (
@@ -160,7 +193,9 @@ CREATE TABLE OnlineLoanInstallment (
     Amount numeric(13,2),
     Paid boolean,
     primary key (InstallmentID) ,
-    foreign key (LoanID) references OnlineLoan(LoanID)
+    foreign key (LoanID) 
+        references OnlineLoan(LoanID)
+        on delete cascade
 );
 
 CREATE TABLE PhysicalLoanInstallment (
@@ -170,7 +205,9 @@ CREATE TABLE PhysicalLoanInstallment (
     Amount numeric(13,2),
     Paid boolean,
     primary key (InstallmentID) ,
-    foreign key(LoanID) references PhysicalLoan(LoanID)
+    foreign key(LoanID) 
+        references PhysicalLoan(LoanID)
+        on delete cascade
 );
 
 

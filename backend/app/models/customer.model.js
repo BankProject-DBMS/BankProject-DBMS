@@ -1,54 +1,113 @@
-const sql = require("./db.js");
-
+const sql = require('./db.js');
 
 const Customer = function (customer) {
-    this.name = customer.name;
-    this.dateOfBirth = customer.dateOfBirth;
-    this.address = customer.address;
-    this.phone = customer.phone;
-    this.occupation = customer.occupation;
-}
+  this.name = customer.name;
+  this.dateOfBirth = customer.dateOfBirth;
+  this.Address = customer.Address;
+  this.Phone = customer.Phone;
+  this.occupation = customer.occupation;
+};
 
 Customer.getAll = (name, result) => {
+  let query = 'SELECT * FROM Customer';
 
-    let query = "SELECT * FROM customer"
+  if (name) {
+    query += ` WHERE name LIKE ${sql.escape(`%${name}%`)}`;
+  }
 
-    if (name) {
-        query += ` WHERE name LIKE '%${name}%'`;
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
     }
 
-    sql.query(query, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(null, err);
-            return;
-        }
-
-        console.log("Customers: ", res);
-        result(null, res);
-        return;
-    });
-
-
-}
+    // console.log('Customers: ', res);
+    result(null, res);
+    return;
+  });
+};
 
 Customer.findById = (id, result) => {
+  sql.query('SELECT * FROM Customer WHERE customerID = ?', id, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
+    }
 
-    sql.query("SELECT * FROM customer WHERE customerID = ?", id, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
+    if (res.length) {
+      console.log('found customer: ', res[0]);
+      result(null, res[0]);
+      return;
+    }
+  });
+};
 
-        if (res.length) {
-            console.log("found tutorial: ", res[0]);
-            result(null, res[0]);
-            return;
-        }
-    })
+Customer.create = (newCustomer, result) => {
+  sql.query('INSERT INTO Customer SET ?', newCustomer, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
+    }
 
+    console.log('Created Customer:', newCustomer);
+    result(null, newCustomer);
+  });
+};
 
-}
+Customer.remove = (id, result) => {
+  sql.query('DELETE FROM Customer WHERE CustomerID = ?', id, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
+    }
+    console.log(`Deleted customer with id: ${id}`);
+  });
+};
+
+Customer.removeAll = (result) => {
+  sql.query('DELETE FROM Customer', (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
+    }
+    console.log(`Deleted ${res.affectedRows} customers`);
+    result(null, res);
+  });
+};
+
+Customer.updateById = (id, customer, result) => {
+  console.log({ customer, id });
+  sql.query(
+    'UPDATE Customer SET Name = ?, dateOfBirth = ?, Address = ?, Phone = ?, occupation = ? WHERE CustomerID = ?',
+    [
+      customer.Name,
+      customer.dateofbirth,
+      customer.Address,
+      customer.Phone,
+      customer.occupation,
+      id,
+    ],
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result(err, null);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        result({ kind: 'not_found' }, null);
+        return;
+      }
+
+      console.log('Updated customer: ', { id: id, ...customer });
+      result(null, { id: id, ...customer });
+    }
+  );
+};
 
 module.exports = Customer;
