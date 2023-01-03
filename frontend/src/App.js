@@ -55,7 +55,7 @@ function App() {
             />
             <Route
               path='/customerPortal/account/:accountID'
-              element={<AccountView accountID={1} />}
+              element={<AccountView />}
             />
           </Route>
           {/* Home page */}
