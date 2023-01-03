@@ -38,6 +38,7 @@ CREATE Table Customer (
 CREATE TABLE OnlineCustomer
 (
 	OnlineID INT NOT NULL AUTO_INCREMENT,
+    Username varchar(12),
     CustomerID INT,
     Password varchar(10),
     PRIMARY KEY (OnlineID),

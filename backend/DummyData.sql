@@ -94,12 +94,12 @@ VALUES
     (5, 2, 2, 200000, 'L1350', 5),
     (6, 3, 3, 300000, 'H1050', 6);
 
-INSERT INTO OnlineCustomer(CustomerID, Password)
+INSERT INTO OnlineCustomer(CustomerID, Username, Password)
 VALUES
-    (1, '123456'),
-    (2, '456789'),
-    (3, '159456'),
-    (4, '345615');
+    (1, 'AnjulaRox', '123456'),
+    (2, 'UdaraMali', '456789'),
+    (4, 'Inuka123', '159456'),
+    (5, 'RadithSam', '345615');
     
 INSERT INTO Deposit(AccountID, Amount, Remark)
 VALUES
