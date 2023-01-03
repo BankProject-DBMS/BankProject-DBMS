@@ -14,7 +14,10 @@ export default function CustomerLogin() {
       userName: values.username,
       password: values.password,
     };
-    loginCustomer({ loginDetails }).then(() => setSubmitting(false));
+    loginCustomer({ loginDetails }).then((response) => {
+      console.log(response);
+      setSubmitting(false);
+    });
   };
   return (
     <div className='login-box'>
