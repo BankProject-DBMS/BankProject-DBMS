@@ -13,6 +13,7 @@ import AccountView from './pages/CustomerPortalPages/AccountView';
 import FixedDepositReg from './Forms/FixedDepositReg';
 import LoanReg from './Forms/LoanReg';
 import LoanList from './Forms/LoanList';
+import CustomerLogin from './pages/LoginPages/CustomerLogin';
 
 // import for customer portal
 import CustomerHome from './pages/CustomerHome';
@@ -56,6 +57,13 @@ function App() {
             <Route
               path='/customerPortal/account/:accountID'
               element={<AccountView />}
+            />
+          </Route>
+          <Route path='/customerLogin'>
+            <Route
+              exact
+              path='/customerLogin'
+              element={<CustomerLogin className='customer-login' />}
             />
           </Route>
           {/* Home page */}
