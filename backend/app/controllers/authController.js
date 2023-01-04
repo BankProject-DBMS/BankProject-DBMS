@@ -6,6 +6,7 @@ require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 exports.login = (req, res) => {
+  console.log(req.body);
   const userName = req.body.loginDetails.userName;
   const password = req.body.loginDetails.password;
 
