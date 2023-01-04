@@ -6,8 +6,8 @@ require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 exports.login = (req, res) => {
-  const userName = req.body.userName;
-  const password = req.body.password;
+  const userName = req.body.loginDetails.userName;
+  const password = req.body.loginDetails.password;
 
   onlineCustomers.findByUsername(userName, (err, data) => {
     if (err.kind === 'not_found') {
