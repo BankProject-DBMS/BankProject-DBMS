@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-exports.login = (req, res) => {
+exports.customerLogin = (req, res) => {
   const userName = req.body.loginDetails.userName;
   const password = req.body.loginDetails.password;
 
@@ -22,11 +22,17 @@ exports.login = (req, res) => {
       });
     } else {
       if (data.Password === password) {
-        const token = jwt.sign({ ...data }, JWT_SECRET, {
-          expiresIn: '24h',
+        const token = jwt.sign({ ...data, role: 'customer' }, JWT_SECRET, {
+          expiresIn: '15m',
         });
         const customerID = data.CustomerID;
-        res.send({ auth: 'success', customerID, userName, token });
+        res.send({
+          auth: 'success',
+          role: 'customer',
+          customerID,
+          userName,
+          token,
+        });
       } else {
         res.send({ auth: 'fail', message: 'Incorrect Password' });
       }
