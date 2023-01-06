@@ -1,0 +1,15 @@
+.navbar {
+    height: 60px;
+    display:flex;
+    padding: 14px 20px;
+    box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+}
+.Logo {
+    width: 250px;
+}
+
+.button {
+    margin: 1%;
+    align-items: center;
+}
