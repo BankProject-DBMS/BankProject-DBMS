@@ -1,12 +1,15 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Card } from 'antd';
-import { customerLogin } from '../../api/customerAuth';
+import { customerLogin } from '../../api/auth';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 // Use this instead https://github.com/jannikbuschke/formik-antd
 export default function CustomerLogin() {
   const customerRegSchema = Yup.object().shape({
     username: Yup.string().required(),
   });
+
+  const navigate = useNavigate();
 
   const handleSubmit = (values, { setSubmitting }) => {
     setSubmitting(true);
@@ -14,10 +17,14 @@ export default function CustomerLogin() {
       userName: values.username,
       password: values.password,
     };
-    customerLogin({ loginDetails }).then((response) => {
-      console.log(response);
-      setSubmitting(false);
-    });
+    customerLogin({ loginDetails })
+      .then((response) => {
+        console.log(response);
+        setSubmitting(false);
+      })
+      .then(() => {
+        navigate('/customerPortal');
+      });
   };
   return (
     <div className='login-box'>

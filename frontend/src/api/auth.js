@@ -14,6 +14,8 @@ export async function customerLogin(credentials) {
     const response = await axios.post(`${HOST}/login/customer`, credentials);
     if (response.data.auth === 'success') {
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('tokenExpiration', Date.now() + 900000);
+      localStorage.setItem('role', response.data.role);
       return response.data;
     } else {
       return await Promise.reject(response.data.message);
@@ -30,4 +32,26 @@ export async function customerLogout() {
   } catch (error) {
     return await Promise.reject('Logout Error: ', error);
   }
+}
+
+export function customerLoggedIn() {
+  const role = localStorage.getItem('role');
+  const token = localStorage.getItem('token');
+  const tokenExpiration = localStorage.getItem('tokenExpiration');
+  if (role !== 'customer') {
+    console.log('Role is not customer');
+    return false;
+  }
+
+  if (!token) {
+    console.log('No token');
+    return false;
+  }
+
+  if (Date.now() > tokenExpiration) {
+    console.log('Token expired');
+    return false;
+  }
+
+  return true;
 }
