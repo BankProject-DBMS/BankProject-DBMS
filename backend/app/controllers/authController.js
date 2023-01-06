@@ -1,4 +1,5 @@
 const onlineCustomers = require('../models/online.customer.model');
+const onlineEmployee = require('../models/employee.model');
 const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
@@ -45,7 +46,7 @@ exports.employeeLogin = (req, res) => {
   const userName = req.body.loginDetails.userName;
   const password = req.body.loginDetails.password;
 
-  onlineCustomers.findByUsername(userName, (err, data) => {
+  onlineEmployee.findByUsername(userName, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
         auth: 'fail',

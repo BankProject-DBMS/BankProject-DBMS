@@ -9,16 +9,28 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-export async function customerLogin(credentials) {
+export async function login(credentials) {
   try {
-    const response = await axios.post(`${HOST}/login/customer`, credentials);
-    if (response.data.auth === 'success') {
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('tokenExpiration', Date.now() + 900000);
-      localStorage.setItem('role', response.data.role);
-      return response.data;
-    } else {
-      return await Promise.reject(response.data.message);
+    if (credentials.role === 'customer') {
+      const response = await axios.post(`${HOST}/login/customer`, credentials);
+      if (response.data.auth === 'success') {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('tokenExpiration', Date.now() + 900000);
+        localStorage.setItem('role', response.data.role);
+        return response.data;
+      } else {
+        return await Promise.reject(response.data.message);
+      }
+    } else if (credentials.role === 'employee') {
+      const response = await axios.post(`${HOST}/login/employee`, credentials);
+      if (response.data.auth === 'success') {
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('tokenExpiration', Date.now() + 900000);
+        localStorage.setItem('role', response.data.role);
+        return response.data;
+      } else {
+        return await Promise.reject(response.data.message);
+      }
     }
   } catch (error) {
     return await Promise.reject('Login Error: ', error);
