@@ -161,7 +161,7 @@ export default function CustomerHome(props) {
   return (
     <div>
       <div className='navbar'>
-        <img className='customerPortal--logo' src={Logo} />
+        <img className='customerPortal--logo' src={Logo} alt={'logo'} />
 
         <Button
           danger
