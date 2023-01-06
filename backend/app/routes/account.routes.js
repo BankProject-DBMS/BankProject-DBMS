@@ -1,3 +1,5 @@
+const { jwtauth } = require('../middleware/jwt');
+
 module.exports = (app) => {
   const accounts = require('../controllers/accountController');
 
@@ -7,7 +9,7 @@ module.exports = (app) => {
 
   router.get('/', accounts.findAll);
 
-  router.get('/:id', accounts.getFromID);
+  router.get('/:id', [jwtauth], accounts.getFromID);
 
   router.post('/create', accounts.create);
 

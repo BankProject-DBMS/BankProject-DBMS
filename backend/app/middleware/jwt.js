@@ -20,6 +20,7 @@ let verifyToken = (token, next) => {
 };
 
 let tokenValidation = async (req, res, next) => {
+  console.log('in token validation');
   const auth_header = req.headers['authorization'];
   if (auth_header) {
     try {

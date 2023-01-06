@@ -5,7 +5,7 @@ module.exports = (app) => {
 
   router.post('/', customers.findAll);
 
-  router.get('/:id', [jwtauth], customers.getFromID);
+  router.get('/', customers.getFromID);
 
   router.put('/:id', customers.updateCustomer);
 
