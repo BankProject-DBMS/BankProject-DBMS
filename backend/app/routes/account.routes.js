@@ -5,7 +5,7 @@ module.exports = (app) => {
 
   const router = require('express').Router();
 
-  router.get('/customer/:customerID', [jwtauth], accounts.findAll);
+  router.get('/customer', [jwtauth], accounts.findAll);
 
   router.get('/', accounts.findAll);
 
