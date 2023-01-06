@@ -5,6 +5,7 @@ import { getCustomerAccounts } from '../api/accounts';
 import { getCustomerFDs } from '../api/fd';
 import { getCustomerPhysicalLoans } from '../api/physloans';
 import { getCustomerOnlineLoans } from '../api/onlineloans';
+import { customerLoggedIn } from '../api/auth';
 const { Header, Content, Footer } = Layout;
 
 export default function CustomerHome(props) {
@@ -12,32 +13,28 @@ export default function CustomerHome(props) {
   const [fds, setFDs] = React.useState([]);
   const [oloans, setOLoans] = React.useState([]);
   const [ploans, setPloans] = React.useState([]);
-
-  React.useEffect(() => {
-    getCustomerAccounts(props.customerID)
-      .then((data) => setAccounts(data))
-      .catch((err) => console.log(err));
-  }, [props?.customerID]);
-
-  React.useEffect(() => {
-    getCustomerFDs(props.customerID)
-      .then((data) => setFDs(data))
-      .catch((err) => console.log(err));
-  }, [props?.customerID]);
-
-  React.useEffect(() => {
-    getCustomerPhysicalLoans(props.customerID)
-      .then((data) => setPloans(data))
-      .catch((err) => console.log(err));
-  }, [props?.customerID]);
-
-  React.useEffect(() => {
-    getCustomerOnlineLoans(props.customerID)
-      .then((data) => setOLoans(data))
-      .catch((err) => console.log(err));
-  }, [props?.customerID]);
+  const loggedIn = customerLoggedIn();
 
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (!loggedIn) {
+      navigate('/customerLogin');
+    } else {
+      getCustomerAccounts(props.customerID)
+        .then((data) => setAccounts(data))
+        .catch((err) => console.log(err));
+      getCustomerFDs(props.customerID)
+        .then((data) => setFDs(data))
+        .catch((err) => console.log(err));
+      getCustomerPhysicalLoans(props.customerID)
+        .then((data) => setPloans(data))
+        .catch((err) => console.log(err));
+      getCustomerOnlineLoans(props.customerID)
+        .then((data) => setOLoans(data))
+        .catch((err) => console.log(err));
+    }
+  }, [loggedIn, navigate, props.customerID]);
 
   const accountsList = accounts.map((account) => (
     <li key={account.AccountID}>
