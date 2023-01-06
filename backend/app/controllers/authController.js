@@ -35,7 +35,32 @@ exports.customerLogin = (req, res) => {
           token,
         });
       } else {
-        res.send({ auth: 'fail', message: 'Incorrect Password' });
+        res.status(401).send({ auth: 'fail', message: 'Incorrect Password' });
+      }
+    }
+  });
+};
+
+exports.employeeLogin = (req, res) => {
+  const userName = req.body.loginDetails.userName;
+  const password = req.body.loginDetails.password;
+
+  onlineCustomers.findByUsername(userName, (err, data) => {
+    if (err.kind === 'not_found') {
+      res.status(404).send({
+        auth: 'fail',
+        message: 'User not found',
+      });
+    } else if (err.kind === 'error') {
+      res.status(500).send({
+        auth: 'fail',
+        message: 'Error retrieving user',
+      });
+    } else {
+      if (data.Password === password) {
+        // TODO
+      } else {
+        res.status(401).send({ auth: 'fail', message: 'Incorrect Password' });
       }
     }
   });

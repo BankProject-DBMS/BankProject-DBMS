@@ -2,11 +2,9 @@ import axios from 'axios';
 import { HOST } from './config';
 
 // get all physical loan accounts of a given customer id
-export async function getCustomerPhysicalLoans(customerID) {
+export async function getCustomerPhysicalLoans() {
   try {
-    const response = await axios.get(
-      `${HOST}/physicalLoans/customer/${customerID}`
-    );
+    const response = await axios.get(`${HOST}/physicalLoans/customer`);
     return response.data;
   } catch (err) {
     // console.log(err);
