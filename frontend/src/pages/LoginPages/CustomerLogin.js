@@ -17,14 +17,12 @@ export default function CustomerLogin() {
       userName: values.username,
       password: values.password,
     };
-    customerLogin({ loginDetails })
-      .then((response) => {
-        console.log(response);
-        setSubmitting(false);
-      })
-      .then(() => {
+    customerLogin({ loginDetails }).then((response) => {
+      setSubmitting(false);
+      if (response.auth === 'success') {
         navigate('/customerPortal');
-      });
+      }
+    });
   };
   return (
     <div className='login-box'>

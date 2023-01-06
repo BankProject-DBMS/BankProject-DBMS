@@ -25,7 +25,6 @@ import HomePage from './pages/HomePage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
-  const role = localStorage.getItem('role');
   return (
     <div className='App'>
       <nav></nav>
@@ -55,7 +54,7 @@ function App() {
               exact
               path='/customerPortal'
               element={
-                <RequireAuth role={role} redirectTo='/customerLogin'>
+                <RequireAuth redirectTo='/customerLogin'>
                   <CustomerHome />
                 </RequireAuth>
               }
