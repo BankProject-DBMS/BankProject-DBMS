@@ -25,7 +25,8 @@ export default function CustomerLogin() {
       })
       .then(() => {
         navigate('/customerPortal');
-      });
+      }
+    });
   };
   return (
     <div className='login-box'>
