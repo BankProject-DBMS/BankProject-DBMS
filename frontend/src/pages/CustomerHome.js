@@ -165,7 +165,7 @@ export default function CustomerHome(props) {
     <div>
       <div className='navbar'>
         <img
-          className='customerPortal--logo'
+          className='aruci--logo'
           src={Logo}
           alt={'logo'}
           onClick={() => navigate('/')}
