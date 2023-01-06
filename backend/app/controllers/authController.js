@@ -29,6 +29,7 @@ exports.customerLogin = (req, res) => {
         res.send({
           auth: 'success',
           role: 'customer',
+          expires: '15m',
           customerID,
           userName,
           token,
