@@ -1,12 +1,9 @@
 import axios from 'axios';
 import { HOST } from './config';
 
-export const customerAxios = axios.create({ baseURL: HOST });
-
-customerAxios.interceptors.request.use((config) => {
+axios.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
-    console.log('Came into interceptor');
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
