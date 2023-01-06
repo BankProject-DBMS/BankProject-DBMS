@@ -1,4 +1,5 @@
 const onlineCustomers = require('../models/online.customer.model');
+const onlineEmployee = require('../models/employee.model');
 const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
@@ -42,10 +43,11 @@ exports.customerLogin = (req, res) => {
 };
 
 exports.employeeLogin = (req, res) => {
+  console.log('in auth controller');
   const userName = req.body.loginDetails.userName;
   const password = req.body.loginDetails.password;
 
-  onlineCustomers.findByUsername(userName, (err, data) => {
+  onlineEmployee.findByUsername(userName, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
         auth: 'fail',
@@ -59,6 +61,20 @@ exports.employeeLogin = (req, res) => {
     } else {
       if (data.Password === password) {
         // TODO
+        const token = jwt.sign({ ...data, role: 'employee' }, JWT_SECRET, {
+          expiresIn: '2h',
+        });
+        const employeeID = data.EmployeeID;
+        const branchID = data.BranchID;
+        res.send({
+          auth: 'success',
+          role: 'employee',
+          expires: '15m',
+          employeeID,
+          branchID,
+          userName,
+          token,
+        });
       } else {
         res.status(401).send({ auth: 'fail', message: 'Incorrect Password' });
       }

@@ -14,6 +14,7 @@ import FixedDepositReg from './Forms/FixedDepositReg';
 import LoanReg from './Forms/LoanReg';
 import LoanList from './Forms/LoanList';
 import CustomerLogin from './pages/LoginPages/CustomerLogin';
+import EmployeeLogin from './pages/LoginPages/EmployeeLogin';
 import RequireAuth from './utils/RequireAuth';
 
 // import for customer portal
@@ -34,7 +35,15 @@ function App() {
         <Routes>
           {/* // employee portal */}
           <Route path='/employeePortal'>
-            <Route exact path='/employeePortal' element={<EmployeeHome />} />
+            <Route
+              exact
+              path='/employeePortal'
+              element={
+                <RequireAuth redirectTo='/employeeLogin'>
+                  <EmployeeHome />
+                </RequireAuth>
+              }
+            />
             <Route path='customer-register' element={<CustomerReg />} />
             <Route path='customer-list' element={<CustomerList />} />
             <Route path='customer/:customerId' element={<CustomerEditor />} />
@@ -46,6 +55,13 @@ function App() {
             />
             <Route path='loan-register' element={<LoanReg />} />
             <Route path='loan-list' element={<LoanList />} />
+          </Route>
+          <Route path='/employeeLogin'>
+            <Route
+              exact
+              path='/employeeLogin'
+              element={<EmployeeLogin className='customer-login' />}
+            />
           </Route>
 
           {/* // customer portal */}

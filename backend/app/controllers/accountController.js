@@ -4,7 +4,7 @@ const AccountModel = require('../models/account.model');
 exports.findAll = (req, res) => {
   //console.log(req.params);
   const customerID = req.user.CustomerID;
-  AccountModel.getAll(customerID, (err, data) => {
+  AccountModel.getAll(customerID, req, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
         message: `No accounts found for customer ${customerID}.`,

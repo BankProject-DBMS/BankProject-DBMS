@@ -7,11 +7,11 @@ module.exports = (app) => {
 
   router.get('/customer', [jwtauth], accounts.findAll);
 
-  router.get('/', accounts.findAll);
+  router.get('/', [jwtauth], accounts.findAll);
 
   router.get('/:id', [jwtauth], accounts.getFromID);
 
-  router.post('/create', accounts.create);
+  router.post('/create', [jwtauth], accounts.create);
 
-  app.use('/accounts', router);
+  app.use('/accounts', [jwtauth], router);
 };

@@ -9,7 +9,7 @@ const Account = function (account) {
 };
 
 // SQL query to get all accounts for a customer or all accounts
-Account.getAll = (customerID, result) => {
+Account.getAll = (customerID, req, result) => {
   let query = 'SELECT * FROM CashAccount';
 
   if (customerID) {
@@ -24,6 +24,14 @@ Account.getAll = (customerID, result) => {
     }
 
     if (res.length) {
+      if (
+        req.user.role === 'customer' &&
+        !(req.user.CustomerID === res[0].CustomerID)
+      ) {
+        console.log('no access');
+        result({ kind: 'access denied' }, null);
+        return;
+      }
       console.log('found accounts: ', res);
       result({ kind: 'success' }, res);
     } else {
@@ -67,6 +75,11 @@ Account.create = (newAccount, result) => {
       result({ kind: 'error', ...err }, null);
       return;
     }
+    if (req.user.role === 'customer') {
+      console.log('no access');
+      result({ kind: 'access denied' }, null);
+      return;
+    }
 
     console.log('created account: ', newAccount);
     result({ kind: 'success' }, newAccount);
@@ -74,6 +87,8 @@ Account.create = (newAccount, result) => {
 };
 
 // SQL query to update balance of an account
+// TODO set permissions
+
 Account.updateBalance = (id, amount, result) => {
   sql.query(
     'UPDATE CashAccount SET Balance = Balance + ? WHERE AccountID = ?',

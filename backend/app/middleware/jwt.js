@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const onlineCustomerModel = require('../models/online.customer.model');
+const onlineEmployeeModel = require('../models/employee.model');
 // const _ = require("lodash");
 require('dotenv').config();
 
@@ -82,7 +83,52 @@ let tokenValidation = async (req, res, next) => {
               next();
             });
 
-            console.log('user got in jwt authorization');
+            console.log('user customer got in jwt authorization');
+
+            // req.user = _.pick(user, models.User.returnable);
+          }
+        } else if (decodedToken.role === 'employee') {
+          console.log('is employee');
+          console.log(`params: ${req.params}`);
+
+          if (decodedToken.expired) {
+            let decoded = jwt.decode(token);
+            //console.log(decoded.Username);
+            const user = onlineEmployeeModel.findByUsername(
+              decoded.OnlineID,
+              (err, res) => {
+                console.log('Result:');
+                console.log(res);
+              }
+            );
+            console.log(user);
+            user.token = jwt.sign(
+              {
+                user,
+              },
+              JWT_SECRET,
+              {
+                expiresIn: '15m', //change
+              }
+            );
+            req.user = { user, role: decoded.role };
+            next();
+          } else {
+            let decoded = jwt.decode(token);
+            console.log('not expired');
+
+            onlineEmployeeModel.findByUsername(decoded.OnlineID, (err, res) => {
+              if (err) {
+                console.log({ err });
+              }
+              let user = res;
+              user.token = token;
+              user.role = decoded.role;
+              req.user = user;
+              next();
+            });
+
+            console.log('user employee got in jwt authorization');
 
             // req.user = _.pick(user, models.User.returnable);
           }
