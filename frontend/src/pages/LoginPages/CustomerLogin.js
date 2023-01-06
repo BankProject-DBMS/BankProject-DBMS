@@ -18,16 +18,15 @@ export default function CustomerLogin() {
       password: values.password,
       role: 'customer',
     };
-    login({ loginDetails })
-      .then((response) => {
-        console.log(response);
-        setSubmitting(false);
-      })
-      .then(() => {
+    login({ loginDetails }).then((response) => {
+      console.log(response);
+      setSubmitting(false);
+      if (response.auth === 'success') {
         navigate('/customerPortal');
       }
     });
   };
+
   return (
     <div className='login-box'>
       <Card hoverable title='LOG IN' style={{ width: 600 }}>
