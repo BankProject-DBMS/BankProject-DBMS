@@ -2,7 +2,7 @@ const AccountModel = require('../models/account.model');
 
 // Retrieve all accounts for a customer or all accounts
 exports.findAll = (req, res) => {
-  console.log(req.params);
+  //console.log(req.params);
   const customerID = req.params.customerID;
   AccountModel.getAll(customerID, (err, data) => {
     if (err.kind === 'not_found') {

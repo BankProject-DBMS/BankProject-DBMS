@@ -23,7 +23,7 @@ exports.customerLogin = (req, res) => {
     } else {
       if (data.Password === password) {
         const token = jwt.sign({ ...data, role: 'customer' }, JWT_SECRET, {
-          expiresIn: '15m',
+          expiresIn: '2h',
         });
         const customerID = data.CustomerID;
         res.send({

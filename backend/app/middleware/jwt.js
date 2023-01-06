@@ -34,50 +34,63 @@ let tokenValidation = async (req, res, next) => {
       req.token = token;
       const decodedToken = verifyToken(req.token, next);
       console.log({ decodedToken });
-      console.log(decodedToken);
+
       if (!decodedToken) {
         res.status(400).json({
           status: 400,
           message: 'User does not have  token',
         });
-      } else if (decodedToken.expired) {
-        let decoded = jwt.decode(token);
-        //console.log(decoded.Username);
-        const user = onlineCustomerModel.findByUsername(
-          decoded.Username,
-          (err, res) => {
-            console.log('Result:');
-            console.log(res);
-          }
-        );
-        console.log(user);
-        user.token = jwt.sign(
-          {
-            user,
-          },
-          JWT_SECRET,
-          {
-            expiresIn: '15m', //change
-          }
-        );
-        req.user = { user, role: decoded.role };
-        next();
       } else {
-        let decoded = jwt.decode(token);
-        console.log('not expired');
+        if (decodedToken.role === 'customer') {
+          console.log('is Customer');
+          console.log(`params: ${req.params}`);
+          if (decodedToken.CustomerID === req.params.customerID) {
+            console.log('matching IDs');
+            if (decodedToken.expired) {
+              let decoded = jwt.decode(token);
+              //console.log(decoded.Username);
+              const user = onlineCustomerModel.findByUsername(
+                decoded.Username,
+                (err, res) => {
+                  console.log('Result:');
+                  console.log(res);
+                }
+              );
+              console.log(user);
+              user.token = jwt.sign(
+                {
+                  user,
+                },
+                JWT_SECRET,
+                {
+                  expiresIn: '15m', //change
+                }
+              );
+              req.user = { user, role: decoded.role };
+              next();
+            } else {
+              let decoded = jwt.decode(token);
+              console.log('not expired');
 
-        onlineCustomerModel.findByUsername(decoded.Username, (err, res) => {
-          if (err) {
-            console.log({ err });
+              onlineCustomerModel.findByUsername(
+                decoded.Username,
+                (err, res) => {
+                  if (err) {
+                    console.log({ err });
+                  }
+                  let user = res;
+                  user.token = token;
+                  req.user = user;
+                  next();
+                }
+              );
+
+              console.log('user got in jwt authorization');
+
+              // req.user = _.pick(user, models.User.returnable);
+            }
           }
-          let user = res;
-          user.token = token;
-          req.user = user;
-          next();
-        });
-        console.log('user got in jwt authorization');
-
-        // req.user = _.pick(user, models.User.returnable);
+        }
       }
     } catch (err) {
       console.log({ err });
