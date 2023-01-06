@@ -1,15 +1,20 @@
 const jwt = require('jsonwebtoken');
 const onlineCustomerModel = require('../models/online.customer.model');
 // const _ = require("lodash");
-const { JWT_SECRET } = require('../config/db.config');
+require('dotenv').config();
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 let verifyToken = (token, next) => {
+  console.log({ token });
   try {
     var decoded = jwt.verify(token, JWT_SECRET);
     return { ...decoded, expired: false };
   } catch (err) {
     if (err) {
+      console.log(err);
       if (err.name === 'TokenExpiredError') {
+        //console.log('token expired');
         var decoded = jwt.decode(token);
         if (decoded) {
           return { ...decoded, expired: true };
@@ -22,6 +27,7 @@ let verifyToken = (token, next) => {
 let tokenValidation = async (req, res, next) => {
   console.log('in token validation');
   const auth_header = req.headers['authorization'];
+  console.log({ auth_header });
   if (auth_header) {
     try {
       const token = auth_header.split(' ')[1];
@@ -36,19 +42,22 @@ let tokenValidation = async (req, res, next) => {
         });
       } else if (decodedToken.expired) {
         let decoded = jwt.decode(token);
-        console.log(decoded);
+        //console.log(decoded.Username);
         const user = onlineCustomerModel.findByUsername(
-          decoded.userName,
-          (err, res) => {}
+          decoded.Username,
+          (err, res) => {
+            console.log('Result:');
+            console.log(res);
+          }
         );
-
+        console.log(user);
         user.token = jwt.sign(
           {
             user,
           },
           JWT_SECRET,
           {
-            expiresIn: '20s', //change
+            expiresIn: '15m', //change
           }
         );
         req.user = { user, role: decoded.role };
@@ -57,7 +66,7 @@ let tokenValidation = async (req, res, next) => {
         let decoded = jwt.decode(token);
         console.log('not expired');
 
-        onlineCustomerModel.findByUsername(decoded.userName, (err, res) => {
+        onlineCustomerModel.findByUsername(decoded.Username, (err, res) => {
           if (err) {
             console.log({ err });
           }
