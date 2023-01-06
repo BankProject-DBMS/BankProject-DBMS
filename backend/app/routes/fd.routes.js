@@ -7,6 +7,6 @@ module.exports = (app) => {
 
   router.post('/add', [jwtauth], fds.createFD);
   router.get('/customer', [jwtauth], fds.getCustomerFD);
-
+  router.get('/:id', [jwtauth], fds.getFromID);
   app.use('/fixedDeposits', router);
 };
