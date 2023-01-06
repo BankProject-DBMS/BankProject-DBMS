@@ -6,7 +6,7 @@ import { getCustomerFDs } from '../api/fd';
 import { getCustomerPhysicalLoans } from '../api/physloans';
 import { getCustomerOnlineLoans } from '../api/onlineloans';
 import { customerLogout } from '../api/auth';
-import { getCustomer} from '../api/customers';
+import { getCustomer } from '../api/customers';
 
 // for navbar data
 import Logo from './Images/Logo2.png';
@@ -161,15 +161,18 @@ export default function CustomerHome(props) {
   return (
     <div>
       <div className='navbar'>
-        <img className='Logo' src={Logo} />
+        <img className='customerPortal--logo' src={Logo} />
 
-        <Button className='button'
+        <Button
+          danger
+          className='customerPortal--button'
+          color='red'
           onClick={() => {
             customerLogout().then(() => navigate(`/customerLogin`));
-          }}>
+          }}
+        >
           Logout
         </Button>
-
       </div>
 
       <div>
