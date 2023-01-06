@@ -14,6 +14,7 @@ import FixedDepositReg from './Forms/FixedDepositReg';
 import LoanReg from './Forms/LoanReg';
 import LoanList from './Forms/LoanList';
 import CustomerLogin from './pages/LoginPages/CustomerLogin';
+import RequireAuth from './utils/RequireAuth';
 
 // import for customer portal
 import CustomerHome from './pages/CustomerHome';
@@ -52,7 +53,11 @@ function App() {
             <Route
               exact
               path='/customerPortal'
-              element={<CustomerHome customerID={1} />}
+              element={
+                <RequireAuth redirectTo='/customerLogin'>
+                  <CustomerHome />
+                </RequireAuth>
+              }
             />
             <Route
               path='/customerPortal/account/:accountID'

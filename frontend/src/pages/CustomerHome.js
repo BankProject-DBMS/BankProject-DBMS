@@ -13,31 +13,22 @@ export default function CustomerHome(props) {
   const [oloans, setOLoans] = React.useState([]);
   const [ploans, setPloans] = React.useState([]);
 
+  const navigate = useNavigate();
+
   React.useEffect(() => {
-    getCustomerAccounts(props.customerID)
+    getCustomerAccounts()
       .then((data) => setAccounts(data))
       .catch((err) => console.log(err));
-  }, [props?.customerID]);
-
-  React.useEffect(() => {
-    getCustomerFDs(props.customerID)
+    getCustomerFDs()
       .then((data) => setFDs(data))
       .catch((err) => console.log(err));
-  }, [props?.customerID]);
-
-  React.useEffect(() => {
-    getCustomerPhysicalLoans(props.customerID)
+    getCustomerPhysicalLoans()
       .then((data) => setPloans(data))
       .catch((err) => console.log(err));
-  }, [props?.customerID]);
-
-  React.useEffect(() => {
-    getCustomerOnlineLoans(props.customerID)
+    getCustomerOnlineLoans()
       .then((data) => setOLoans(data))
       .catch((err) => console.log(err));
-  }, [props?.customerID]);
-
-  const navigate = useNavigate();
+  }, []);
 
   const accountsList = accounts.map((account) => (
     <li key={account.AccountID}>

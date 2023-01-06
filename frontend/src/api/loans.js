@@ -7,7 +7,7 @@ export async function getLoans() {
     const response = await axios.get(`${HOST}/loans`);
     return response.data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return await Promise.reject('Failed to get loan list!');
   }
 }
@@ -18,8 +18,7 @@ export async function addLoan(newLoan) {
     const response = await axios.post(`${HOST}/loan/add`, newLoan);
     console.log(response);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return await Promise.reject('Failed to add to loan list!');
   }
 }
-

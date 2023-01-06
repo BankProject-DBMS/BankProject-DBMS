@@ -26,7 +26,8 @@ exports.createCustomer = (req, res) => {
 };
 
 exports.getFromID = (req, res) => {
-  const id = req.params.id;
+  console.log(body);
+  const id = req.body.id;
   CustomerModel.findById(id, (err, data) => {
     if (err)
       res.status(500).send({

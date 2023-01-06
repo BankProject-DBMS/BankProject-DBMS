@@ -2,8 +2,7 @@ const PhysLoanModel = require('../models/physloan.model');
 
 //
 exports.getCustomerPhysicalLoans = (req, res) => {
-  console.log(req.params);
-  const customerID = req.params.customerID;
+  const customerID = req.user.CustomerID;
   PhysLoanModel.getAll(customerID, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({

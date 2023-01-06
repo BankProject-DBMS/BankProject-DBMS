@@ -8,7 +8,7 @@ export async function getCreditTransactions(accountID) {
     );
     return response.data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return await Promise.reject('Failed to get credit transactions list!');
   }
 }
@@ -18,7 +18,7 @@ export async function getDebitTransactions(accountID) {
     const response = await axios.get(`${HOST}/transactions/debit/${accountID}`);
     return response.data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return await Promise.reject('Failed to get debit transactions list!');
   }
 }
