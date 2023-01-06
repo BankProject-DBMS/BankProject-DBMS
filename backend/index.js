@@ -17,7 +17,7 @@ require('./app/routes/account.routes')(app);
 require('./app/routes/physicalloan.routes')(app);
 require('./app/routes/onlineloan.routes')(app);
 require('./app/routes/transaction.routes')(app);
-require('./app/routes/online.customer.routes')(app);
+require('./app/routes/auth.routes')(app);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
