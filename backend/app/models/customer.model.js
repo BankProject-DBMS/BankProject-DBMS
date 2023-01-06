@@ -11,7 +11,7 @@ const Customer = function (customer) {
 Customer.getAll = (name, req, result) => {
   let query = 'SELECT * FROM Customer';
   if (req.user.role === 'customer') {
-    console.log('no access');
+    console.log('no access cust getall');
     result({ kind: 'access denied' }, null);
     return;
   }
@@ -35,7 +35,7 @@ Customer.getAll = (name, req, result) => {
 
 Customer.findById = (id, req, result) => {
   if (req.user.role === 'customer') {
-    console.log('no access');
+    console.log('no access cust findbyid');
     result({ kind: 'access denied' }, null);
     return;
   }
@@ -56,7 +56,7 @@ Customer.findById = (id, req, result) => {
 
 Customer.create = (newCustomer, req, result) => {
   if (req.user.role === 'customer') {
-    console.log('no access');
+    console.log('no access cust create');
     result({ kind: 'access denied' }, null);
     return;
   }
@@ -74,7 +74,7 @@ Customer.create = (newCustomer, req, result) => {
 
 Customer.remove = (id, req, result) => {
   if (req.user.role === 'customer') {
-    console.log('no access');
+    console.log('no access cust remove');
     result({ kind: 'access denied' }, null);
     return;
   }
@@ -103,7 +103,7 @@ Customer.removeAll = (result) => {
 Customer.updateById = (id, req, customer, result) => {
   console.log({ customer, id });
   if (req.user.role === 'customer') {
-    console.log('no access');
+    console.log('no access cust update by id');
     result({ kind: 'access denied' }, null);
     return;
   }

@@ -102,7 +102,10 @@ export default function CustomerHome(props) {
         dataSource={fdList}
         renderItem={(item) => (
           <List.Item>
-            <Typography.Text mark>
+            <Typography.Text 
+              mark
+              onClick={(e) => navigate(`fixedDeposits/${item.key}`)}
+            >
               Account Number : {<b>{item.key}</b>}
             </Typography.Text>{' '}
             {item}
@@ -161,7 +164,12 @@ export default function CustomerHome(props) {
   return (
     <div>
       <div className='navbar'>
-        <img className='customerPortal--logo' src={Logo} alt={'logo'} />
+        <img
+          className='aruci--logo'
+          src={Logo}
+          alt={'logo'}
+          onClick={() => navigate('/')}
+        />
         <div className='customerPortal--buttons'>
           <Button
             className='customerPortal--button'

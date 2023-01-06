@@ -50,7 +50,7 @@ export default function AccountView() {
     <div>
       <h2>Account View</h2>
       <p>Account ID: {account?.AccountID}</p>
-      <p>Account Number: {account?.CustomerID}</p>
+      <p>Customer ID: {account?.CustomerID}</p>
       <p>Date Created: {account?.DateCreated}</p>
       <p>Balance: Rs.{account?.Balance}</p>
 

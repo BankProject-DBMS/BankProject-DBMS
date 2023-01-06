@@ -28,7 +28,7 @@ Account.getAll = (customerID, req, result) => {
         req.user.role === 'customer' &&
         !(req.user.CustomerID === res[0].CustomerID)
       ) {
-        console.log('no access');
+        console.log('no access account get all');
         result({ kind: 'access denied' }, null);
         return;
       }
@@ -54,7 +54,7 @@ Account.findById = (id, req, result) => {
         req.user.role === 'customer' &&
         !(req.user.CustomerID === res[0].CustomerID)
       ) {
-        console.log('no access');
+        console.log('no access acc find by id');
         result({ kind: 'access denied' }, null);
         return;
       }
@@ -76,7 +76,7 @@ Account.create = (newAccount, result) => {
       return;
     }
     if (req.user.role === 'customer') {
-      console.log('no access');
+      console.log('no access acc create');
       result({ kind: 'access denied' }, null);
       return;
     }

@@ -9,10 +9,7 @@
   top: 0;
   z-index: 1;
 }
-.homePage--logo {
-  width: 150px;
-  height: fit-content;
-}
+
 .buttons {
   display: flex;
   text-align: right;

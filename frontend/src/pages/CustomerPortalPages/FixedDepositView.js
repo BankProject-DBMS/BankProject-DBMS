@@ -1,64 +1,24 @@
 import { useState, useEffect } from 'react';
 import { getFD } from '../../api/fd';
-import { Table } from 'antd';
 import { useParams } from 'react-router-dom';
 
-import {
-  getCreditTransactions,
-  getDebitTransactions,
-} from '../../api/transactions';
-
-export default function AccountView() {
+export default function FixedDepositView() {
   const [account, setAccount] = useState();
-  const [creditTransactions, setCreditTransactions] = useState();
-  const [debitTransactions, setDebitTransactions] = useState();
 
-  const { accountID } = useParams();
+  const { fixedDepositID } = useParams();
   useEffect(() => {
-    console.log(accountID);
-    getAccount(accountID).then((data) => setAccount(data));
-    getCreditTransactions(accountID).then((data) =>
-      setCreditTransactions(data)
-    );
-    getDebitTransactions(accountID).then((data) => setDebitTransactions(data));
-  }, [accountID]);
-
-  const columns = [
-    {
-      title: 'Transaction ID',
-      dataIndex: 'transactionID',
-      key: 'transactionID',
-    },
-    {
-      title: 'Transaction Time',
-      dataIndex: 'transactionTime',
-      key: 'transactionTime',
-    },
-    {
-      title: 'Amount',
-      dataIndex: 'amount',
-      key: 'amount',
-    },
-    {
-      title: 'Remark',
-      dataIndex: 'remark',
-      key: 'remark',
-    },
-  ];
+    console.log(fixedDepositID);
+    getFD(fixedDepositID).then((data) => setAccount(data));
+  }, [fixedDepositID]);
 
   return (
     <div>
-      <h2>Account View</h2>
-      <p>Account ID: {account?.AccountID}</p>
-      <p>Account Number: {account?.CustomerID}</p>
+      <h2>Fixed Deposit View</h2>
+      <p>Fixed Deposite Account ID: {account?.AccountID}</p>
+      <p>Fixed Deposit Type ID: {account?.TypeID}</p>
+      <p>Saving Account ID: {account?.SavingsAccountID}</p>
+      <p>Amount: Rs.{account?.Amount}</p>
       <p>Date Created: {account?.DateCreated}</p>
-      <p>Balance: Rs.{account?.Balance}</p>
-
-      <h3>Credit Transactions</h3>
-      <Table columns={columns} dataSource={creditTransactions} />
-
-      <h3>Debit Transactions</h3>
-      <Table columns={columns} dataSource={debitTransactions} />
     </div>
   );
 }

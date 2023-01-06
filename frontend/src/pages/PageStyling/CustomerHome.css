@@ -5,9 +5,17 @@
   box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
   justify-content: space-between;
 }
-.customerPortal--logo {
+.aruci--logo {
   width: 150px;
   height: fit-content;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+.aruci--logo:hover {
+  cursor: pointer;
+  /* Make it move a bit */
+  transform: scale(1.05);
+  transition: 0.2s;
 }
 
 .customerPortal--button {
