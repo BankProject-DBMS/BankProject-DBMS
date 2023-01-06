@@ -68,3 +68,25 @@ export function customerLoggedIn() {
 
   return true;
 }
+
+export async function employeeLoggedIn() {
+  const role = localStorage.getItem('role');
+  const token = localStorage.getItem('token');
+  const tokenExpiration = localStorage.getItem('tokenExpiration');
+  if (role !== 'employee') {
+    console.log('Role is not employee');
+    return false;
+  }
+
+  if (!token) {
+    console.log('No token');
+    return false;
+  }
+
+  if (Date.now() > tokenExpiration) {
+    console.log('Token expired');
+    return false;
+  }
+
+  return true;
+}

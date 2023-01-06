@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { customerLoggedIn } from '../api/auth';
+import { customerLoggedIn, employeeLoggedIn } from '../api/auth';
 
 export default function RequireAuth({ children, redirectTo }) {
   const role = localStorage.getItem('role');
@@ -7,7 +7,7 @@ export default function RequireAuth({ children, redirectTo }) {
   if (role === 'customer') {
     isAuthenticated = customerLoggedIn();
   } else if (role === 'employee') {
-    // TODO
+    isAuthenticated = employeeLoggedIn();
   }
   return isAuthenticated ? children : <Navigate to={redirectTo} />;
 }
