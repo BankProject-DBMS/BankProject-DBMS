@@ -10,8 +10,9 @@ axios.interceptors.request.use((config) => {
 });
 
 export async function login(credentials) {
+  console.log(credentials);
   try {
-    if (credentials.role === 'customer') {
+    if (credentials.loginDetails.role === 'customer') {
       const response = await axios.post(`${HOST}/login/customer`, credentials);
       if (response.data.auth === 'success') {
         localStorage.setItem('token', response.data.token);
@@ -21,7 +22,7 @@ export async function login(credentials) {
       } else {
         return await Promise.reject(response.data.message);
       }
-    } else if (credentials.role === 'employee') {
+    } else if (credentials.loginDetails.role === 'employee') {
       const response = await axios.post(`${HOST}/login/employee`, credentials);
       if (response.data.auth === 'success') {
         localStorage.setItem('token', response.data.token);
