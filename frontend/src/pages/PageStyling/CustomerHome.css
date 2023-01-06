@@ -13,4 +13,11 @@
 .customerPortal--button {
   margin: 1%;
   align-items: center;
+  margin-left: 15px;
+}
+
+.customerPortal--buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

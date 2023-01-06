@@ -162,17 +162,24 @@ export default function CustomerHome(props) {
     <div>
       <div className='navbar'>
         <img className='customerPortal--logo' src={Logo} alt={'logo'} />
-
-        <Button
-          danger
-          className='customerPortal--button'
-          color='red'
-          onClick={() => {
-            customerLogout().then(() => navigate(`/customerLogin`));
-          }}
-        >
-          Logout
-        </Button>
+        <div className='customerPortal--buttons'>
+          <Button
+            className='customerPortal--button'
+            onClick={() => navigate('onlineBanking')}
+          >
+            Online Banking
+          </Button>
+          <Button
+            danger
+            className='customerPortal--button'
+            color='red'
+            onClick={() => {
+              customerLogout().then(() => navigate(`/customerLogin`));
+            }}
+          >
+            Logout
+          </Button>
+        </div>
       </div>
 
       <div>
