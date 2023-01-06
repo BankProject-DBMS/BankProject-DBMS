@@ -46,5 +46,6 @@
 }
 
 .content {
-  padding: 2%;
+  padding: 0 2%;
+  padding-top: 2%;
 }
