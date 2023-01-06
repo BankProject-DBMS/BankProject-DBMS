@@ -5,6 +5,13 @@ import { getCustomerAccounts } from '../api/accounts';
 import { getCustomerFDs } from '../api/fd';
 import { getCustomerPhysicalLoans } from '../api/physloans';
 import { getCustomerOnlineLoans } from '../api/onlineloans';
+import { customerLogout } from '../api/auth';
+import { getCustomer } from '../api/customers';
+
+// for navbar data
+import Logo from './Images/Logo2.png';
+import './PageStyling/CustomerHome.css';
+
 const { Header, Content, Footer } = Layout;
 
 export default function CustomerHome(props) {
@@ -153,10 +160,34 @@ export default function CustomerHome(props) {
 
   return (
     <div>
-      <ul>{cashAccs}</ul>
-      <ul>{fdAccs}</ul>
-      <ul>{pLoanAccs}</ul>
-      <ul>{oLoanAccs}</ul>
+      <div className='navbar'>
+        <img className='customerPortal--logo' src={Logo} alt={'logo'} />
+        <div className='customerPortal--buttons'>
+          <Button
+            className='customerPortal--button'
+            onClick={() => navigate('onlineBanking')}
+          >
+            Online Banking
+          </Button>
+          <Button
+            danger
+            className='customerPortal--button'
+            color='red'
+            onClick={() => {
+              customerLogout().then(() => navigate(`/customerLogin`));
+            }}
+          >
+            Logout
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <ul>{cashAccs}</ul>
+        <ul>{fdAccs}</ul>
+        <ul>{pLoanAccs}</ul>
+        <ul>{oLoanAccs}</ul>
+      </div>
     </div>
   );
 }

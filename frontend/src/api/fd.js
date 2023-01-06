@@ -21,3 +21,14 @@ export async function getCustomerFDs() {
     return await Promise.reject('Failed to get fixed deposits list!');
   }
 }
+
+// get details of fds given account id
+export async function getFD(accountID) {
+  try {
+    const response = await axios.get(`${HOST}/fixedDeposits/${accountID}`);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return await Promise.reject('Failed to get Fixed Deposit list!');
+  }
+}
