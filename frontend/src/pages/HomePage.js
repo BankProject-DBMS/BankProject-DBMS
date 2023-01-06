@@ -10,7 +10,7 @@ export default function EmployeeHome() {
   return (
     <div className='HomePage'>
       <div className='navbar'>
-        <img className='homePage--logo' src={Logo} />
+        <img className='aruci--logo' src={Logo} />
         <div className='buttons'>
           <Button className='button' onClick={() => navigate('employeePortal')}>
             Employee Portal
