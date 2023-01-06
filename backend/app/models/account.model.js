@@ -33,7 +33,7 @@ Account.getAll = (customerID, result) => {
 };
 
 // SQL query to find an account by ID
-Account.findById = (id, result) => {
+Account.findById = (id, req, result) => {
   sql.query('SELECT * FROM CashAccount WHERE AccountID = ?', id, (err, res) => {
     if (err) {
       console.log('error: ', err);
@@ -42,6 +42,15 @@ Account.findById = (id, result) => {
     }
 
     if (res.length) {
+      if (
+        !(
+          req.user.role === 'customer' &&
+          req.user.CustomerID === res[0].CustomerID
+        )
+      ) {
+        console.log('no access');
+        result({ kind: 'access denied' }, null);
+      }
       console.log('found account: ', res[0]);
       result({ kind: 'success' }, res[0]);
     } else {

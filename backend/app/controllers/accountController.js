@@ -21,7 +21,7 @@ exports.findAll = (req, res) => {
 // Retrieve an account by ID
 exports.getFromID = (req, res) => {
   const accountID = req.params.id;
-  AccountModel.findById(accountID, (err, data) => {
+  AccountModel.findById(accountID, req, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
         message: `No account found with id ${accountID}.`,
@@ -29,6 +29,10 @@ exports.getFromID = (req, res) => {
     } else if (err.kind != 'success') {
       res.status(500).send({
         message: err.message || 'Some error occurred while retrieving account.',
+      });
+    } else if (err.kind === 'access denied') {
+      res.status(401).send({
+        message: err.message || 'Access Denied to Page',
       });
     } else res.send(data);
   });
