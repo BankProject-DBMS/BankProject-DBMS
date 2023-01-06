@@ -104,7 +104,7 @@ export default function CustomerHome(props) {
           <List.Item>
             <Typography.Text 
               mark
-              onClick={(e) => navigate(`account/${item.key}`)}
+              onClick={(e) => navigate(`fixedDeposits/${item.key}`)}
             >
               Account Number : {<b>{item.key}</b>}
             </Typography.Text>{' '}
