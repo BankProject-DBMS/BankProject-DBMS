@@ -61,7 +61,7 @@ exports.employeeLogin = (req, res) => {
     } else {
       if (data.Password === password) {
         // TODO
-        const token = jwt.sign({ ...data, role: 'customer' }, JWT_SECRET, {
+        const token = jwt.sign({ ...data, role: 'employee' }, JWT_SECRET, {
           expiresIn: '2h',
         });
         const employeeID = data.EmployeeID;
