@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Card } from 'antd';
-import { customerLogin } from '../../api/auth';
+import { login } from '../../api/auth';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 // Use this instead https://github.com/jannikbuschke/formik-antd
@@ -16,14 +16,17 @@ export default function CustomerLogin() {
     const loginDetails = {
       userName: values.username,
       password: values.password,
+      role: 'customer',
     };
-    customerLogin({ loginDetails }).then((response) => {
+    login({ loginDetails }).then((response) => {
+      console.log(response);
       setSubmitting(false);
       if (response.auth === 'success') {
         navigate('/customerPortal');
       }
     });
   };
+
   return (
     <div className='login-box'>
       <Card hoverable title='LOG IN' style={{ width: 600 }}>

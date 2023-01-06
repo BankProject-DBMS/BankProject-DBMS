@@ -3,13 +3,13 @@ module.exports = (app) => {
   const { jwtauth } = require('../middleware/jwt.js');
   const router = require('express').Router();
 
-  router.post('/', customers.findAll);
+  router.post('/', [jwtauth], customers.findAll);
 
-  router.get('/', customers.getFromID);
+  router.get('/', [jwtauth], customers.getFromID);
 
-  router.put('/:id', customers.updateCustomer);
+  router.put('/:id', [jwtauth], customers.updateCustomer);
 
-  router.post('/add', customers.createCustomer);
+  router.post('/add', [jwtauth], customers.createCustomer);
 
   app.use('/customers', router);
 };
