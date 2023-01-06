@@ -68,7 +68,7 @@ export default function CustomerLogin() {
                   className='customer--reg--form--submit'
                   type='primary'
                   onClick={props.handleSubmit}
-                  disabled={props.isSubmitting}
+                  loading={props.isSubmitting}
                 >
                   Submit
                 </Button>
