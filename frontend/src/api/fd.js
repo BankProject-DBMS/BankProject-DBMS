@@ -12,11 +12,9 @@ export async function addFD(newFD) {
 }
 
 // get all fd accounts of a given customer id
-export async function getCustomerFDs(customerID) {
+export async function getCustomerFDs() {
   try {
-    const response = await axios.get(
-      `${HOST}/fixedDeposits/customer/${customerID}`
-    );
+    const response = await axios.get(`${HOST}/fixedDeposits/customer`);
     return response.data;
   } catch (err) {
     console.log(err);

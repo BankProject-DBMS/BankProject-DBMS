@@ -15,8 +15,7 @@ exports.createFD = (req, res) => {
 
 //
 exports.getCustomerFD = (req, res) => {
-  console.log(req.params);
-  const customerID = req.params.customerID;
+  const customerID = req.user.CustomerID;
   FDModel.getAll(customerID, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
