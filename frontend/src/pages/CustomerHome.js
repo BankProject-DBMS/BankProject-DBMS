@@ -161,7 +161,12 @@ export default function CustomerHome(props) {
   return (
     <div>
       <div className='navbar'>
-        <img className='customerPortal--logo' src={Logo} alt={'logo'} />
+        <img
+          className='customerPortal--logo'
+          src={Logo}
+          alt={'logo'}
+          onClick={() => navigate('/')}
+        />
         <div className='customerPortal--buttons'>
           <Button
             className='customerPortal--button'

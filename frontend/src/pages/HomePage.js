@@ -1,20 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './PageStyling/HomePage.css';
 import Logo from './Images/Logo2.png';
 import BankPhoto from './Images/BankPhoto.jpg';
 import { Button } from 'antd';
 
 export default function EmployeeHome() {
+  const navigate = useNavigate();
   return (
     <div className='HomePage'>
       <div className='navbar'>
         <img className='homePage--logo' src={Logo} />
         <div className='buttons'>
-          <Button className='button'>
-            <a href='employeePortal'>Employee Portal</a>
+          <Button className='button' onClick={() => navigate('employeePortal')}>
+            Employee Portal
           </Button>
-          <Button className='button'>
-            <a href='customerPortal'>Customer Portal</a>
+          <Button className='button' onClick={() => navigate('customerPortal')}>
+            Customer Portal
           </Button>
         </div>
       </div>
