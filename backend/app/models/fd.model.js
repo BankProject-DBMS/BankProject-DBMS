@@ -68,10 +68,10 @@ fixedDeposit.getAll = (customerID, req, result) => {
 
 fixedDeposit.findById = (id, req, result) => {
   console.log(
-    'IN FD FIND BY ID----------------------------------------------------------------------------------------------'
+    `IN FD FIND BY ID ${id}----------------------------------------------------------------------------------------------`
   );
   sql.query(
-    'SELECT FDAccount.AccountID,FDAccount.TypeID,SavingsAccountID,Amount,FDAccount.DateCreated,CustomerID from FDAccount join CashAccount on FDAccount.SavingsAccountID = CashAccount.AccountID WHERE AccountID = ?',
+    'SELECT FDAccount.AccountID,FDAccount.TypeID,SavingsAccountID,Amount,FDAccount.DateCreated,CustomerID from FDAccount join CashAccount on FDAccount.SavingsAccountID = CashAccount.AccountID WHERE FDAccount.AccountID = ?',
     id,
     (err, res) => {
       if (err) {

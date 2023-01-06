@@ -10,6 +10,7 @@ import CustomerEditor from './pages/EmployeePortalPages/CustomerEditor';
 import AccountReg from './Forms/AccountReg';
 import AccountList from './Forms/AccountsList';
 import AccountView from './pages/CustomerPortalPages/AccountView';
+import FixedDepositView from './pages/CustomerPortalPages/FixedDepositView';
 import FixedDepositReg from './Forms/FixedDepositReg';
 import LoanReg from './Forms/LoanReg';
 import LoanList from './Forms/LoanList';
@@ -73,6 +74,10 @@ function App() {
                 <Route exact path='' element={<CustomerHome />} />
                 <Route path='account/:accountID' element={<AccountView />} />
                 <Route path='onlineBanking' element={<OnlineBanking />} />
+                <Route
+                  path='fixedDeposits/:fixedDepositID'
+                  element={<FixedDepositView />}
+                />
               </RequireAuth>
             }
           ></Route>
