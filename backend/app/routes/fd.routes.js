@@ -5,7 +5,7 @@ module.exports = (app) => {
 
   const router = require('express').Router();
 
-  router.post('/add', fds.createFD);
+  router.post('/add', [jwtauth], fds.createFD);
   router.get('/customer', [jwtauth], fds.getCustomerFD);
 
   app.use('/fixedDeposits', router);

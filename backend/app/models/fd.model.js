@@ -6,7 +6,12 @@ const fixedDeposit = function (fd) {
   this.Amount = fd.amount;
 };
 
-fixedDeposit.create = (newFd, result) => {
+fixedDeposit.create = (newFd, req, result) => {
+  if (req.user.role === 'customer') {
+    console.log('no access');
+    result({ kind: 'access denied' }, null);
+    return;
+  }
   const fdTypes = { 6: 'F061300', 12: 'F121450', 36: 'F361500' };
   const fixedD = {
     SavingsAccountID: newFd.savings,
@@ -28,7 +33,7 @@ fixedDeposit.create = (newFd, result) => {
 };
 
 //get all fds for a given customer ID
-fixedDeposit.getAll = (customerID, result) => {
+fixedDeposit.getAll = (customerID, req, result) => {
   let query =
     'SELECT FDAccount.AccountID,FDAccount.TypeID,SavingsAccountID,Amount,FDAccount.DateCreated from FDAccount join CashAccount on FDAccount.SavingsAccountID = CashAccount.AccountID';
 
@@ -44,6 +49,14 @@ fixedDeposit.getAll = (customerID, result) => {
     }
 
     if (res.length) {
+      if (
+        req.user.role === 'customer' &&
+        !(req.user.CustomerID === res[0].CustomerID)
+      ) {
+        console.log('no access');
+        result({ kind: 'access denied' }, null);
+        return;
+      }
       console.log('found fds: ', res);
       result({ kind: 'success' }, res);
     } else {

@@ -4,7 +4,7 @@ exports.createFD = (req, res) => {
   // TODO check whether savings account exists before creating FD
   console.log(req.body);
   const fd = req.body.fd;
-  FDModel.create(fd, (err, data) => {
+  FDModel.create(fd, req, (err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || 'Some error occurred while creating customers.',
@@ -16,7 +16,7 @@ exports.createFD = (req, res) => {
 //
 exports.getCustomerFD = (req, res) => {
   const customerID = req.user.CustomerID;
-  FDModel.getAll(customerID, (err, data) => {
+  FDModel.getAll(customerID, req, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
         message: `No fixed deposits found for customer ${customerID}.`,
