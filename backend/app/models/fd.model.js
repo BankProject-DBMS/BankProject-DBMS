@@ -8,7 +8,7 @@ const fixedDeposit = function (fd) {
 
 fixedDeposit.create = (newFd, req, result) => {
   if (req.user.role === 'customer') {
-    console.log('no access');
+    console.log('no access cust create');
     result({ kind: 'access denied' }, null);
     return;
   }
@@ -35,7 +35,7 @@ fixedDeposit.create = (newFd, req, result) => {
 //get all fds for a given customer ID
 fixedDeposit.getAll = (customerID, req, result) => {
   let query =
-    'SELECT FDAccount.AccountID,FDAccount.TypeID,SavingsAccountID,Amount,FDAccount.DateCreated from FDAccount join CashAccount on FDAccount.SavingsAccountID = CashAccount.AccountID';
+    'SELECT FDAccount.AccountID,FDAccount.TypeID,SavingsAccountID,Amount,FDAccount.DateCreated,CustomerID from FDAccount join CashAccount on FDAccount.SavingsAccountID = CashAccount.AccountID';
 
   if (customerID) {
     query += ` WHERE CashAccount.CustomerID = ${sql.escape(customerID)}`;
@@ -49,11 +49,12 @@ fixedDeposit.getAll = (customerID, req, result) => {
     }
 
     if (res.length) {
+      console.log(res);
       if (
         req.user.role === 'customer' &&
         !(req.user.CustomerID === res[0].CustomerID)
       ) {
-        console.log('no access');
+        console.log('no access fd get all');
         result({ kind: 'access denied' }, null);
         return;
       }
@@ -66,6 +67,9 @@ fixedDeposit.getAll = (customerID, req, result) => {
 };
 
 fixedDeposit.findById = (id, req, result) => {
+  console.log(
+    'IN FD FIND BY ID----------------------------------------------------------------------------------------------'
+  );
   sql.query(
     'SELECT FDAccount.AccountID,FDAccount.TypeID,SavingsAccountID,Amount,FDAccount.DateCreated,CustomerID from FDAccount join CashAccount on FDAccount.SavingsAccountID = CashAccount.AccountID WHERE AccountID = ?',
     id,
@@ -77,11 +81,12 @@ fixedDeposit.findById = (id, req, result) => {
       }
 
       if (res.length) {
+        console.log(res);
         if (
           req.user.role === 'customer' &&
           !(req.user.CustomerID === res[0].CustomerID)
         ) {
-          console.log('no access');
+          console.log('no access fd find by id');
           result({ kind: 'access denied' }, null);
           return;
         }

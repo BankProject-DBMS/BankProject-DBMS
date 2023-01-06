@@ -32,7 +32,8 @@ exports.getCustomerFD = (req, res) => {
 
 // Retrieve an account by ID
 exports.getFromID = (req, res) => {
-  const accountID = req.params.id;
+  console.log(req);
+  const accountID = req.params.accountID;
   FDModel.findById(accountID, req, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
