@@ -43,6 +43,7 @@ exports.customerLogin = (req, res) => {
 };
 
 exports.employeeLogin = (req, res) => {
+  console.log('in auth controller');
   const userName = req.body.loginDetails.userName;
   const password = req.body.loginDetails.password;
 
@@ -60,6 +61,20 @@ exports.employeeLogin = (req, res) => {
     } else {
       if (data.Password === password) {
         // TODO
+        const token = jwt.sign({ ...data, role: 'customer' }, JWT_SECRET, {
+          expiresIn: '2h',
+        });
+        const employeeID = data.EmployeeID;
+        const branchID = data.BranchID;
+        res.send({
+          auth: 'success',
+          role: 'employee',
+          expires: '15m',
+          employeeID,
+          branchID,
+          userName,
+          token,
+        });
       } else {
         res.status(401).send({ auth: 'fail', message: 'Incorrect Password' });
       }

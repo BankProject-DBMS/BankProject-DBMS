@@ -18,14 +18,13 @@ export default function EmployeeLogin() {
       password: values.password,
       role: 'employee',
     };
-    login({ loginDetails })
-      .then((response) => {
-        console.log(response);
-        setSubmitting(false);
-      })
-      .then(() => {
+    login({ loginDetails }).then((response) => {
+      console.log(response);
+      setSubmitting(false);
+      if (response.auth === 'success') {
         navigate('/employeePortal');
-      });
+      }
+    });
   };
   return (
     <div className='login-box'>

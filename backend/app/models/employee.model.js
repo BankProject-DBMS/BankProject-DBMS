@@ -51,6 +51,9 @@ Employee.findById = (id, result) => {
 };
 
 Employee.findByUsername = (userName, result) => {
+  console.log('in employee model');
+  console.log(userName);
+
   sql.query(
     'SELECT * FROM Employee WHERE OnlineID = ?',
     userName,
@@ -73,3 +76,4 @@ Employee.findByUsername = (userName, result) => {
     }
   );
 };
+module.exports = Employee;

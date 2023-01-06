@@ -39,7 +39,7 @@ function App() {
               exact
               path='/employeePortal'
               element={
-                <RequireAuth role={role} redirectTo='/employeeLogin'>
+                <RequireAuth redirectTo='/employeeLogin'>
                   <EmployeeHome />
                 </RequireAuth>
               }
