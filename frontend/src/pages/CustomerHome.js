@@ -102,7 +102,10 @@ export default function CustomerHome(props) {
         dataSource={fdList}
         renderItem={(item) => (
           <List.Item>
-            <Typography.Text mark>
+            <Typography.Text 
+              mark
+              onClick={(e) => navigate(`account/${item.key}`)}
+            >
               Account Number : {<b>{item.key}</b>}
             </Typography.Text>{' '}
             {item}
