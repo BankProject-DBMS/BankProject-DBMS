@@ -16,6 +16,7 @@ import LoanList from './Forms/LoanList';
 import CustomerLogin from './pages/LoginPages/CustomerLogin';
 import EmployeeLogin from './pages/LoginPages/EmployeeLogin';
 import RequireAuth from './utils/RequireAuth';
+import OnlineBanking from './pages/CustomerPortalPages/OnlineBanking';
 
 // import for customer portal
 import CustomerHome from './pages/CustomerHome';
@@ -71,6 +72,7 @@ function App() {
               <RequireAuth redirectTo='/customerLogin' authRole={'customer'}>
                 <Route exact path='' element={<CustomerHome />} />
                 <Route path='account/:accountID' element={<AccountView />} />
+                <Route path='onlineBanking' element={<OnlineBanking />} />
               </RequireAuth>
             }
           ></Route>
