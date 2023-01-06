@@ -43,14 +43,14 @@ Account.findById = (id, req, result) => {
 
     if (res.length) {
       if (
-        !(
-          req.user.role === 'customer' &&
-          req.user.CustomerID === res[0].CustomerID
-        )
+        req.user.role === 'customer' &&
+        !(req.user.CustomerID === res[0].CustomerID)
       ) {
         console.log('no access');
         result({ kind: 'access denied' }, null);
+        return;
       }
+
       console.log('found account: ', res[0]);
       result({ kind: 'success' }, res[0]);
     } else {
