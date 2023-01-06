@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { HOST } from './config';
+import { customerAxios } from './customerAuth';
 
 // get all accounts in the bank
 export async function getAccounts() {
@@ -26,7 +27,7 @@ export async function addAccount(newAccount) {
 // get details of account given account id
 export async function getAccount(accountID) {
   try {
-    const response = await axios.get(`${HOST}/accounts/${accountID}`);
+    const response = await customerAxios.get(`${HOST}/accounts/${accountID}`);
     return response.data;
   } catch (err) {
     console.log(err);

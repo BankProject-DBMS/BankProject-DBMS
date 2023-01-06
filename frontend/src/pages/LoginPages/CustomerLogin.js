@@ -1,6 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Card } from 'antd';
-import { loginCustomer } from '../../api/customerLogin';
+import { customerLogin } from '../../api/customerAuth';
 import * as Yup from 'yup';
 // Use this instead https://github.com/jannikbuschke/formik-antd
 export default function CustomerLogin() {
@@ -14,7 +14,7 @@ export default function CustomerLogin() {
       userName: values.username,
       password: values.password,
     };
-    loginCustomer({ loginDetails }).then((response) => {
+    customerLogin({ loginDetails }).then((response) => {
       console.log(response);
       setSubmitting(false);
     });

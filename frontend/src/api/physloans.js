@@ -9,7 +9,7 @@ export async function getCustomerPhysicalLoans(customerID) {
     );
     return response.data;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return await Promise.reject('Failed to get physical loans list!');
   }
 }
