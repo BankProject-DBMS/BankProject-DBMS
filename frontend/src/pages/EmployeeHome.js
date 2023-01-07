@@ -4,6 +4,7 @@ import { Breadcrumb, Layout, Menu, Button } from 'antd';
 import CustomerHandling from './EmployeePortalPages/CustomerHandling';
 import AccountHandling from './EmployeePortalPages/AccountHandling';
 import LoanHandling from './EmployeePortalPages/LoanHandling';
+import WithdrawalHandling from './EmployeePortalPages/WithdrawalHandling';
 import { customerLogout } from '../api/auth';
 import Logo from './Images/Logo2.png';
 import './PageStyling/EmployeeHome.css';
@@ -21,9 +22,10 @@ function getItem(label, key, component, icon, children) {
 }
 
 const items = [
-  getItem('Customer Management', '0', <CustomerHandling />),
-  getItem('Account Management', '1', <AccountHandling />),
-  getItem('Loan Management', '2', <LoanHandling />),
+  getItem('Customer', '0', <CustomerHandling />),
+  getItem('Account', '1', <AccountHandling />),
+  getItem('Loan', '2', <LoanHandling />),
+  getItem('Withdrawal', '3', <WithdrawalHandling />),
 ];
 
 export default function EmployeeHome() {
