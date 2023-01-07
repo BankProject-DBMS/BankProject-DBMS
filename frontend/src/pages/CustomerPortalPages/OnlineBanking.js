@@ -51,7 +51,7 @@ export default function OnlineBanking() {
       label: 'a danger item',
     },
   ];
-  const App = () => (
+  return (
     <Dropdown
       menu={{
         items,
