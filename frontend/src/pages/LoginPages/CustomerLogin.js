@@ -3,6 +3,8 @@ import { Button, Card } from 'antd';
 import { login } from '../../api/auth';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import '../PageStyling/LoginPage.css';
+import Logo from '../Images/Logo2.png';
 // Use this instead https://github.com/jannikbuschke/formik-antd
 export default function CustomerLogin() {
   const customerRegSchema = Yup.object().shape({
@@ -29,7 +31,10 @@ export default function CustomerLogin() {
 
   return (
     <div className='login-box'>
-      <Card hoverable title='LOG IN' style={{ width: 600 }}>
+      <div className='navbar'>
+        <img className='aruci--logo' src={Logo} onClick={() => navigate('/')} />
+      </div>
+      <Card hoverable title='LOG IN' className='login--card'>
         <Formik
           initialValues={{
             username: '',
