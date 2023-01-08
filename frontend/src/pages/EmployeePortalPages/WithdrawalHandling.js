@@ -10,9 +10,6 @@ export default function WithdrawalHandling() {
       <div>
         <Link to='withdrawal-list'>Withdrawal List</Link>
       </div>
-      <div>
-        <Link to='withdrawal-findbyid'>Account Withdrawal</Link>
-      </div>
     </div>
   );
 }

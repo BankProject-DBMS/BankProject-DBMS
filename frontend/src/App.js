@@ -9,8 +9,7 @@ import CustomerList from './Forms/CustomerList';
 import CustomerEditor from './pages/EmployeePortalPages/CustomerEditor';
 import AccountReg from './Forms/AccountReg';
 import AccountList from './Forms/AccountsList';
-import AccountView from './pages/CustomerPortalPages/AccountView';
-import FixedDepositView from './pages/CustomerPortalPages/FixedDepositView';
+
 import FixedDepositReg from './Forms/FixedDepositReg';
 import LoanReg from './Forms/LoanReg';
 import LoanList from './Forms/LoanList';
@@ -18,10 +17,13 @@ import CustomerLogin from './pages/LoginPages/CustomerLogin';
 import EmployeeLogin from './pages/LoginPages/EmployeeLogin';
 import RequireAuth from './utils/RequireAuth';
 import OnlineBanking from './pages/CustomerPortalPages/OnlineBanking';
+import WithdrawalList from './Forms/WithdrawalList';
+import WithdrawalCreate from './Forms/WithdrawalCreate';
 
 // import for customer portal
 import CustomerHome from './pages/CustomerHome';
-
+import AccountView from './pages/CustomerPortalPages/AccountView';
+import FixedDepositView from './pages/CustomerPortalPages/FixedDepositView';
 // import for home page
 import HomePage from './pages/HomePage';
 
@@ -50,11 +52,21 @@ function App() {
                 <Route path='account-register' element={<AccountReg />} />
                 <Route path='account-list' element={<AccountList />} />
                 <Route
+                  path='account-list/:accountID'
+                  element={<AccountView />}
+                />
+                <Route
                   path='fixed-deposit-register'
                   element={<FixedDepositReg />}
                 />
+
                 <Route path='loan-register' element={<LoanReg />} />
                 <Route path='loan-list' element={<LoanList />} />
+                <Route path='withdrawal-list' element={<WithdrawalList />} />
+                <Route
+                  path='withdrawal-newWithdrawal'
+                  element={<WithdrawalCreate />}
+                />
               </RequireAuth>
             }
           ></Route>

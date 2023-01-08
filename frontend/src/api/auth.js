@@ -26,7 +26,7 @@ export async function login(credentials) {
       const response = await axios.post(`${HOST}/login/employee`, credentials);
       if (response.data.auth === 'success') {
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('tokenExpiration', Date.now() + 900000);
+        localStorage.setItem('tokenExpiration', Date.now() + 7200000);
         localStorage.setItem('role', response.data.role);
         return response.data;
       } else {
@@ -41,6 +41,8 @@ export async function login(credentials) {
 export async function customerLogout() {
   try {
     localStorage.removeItem('token');
+    localStorage.removeItem('tokenExpiration');
+    localStorage.removeItem('role');
     return await Promise.resolve('Logout Successful');
   } catch (error) {
     return await Promise.reject('Logout Error: ', error);

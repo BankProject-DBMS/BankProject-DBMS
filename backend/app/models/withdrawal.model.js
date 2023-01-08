@@ -18,7 +18,7 @@ Withdrawal.getAll = (transactionID, result) => {
       return;
     }
 
-    // console.log('Withdrawals: ', res);
+    console.log('Withdrawals: ', res);
     result(null, res);
     return;
   });
@@ -45,22 +45,27 @@ Withdrawal.findById = (id, result) => {
 };
 
 Withdrawal.findByAccountId = (accountid, result) => {
-  sql.query('SELECT * FROM Withdrawal WHERE AccountID = ?', accountid, (err, res) => {
-    if (err) {
-      console.log('error: ', err);
-      result(err, null);
-      return;
-    }
+  sql.query(
+    'SELECT * FROM Withdrawal WHERE AccountID = ?',
+    accountid,
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result(err, null);
+        return;
+      }
 
-    if (res.length) {
-      console.log('found withdrawal: ', res);
-      result(null, res);
-      return;
+      if (res.length) {
+        console.log('found withdrawal: ', res);
+        result(null, res);
+        return;
+      }
     }
-  });
+  );
 };
 
 Withdrawal.create = (newWithdrawal, result) => {
+  console.log('model withdrawal:', newWithdrawal);
   sql.query('INSERT INTO Withdrawal SET ?', newWithdrawal, (err, res) => {
     if (err) {
       console.log('error: ', err);
@@ -75,37 +80,40 @@ Withdrawal.create = (newWithdrawal, result) => {
     query0 = `select balance from cashaccount where accountid = ?`;
     query1 = `select typeid from cashaccount where accountid = ?`;
 
-    sql.query(query0, [account], (err,res)=>{
+    sql.query(query0, [account], (err, res) => {
       if (err) {
         console.log('error: ', err);
-        result( err, null);
+        result(err, null);
         return;
       }
       balance = res;
     });
-    sql.query(query1, [account],(err, res)=>{
+    sql.query(query1, [account], (err, res) => {
       if (err) {
         console.log('error: ', err);
-        result( err, null);
+        result(err, null);
         return;
       }
-      if (res == "ST"){balance -= 500}
-      else if (res == "SA"){balance -= 1000}
-      else if (res == "SS"){balance -= 1000}
-      if (balance - amount < 0){
+      if (res == 'ST') {
+        balance -= 500;
+      } else if (res == 'SA') {
+        balance -= 1000;
+      } else if (res == 'SS') {
+        balance -= 1000;
+      }
+      if (balance - amount < 0) {
         console.log('Insufficient Balance');
-        result( 'Insuficient balance', null);
+        result('Insuficient balance', null);
         return;
       }
     });
-    
+
     query2 = `update cashaccount set balance = balance - ? where accountID = ? and wcount < 5`;
 
     sql.query(query2, [amount, account], (err, res) => {
-    
       if (err) {
         console.log('error: ', err);
-        result( err, null);
+        result(err, null);
         return;
       }
       result(null, newWithdrawal);
