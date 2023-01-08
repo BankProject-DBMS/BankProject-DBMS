@@ -11,3 +11,13 @@ export async function getCustomerOnlineLoans() {
     return await Promise.reject('Failed to get online deposits list!');
   }
 }
+
+export async function getOnlineLoanInstallment(accountID) {
+  try {
+    const response = await axios.get(`${HOST}/onlineLoanInstallment/${accountID}`);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return await Promise.reject('Failed to get installment list!');
+  }
+}

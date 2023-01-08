@@ -86,38 +86,20 @@ Transaction.findFromTo = (fromAccount, toAccount, result) => {
 
 // SQL query to create a new transaction
 Transaction.create = (newTransaction, result) => {
-  sql.query('INSERT INTO Transaction SET ?', newTransaction, (err, res) => {
+  const toAccount = newTransaction.FromAccount;
+  const fromAccount = newTransaction.ToAccount;
+  const amount = newTransaction.Amount;
+  const remark = newTransaction.Remark;
+  const query = 'CALL transfers_procedure(?, ?, ?, ?, @code)';
+  sql.query(query, [toAccount, fromAccount, amount, remark], (err, res) => {
     if (err) {
       console.log('error: ', err);
       result({ kind: 'error', ...err }, null);
       return;
     }
-
-    console.log('created transaction: ', newTransaction);
-    // after creating a transaction, update the balance of both accounts
-    const fromAccount = newTransaction.fromAccount;
-    const toAccount = newTransaction.toAccount;
-    const amount = newTransaction.amount;
-
-    const query1 = `UPDATE CashAccount SET Balance = Balance - ? WHERE AccountID = ?`;
-    const query2 = `UPDATE CashAccount SET Balance = Balance + ? WHERE AccountID = ?`;
-
-    console.log({ query1, query2 });
-    sql.query(query1, [amount, fromAccount], (err, res) => {
-      if (err) {
-        console.log('error: ', err);
-        result({ kind: 'error', ...err }, null);
-        return;
-      }
-      sql.query(query2, [amount, toAccount], (err, res) => {
-        if (err) {
-          console.log('error: ', err);
-          result({ kind: 'error', ...err }, null);
-          return;
-        }
-        result({ kind: 'success' }, newTransaction);
-      });
-    });
+    console.log('res: ', res);
+    console.log('created transaction: ', { ...newTransaction });
+    result({ kind: 'success' }, { ...newTransaction });
   });
 };
 
