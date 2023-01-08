@@ -41,7 +41,7 @@ export default function CustomerReg() {
         className='aruci--logo' 
         src={Logo}
         onClick={() => navigate('/employeePortal/')} />
-        <h1 className='topic'>Customer Registation</h1>
+        <h1 className='topic'>Customer Registration</h1>
       </div>
       <Card className='form'>
       <Formik
