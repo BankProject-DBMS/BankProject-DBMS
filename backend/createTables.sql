@@ -271,8 +271,10 @@ DELIMITER $$
 CREATE PROCEDURE withdrawals_procedure (IN ID int, IN amount int, IN remark varchar(50) , OUT code varchar(50))
 
 BEGIN
-	DECLARE balance int;
+	DECLARE balance decimal(15,2);
     DECLARE wCount int;
+    DECLARE new_b decimal(15,2);
+    DECLARE new_w int;
     
     DECLARE EXIT HANDLER FOR SQLEXCEPTION 
         BEGIN
@@ -280,11 +282,13 @@ BEGIN
             RESIGNAL;
         END;
 	
-    
+    -- SELECT ID,amount,remark;
     
     START TRANSACTION;
-		SET balance = (SELECT Balance FROM cashaccount WHERE AccountID = ID);
-		SET wCount = (SELECT WCount FROM cashaccount WHERE AccountID = ID);
+		SET wCount = (SELECT cashaccount.WCount FROM cashaccount WHERE AccountID = ID);
+		SET balance = (SELECT cashaccount.balance FROM cashaccount WHERE AccountID = ID);
+        
+        
         IF 0 >= wCount  THEN
 			ROLLBACK;
             SET code = 'Withdrawal Count Exceeded';
@@ -293,9 +297,12 @@ BEGIN
 				ROLLBACK;
                 SET code = 'Insufficient Balance';
             ELSE
+				SET new_w = WCount-1;
+                SET new_b = balance - amount;
+                SELECT new_b,new_w;
 				INSERT INTO withdrawal(AccountID, Amount, Remark) values (ID,amount,remark);
-                UPDATE cashaccount SET WCount = WCount -1 WHERE AccountID = ID;
-                UPDATE cashaccount SET Balance = Balance - amount WHERE AccountID = ID;
+                UPDATE cashaccount SET WCount = new_w  WHERE AccountID = ID;
+				UPDATE cashaccount SET Balance = new_b WHERE AccountID = ID;
 				COMMIT;	
 				SET code =  'SUCCESS';
 			END IF;
