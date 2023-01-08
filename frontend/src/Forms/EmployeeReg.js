@@ -1,39 +1,40 @@
+import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Button, Card } from 'antd';
-import { addCustomer } from '../api/customers';
+import { Card, Button } from 'antd';
+import { addEmployee } from '../api/employee';
 import * as Yup from 'yup';
-import { Navigate, useNavigate, Outlet } from 'react-router-dom';
 import Logo from '../pages/Images/Logo2.png';
-import '../pages/PageStyling/Navbar.css';
 
-// Use this instead https://github.com/jannikbuschke/formik-antd
-export default function CustomerReg() {
-  const customerRegSchema = Yup.object().shape({
+export default function EmployeeReg() {
+  const employeeRegSchema = Yup.object().shape({
     name: Yup.string().required(),
-    dob: Yup.date().required(),
-    address: Yup.string().required(),
-    phone: Yup.string()
-      .matches(/(^[0-9]+$|^\+[0-9]+$)/, 'Invalid Phone Number')
-      .min(10, 'Phone number must be at least 10 digits')
-      .max(12, 'Phone number must be at most 12 digits')
-      .required(),
-    occupation: Yup.string().required(),
+    position: Yup.string().required(),
+    branchID: Yup.number().required(),
+    isManager: Yup.boolean(),
+    onlineID: Yup.string().required(),
+    password: Yup.string().required(),
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
     setSubmitting(true);
-    const customer = {
+    console.log(values);
+    const newEmployee = {
       name: values.name,
-      dateofbirth: values.dob,
-      address: values.address,
-      phone: values.phone,
-      occupation: values.occupation,
+      position: values.position,
+      branchID: values.branchID,
+      isManager: values.isManager,
+      onlineID: values.onlineID,
+      password: values.password,
     };
-    addCustomer({ customer }).then(() => setSubmitting(false));
+    addEmployee(newEmployee)
+      .then(() => setSubmitting(false))
+      .catch((err) => {
+        console.log(err);
+        setSubmitting(false);
+      });
   };
 
   const navigate = useNavigate();
-
   return (
     <div>
       <div className='navbar'>
@@ -43,18 +44,19 @@ export default function CustomerReg() {
           alt='ARUCI Logo'
           onClick={() => navigate('/employeePortal/')}
         />
-        <h1 className='topic'>Customer Registration</h1>
+        <h1 className='topic'>Employee Registration</h1>
       </div>
       <Card className='form'>
         <Formik
           initialValues={{
             name: '',
-            dob: '',
-            address: '',
-            phone: '',
-            occupation: '',
+            position: '',
+            branchID: '',
+            isManager: false,
+            onlineID: '',
+            password: '',
           }}
-          validationSchema={customerRegSchema}
+          validationSchema={employeeRegSchema}
           onSubmit={handleSubmit}
         >
           {(props) => {
@@ -76,19 +78,30 @@ export default function CustomerReg() {
                   />
                 </span>
                 <span>
-                  <Field type='date' name='dob' placeholder='Date of Birth' />
-                </span>
-                <span>
-                  <Field type='text' name='address' placeholder='Address' />
-                </span>
-                <span>
-                  <Field type='text' name='phone' placeholder='Phone' />
+                  <Field type='text' name='position' placeholder='Position' />
                 </span>
                 <span>
                   <Field
-                    type='text'
-                    name='occupation'
-                    placeholder='Occupation'
+                    type='number'
+                    name='branchID'
+                    placeholder='Branch ID'
+                  />
+                </span>
+                <span>
+                  <Field
+                    type='checkbox'
+                    name='isManager'
+                    placeholder='Is Manager'
+                  />
+                </span>
+                <span>
+                  <Field type='text' name='onlineID' placeholder='Online ID' />
+                </span>
+                <span>
+                  <Field
+                    type='password'
+                    name='password'
+                    placeholder='Password'
                   />
                 </span>
 
@@ -103,11 +116,12 @@ export default function CustomerReg() {
                 {Object.values(props.touched).includes(true) &&
                   Object.values(props.errors).length !== 0 && (
                     <Card className='errors'>
-                      <ErrorMessage name='name' component='div' />
-                      <ErrorMessage name='dob' component='div' />
-                      <ErrorMessage name='address' component='div' />
-                      <ErrorMessage name='phone' component='div' />
-                      <ErrorMessage name='occupation' component='div' />
+                      <ErrorMessage name='name' />
+                      <ErrorMessage name='position' />
+                      <ErrorMessage name='branchID' />
+                      <ErrorMessage name='isManager' />
+                      <ErrorMessage name='onlineID' />
+                      <ErrorMessage name='password' />
                     </Card>
                   )}
               </Form>

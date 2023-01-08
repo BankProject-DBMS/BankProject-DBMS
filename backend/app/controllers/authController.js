@@ -24,15 +24,14 @@ exports.customerLogin = (req, res) => {
       });
     } else {
       hash = data.Password;
-      bcrypt.compare(password, hash, function(err, result) {
+      bcrypt.compare(password, hash, function (err, result) {
         // result == true
         if (err === 'error') {
-            res.status(500).send({
+          res.status(500).send({
             auth: 'fail',
             message: 'Error retrieving user',
           });
-        }
-        else if (result === true) {
+        } else if (result === true) {
           const token = jwt.sign({ ...data, role: 'customer' }, JWT_SECRET, {
             expiresIn: '2h',
           });
@@ -45,12 +44,10 @@ exports.customerLogin = (req, res) => {
             userName,
             token,
           });
-        }
-        else {
+        } else {
           res.status(401).send({ auth: 'fail', message: 'Incorrect Password' });
         }
-    });
-    
+      });
     }
   });
 };
@@ -74,15 +71,15 @@ exports.employeeLogin = (req, res) => {
     } else {
       if (data.Password === password) {
         // TODO
-        const token = jwt.sign({ ...data, role: 'employee' }, JWT_SECRET, {
+        const role = data.isManager ? 'manager' : 'employee';
+        const token = jwt.sign({ ...data, role: role }, JWT_SECRET, {
           expiresIn: '2h',
         });
         const employeeID = data.EmployeeID;
         const branchID = data.BranchID;
         res.send({
           auth: 'success',
-          role: 'employee',
-          expires: '15m',
+          role: role,
           employeeID,
           branchID,
           userName,

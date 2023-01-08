@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, useNavigate, Outlet } from 'react-router-dom';
 import { Breadcrumb, Layout, Menu, Button } from 'antd';
 import CustomerHandling from './EmployeePortalPages/CustomerHandling';
@@ -8,28 +8,44 @@ import WithdrawalHandling from './EmployeePortalPages/WithdrawalHandling';
 import { customerLogout } from '../api/auth';
 import Logo from './Images/Logo2.png';
 import './PageStyling/EmployeeHome.css';
+import ManagerReports from './EmployeePortalPages/ManagerReports';
+import EmployeeHandling from './EmployeePortalPages/EmployeeHandling';
 
 const { Header, Content, Footer } = Layout;
 
-function getItem(label, key, component, icon, children) {
+function getItem(label, key, component, disabled, icon, children) {
   return {
     key,
     icon,
     children,
     label,
     component,
+    disabled,
   };
 }
 
-const items = [
-  getItem('Customer', '0', <CustomerHandling />),
-  getItem('Account', '1', <AccountHandling />),
-  getItem('Loan', '2', <LoanHandling />),
-  getItem('Withdrawal', '3', <WithdrawalHandling />),
-];
-
 export default function EmployeeHome() {
-  const [Links, setLinks] = React.useState(<h1>ARUCI</h1>);
+  const [Links, setLinks] = useState(<h1>ARUCI</h1>);
+  const [items, setItems] = useState([
+    getItem('Customer', '0', <CustomerHandling />),
+    getItem('Account', '1', <AccountHandling />),
+    getItem('Loan', '2', <LoanHandling />),
+    getItem('Withdrawal', '3', <WithdrawalHandling />),
+    getItem('Employee', '4', <EmployeeHandling />, true),
+    getItem('Reports', '5', <ManagerReports />, true),
+  ]);
+
+  useEffect(() => {
+    const role = localStorage.getItem('role');
+    if (role === 'manager') {
+      setItems((oldItems) => {
+        let newItems = [...oldItems];
+        newItems[4].disabled = false;
+        newItems[5].disabled = false;
+        return newItems;
+      });
+    }
+  }, []);
 
   function handleClick(event) {
     console.log(items[event.key].label);
@@ -58,7 +74,6 @@ export default function EmployeeHome() {
           />
         </div>
         <div className='employeePortal--buttons'>
-
           <Button
             danger
             className='employeePortal--button'

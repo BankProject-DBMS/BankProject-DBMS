@@ -76,4 +76,16 @@ Employee.findByUsername = (userName, result) => {
     }
   );
 };
+
+Employee.createEmployee = (newEmployee, result) => {
+  sql.query('INSERT INTO Employee SET ?', newEmployee, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error', err }, null);
+      return;
+    }
+    console.log('created employee: ', newEmployee);
+    result({ kind: 'success' }, newEmployee);
+  });
+};
 module.exports = Employee;

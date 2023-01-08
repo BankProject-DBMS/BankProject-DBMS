@@ -87,46 +87,39 @@ let tokenValidation = async (req, res, next) => {
 
             // req.user = _.pick(user, models.User.returnable);
           }
-        } else if (decodedToken.role === 'employee') {
+        } else if (
+          decodedToken.role === 'employee' ||
+          decodedToken.role === 'manager'
+        ) {
           console.log('is employee');
           console.log(`params: ${req.params}`);
 
           if (decodedToken.expired) {
-            let decoded = jwt.decode(token);
-            //console.log(decoded.Username);
-            const user = onlineEmployeeModel.findByUsername(
-              decoded.OnlineID,
-              (err, res) => {
-                console.log('Result:');
-                console.log(res);
-              }
-            );
-            console.log(user);
-            user.token = jwt.sign(
-              {
-                user,
-              },
-              JWT_SECRET,
-              {
-                expiresIn: '15m', //change
-              }
-            );
-            req.user = { user, role: decoded.role };
-            next();
+            res.status(401).json({
+              status: 400,
+              message: 'Token Expired',
+            });
           } else {
             let decoded = jwt.decode(token);
             console.log('not expired');
 
-            onlineEmployeeModel.findByUsername(decoded.OnlineID, (err, res) => {
-              if (err) {
-                console.log({ err });
+            onlineEmployeeModel.findByUsername(
+              decoded.OnlineID,
+              (err, response) => {
+                if (err.kind !== 'success') {
+                  res.status(400).json({
+                    status: 400,
+                    message: 'Error with your token',
+                  });
+                  return;
+                }
+                let user = response;
+                user.token = token;
+                user.role = decoded.role;
+                req.user = user;
+                next();
               }
-              let user = res;
-              user.token = token;
-              user.role = decoded.role;
-              req.user = user;
-              next();
-            });
+            );
 
             console.log('user employee got in jwt authorization');
 

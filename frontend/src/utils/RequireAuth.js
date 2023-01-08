@@ -1,5 +1,9 @@
 import { Navigate } from 'react-router-dom';
-import { customerLoggedIn, employeeLoggedIn } from '../api/auth';
+import {
+  customerLoggedIn,
+  employeeLoggedIn,
+  managerLoggedIn,
+} from '../api/auth';
 import { Routes } from 'react-router-dom';
 
 export default function RequireAuth({ children, redirectTo, authRole }) {
@@ -8,7 +12,12 @@ export default function RequireAuth({ children, redirectTo, authRole }) {
   let isAuthenticated = false;
   if (role === 'customer' && authRole === 'customer') {
     isAuthenticated = customerLoggedIn();
-  } else if (role === 'employee' && authRole === 'employee') {
+  } else if (role === 'manager' && authRole === 'manager') {
+    isAuthenticated = managerLoggedIn();
+  } else if (
+    (role === 'employee' || role === 'manager') &&
+    authRole === 'employee'
+  ) {
     isAuthenticated = employeeLoggedIn();
   }
   return isAuthenticated ? (

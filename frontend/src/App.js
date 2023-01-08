@@ -9,6 +9,8 @@ import CustomerList from './Forms/CustomerList';
 import CustomerEditor from './pages/EmployeePortalPages/CustomerEditor';
 import AccountReg from './Forms/AccountReg';
 import AccountList from './Forms/AccountsList';
+import EmployeeReg from './Forms/EmployeeReg';
+import EmployeeList from './Forms/EmpoyeeList';
 
 import FixedDepositReg from './Forms/FixedDepositReg';
 import LoanReg from './Forms/LoanReg';
@@ -58,6 +60,10 @@ function App() {
                   path='online-customer-register'
                   element={<OnlineBankingReg />}
                 />
+
+                <Route path='employee-register' element={<EmployeeReg />} />
+                <Route path='employee-list' element={<EmployeeList />} />
+
                 <Route path='account-register' element={<AccountReg />} />
                 <Route path='account-list' element={<AccountList />} />
                 <Route
