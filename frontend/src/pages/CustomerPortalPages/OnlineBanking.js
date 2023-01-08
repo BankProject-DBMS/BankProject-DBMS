@@ -55,6 +55,7 @@ export default function OnlineBanking() {
           className='aruci--logo'
           src={Logo}
           onClick={() => navigate('/employeePortal/')}
+          alt='logo'
         />
         <h1 className='topic'>Online Banking</h1>
       </div>

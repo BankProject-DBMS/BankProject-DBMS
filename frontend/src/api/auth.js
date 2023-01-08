@@ -34,7 +34,7 @@ export async function login(credentials) {
       }
     }
   } catch (error) {
-    return await Promise.reject('Login Error: ', error);
+    return await Promise.reject(error.message);
   }
 }
 
