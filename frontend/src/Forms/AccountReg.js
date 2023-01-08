@@ -1,7 +1,11 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Button } from 'antd';
+import { Button, Card } from 'antd';
 import { addAccount } from '../api/accounts';
 import * as Yup from 'yup';
+import { Navigate, useNavigate, Outlet } from 'react-router-dom';
+import Logo from '../pages/Images/Logo2.png';
+import '../pages/PageStyling/Navbar.css'
+
 // Use this instead https://github.com/jannikbuschke/formik-antd
 export default function AccountReg() {
   // this is the schema for the form validation using Yup
@@ -24,14 +28,23 @@ export default function AccountReg() {
     };
     addAccount({ account }).then(() => setSubmitting(false));
   };
+  const navigate = useNavigate();
   return (
     <div>
+      <div className='navbar'>
+        <img 
+        className='aruci--logo' 
+        src={Logo}
+        onClick={() => navigate('/employeePortal/')} />
+        <h1 className='topic'>Account Registration</h1>
+      </div>
+      <Card className='form'>
       <Formik
         initialValues={{
           customerID: '',
           accountType: '',
           initialBalance: '',
-          initialWithdrawals: '0',
+          initialWithdrawals: '',
         }}
         validationSchema={accountRegSchema}
         onSubmit={handleSubmit}
@@ -87,17 +100,18 @@ export default function AccountReg() {
               </Button>
               {Object.values(props.touched).includes(true) &&
                 Object.values(props.errors).length !== 0 && (
-                  <div className='account--reg--form--errors'>
+                  <Card className='errors'>
                     <ErrorMessage name='customerID' component='div' />
                     <ErrorMessage name='accountType' component='div' />
                     <ErrorMessage name='initialBalance' component='div' />
                     <ErrorMessage name='initialWithdrawals' component='div' />
-                  </div>
+                  </Card>
                 )}
             </Form>
           );
         }}
       </Formik>
+      </Card>
     </div>
   );
 }

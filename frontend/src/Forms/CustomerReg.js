@@ -1,7 +1,11 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Button } from 'antd';
+import { Button , Card} from 'antd';
 import { addCustomer } from '../api/customers';
 import * as Yup from 'yup';
+import { Navigate, useNavigate, Outlet } from 'react-router-dom';
+import Logo from '../pages/Images/Logo2.png';
+import '../pages/PageStyling/Navbar.css'
+
 // Use this instead https://github.com/jannikbuschke/formik-antd
 export default function CustomerReg() {
   const customerRegSchema = Yup.object().shape({
@@ -27,8 +31,19 @@ export default function CustomerReg() {
     };
     addCustomer({ customer }).then(() => setSubmitting(false));
   };
+
+  const navigate = useNavigate();
+
   return (
     <div>
+      <div className='navbar'>
+        <img 
+        className='aruci--logo' 
+        src={Logo}
+        onClick={() => navigate('/employeePortal/')} />
+        <h1 className='topic'>Customer Registation</h1>
+      </div>
+      <Card className='form'>
       <Formik
         initialValues={{
           name: '',
@@ -81,18 +96,20 @@ export default function CustomerReg() {
               </Button>
               {Object.values(props.touched).includes(true) &&
                 Object.values(props.errors).length !== 0 && (
-                  <div className='customer--reg--form--errors'>
+                  
+                  <Card className='errors'>
                     <ErrorMessage name='name' component='div' />
                     <ErrorMessage name='dob' component='div' />
                     <ErrorMessage name='address' component='div' />
                     <ErrorMessage name='phone' component='div' />
                     <ErrorMessage name='occupation' component='div' />
-                  </div>
+                  </Card>
                 )}
             </Form>
           );
         }}
       </Formik>
+      </Card>
     </div>
   );
 }

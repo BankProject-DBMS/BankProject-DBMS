@@ -1,0 +1,23 @@
+.navbar {
+    height: 60px;
+    display: flex;
+    padding: 14px 20px;
+    box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
+    background-color: aliceblue;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+.table {
+    margin: 2% 1%;
+}
+
+.form {
+    margin: 2% 1%;
+}
+.errors {
+    margin: 2% 1%;
+    color: red;
+}
