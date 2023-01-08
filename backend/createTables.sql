@@ -1,8 +1,10 @@
 CREATE SCHEMA IF NOT EXISTS DBMS_BankApp;
 use DBMS_BankApp;
 drop table if exists PhysicalLoanInstallment,OnlineLoanInstallment,OnlineLoan,PhysicalLoan,Deposit,Withdrawal,Transaction,FDAccount,CashAccount,LoanType,CashAccountType,FDAccountType,OnlineCustomer,Customer,Employee,Branch;
-drop procedure if exists generate_installments;
-drop trigger if exists gen_installments_on_loan_approve;
+drop procedure if exists generate_physical_installments;
+drop procedure if exists generate_online_installments;
+drop trigger if exists gen_physical_installments_on_loan_approve;
+drop trigger if exists gen_online_installments_on_loan_approve;
 
 CREATE Table Branch (
 	BranchID INT NOT NULL AUTO_INCREMENT,
@@ -213,7 +215,7 @@ CREATE TABLE PhysicalLoanInstallment (
 );
 
 DELIMITER $$
-create procedure generate_installments(IN LoanID int, IN installmentCount smallint ,IN approvedDate timestamp, IN loanAmount int)
+create procedure generate_physical_installments(IN LoanID int, IN installmentCount smallint ,IN approvedDate timestamp, IN loanAmount int)
 begin
 	declare i smallint;
     declare installmentAmount int;
@@ -230,12 +232,40 @@ end$$
 DELIMITER ;
 
 DELIMITER $$
-create trigger gen_installments_on_loan_approve
-	after insert on PhysicalLoan for each row
+create procedure generate_online_installments(IN LoanID int, IN installmentCount smallint ,IN approvedDate timestamp, IN loanAmount int)
 begin
-	call generate_installments(NEW.LoanID, NEW.Duration, NEW.DateCreated, NEW.Amount);
+	declare i smallint;
+    declare installmentAmount int;
+    declare installmentDate timestamp;
+    set installmentAmount = loanAmount/installmentCount;
+    set installmentDate = approvedDate;
+    set i = 1;
+    while i <= installmentCount do
+		set installmentDate = timestampadd(MONTH, 1, installmentDate);
+    	insert into OnlineLoanInstallment (LoanID, DeadlineDate, Amount, Paid) values (LoanID, installmentDate, installmentAmount, false);
+        set i = i + 1;
+    end while;
 end$$
 DELIMITER ;
+
+DELIMITER $$
+create trigger gen_physical_installments_on_loan_approve
+	after update on PhysicalLoan for each row
+begin
+    if OLD.Approved = false and NEW.Approved = true then
+    	call generate_physical_installments(NEW.LoanID, NEW.Duration, NEW.DateCreated, NEW.Amount);
+    end if;
+end$$
+DELIMITER ;
+
+DELIMITER $$
+create trigger gen_online_installments_on_loan_approve
+	after insert on PhysicalLoan for each row
+begin
+    call generate_online_installments(NEW.LoanID, NEW.Duration, NEW.DateCreated, NEW.Amount);
+end$$
+DELIMITER ;
+
 -- suggestions for upgrading the database
 -- 1. give special privilages to customers who are also employees
 -- 2. refresh the wcount of the cash account at the end of the month
