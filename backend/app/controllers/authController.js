@@ -9,6 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 exports.customerLogin = (req, res) => {
   const userName = req.body.loginDetails.userName;
   const password = req.body.loginDetails.password;
+  const bcrypt = require('bcrypt');
 
   onlineCustomers.findByUsername(userName, (err, data) => {
     if (err.kind === 'not_found') {
@@ -22,22 +23,34 @@ exports.customerLogin = (req, res) => {
         message: 'Error retrieving user',
       });
     } else {
-      if (data.Password === password) {
-        const token = jwt.sign({ ...data, role: 'customer' }, JWT_SECRET, {
-          expiresIn: '2h',
-        });
-        const customerID = data.CustomerID;
-        res.send({
-          auth: 'success',
-          role: 'customer',
-          expires: '15m',
-          customerID,
-          userName,
-          token,
-        });
-      } else {
-        res.status(401).send({ auth: 'fail', message: 'Incorrect Password' });
-      }
+      hash = data.Password;
+      bcrypt.compare(password, hash, function(err, result) {
+        // result == true
+        if (err === 'error') {
+            res.status(500).send({
+            auth: 'fail',
+            message: 'Error retrieving user',
+          });
+        }
+        else if (result === true) {
+          const token = jwt.sign({ ...data, role: 'customer' }, JWT_SECRET, {
+            expiresIn: '2h',
+          });
+          const customerID = data.CustomerID;
+          res.send({
+            auth: 'success',
+            role: 'customer',
+            expires: '2h',
+            customerID,
+            userName,
+            token,
+          });
+        }
+        else {
+          res.status(401).send({ auth: 'fail', message: 'Incorrect Password' });
+        }
+    });
+    
     }
   });
 };

@@ -45,7 +45,7 @@ CREATE TABLE OnlineCustomer
 	OnlineID INT NOT NULL AUTO_INCREMENT,
     Username varchar(12),
     CustomerID INT,
-    Password varchar(10),
+    Password varchar(100),
     PRIMARY KEY (OnlineID),
     foreign key (CustomerID) 
         references Customer(CustomerID)

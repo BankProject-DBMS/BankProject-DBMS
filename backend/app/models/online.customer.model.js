@@ -7,18 +7,31 @@ const OnlineCustomer = function (onlineCustomer) {
 };
 
 OnlineCustomer.create = (newOnlineCustomer, result) => {
+  const bcrypt = require('bcrypt');
+  const saltRounds = 10;
   console.log('in create ', newOnlineCustomer);
   const query = `INSERT INTO OnlineCustomer SET ?`;
-  sql.query(query, newOnlineCustomer, (err, res) => {
+
+  bcrypt.hash(newOnlineCustomer.password, saltRounds, function(err, hash) {
+    // Store hash in your password DB.
     if (err) {
       console.log('error: ', err);
       result({ kind: 'error', ...err }, null);
       return;
     }
-
-    console.log('created online customer: ', { ...newOnlineCustomer });
-    result({ kind: 'success ' }, { ...newOnlineCustomer });
-  });
+    newOnlineCustomer.password = hash;
+    sql.query(query, newOnlineCustomer, (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error', ...err }, null);
+        return;
+      }
+  
+      console.log('created online customer: ', { ...newOnlineCustomer });
+      result({ kind: 'success ' }, { ...newOnlineCustomer });
+    });
+});
+  
 };
 
 OnlineCustomer.findByUsername = (username, result) => {
