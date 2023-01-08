@@ -10,6 +10,7 @@ const onlineLoan = function (loan) {
 
 //get all phyical loans for a given customer ID or get all online loans
 onlineLoan.getAll = (customerID, result) => {
+  console.log('in get all');
   let query =
     'SELECT LoanID, Amount, FDAccountID, SavingsAccountID from OnlineLoan';
 
@@ -34,6 +35,7 @@ onlineLoan.getAll = (customerID, result) => {
 };
 
 onlineLoan.getInstallmentsByAccountID = (accountID, req, result) => {
+  console.log('in get installments by account id');
   sql.query(
     'SELECT * from onlineloaninstallment WHERE AccountID = ?',
     accountID,

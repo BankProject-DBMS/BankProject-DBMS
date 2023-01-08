@@ -102,7 +102,7 @@ export default function CustomerHome(props) {
         dataSource={fdList}
         renderItem={(item) => (
           <List.Item>
-            <Typography.Text 
+            <Typography.Text
               mark
               onClick={(e) => navigate(`fixedDeposits/${item.key}`)}
             >
@@ -129,8 +129,11 @@ export default function CustomerHome(props) {
         dataSource={pLoanList}
         renderItem={(item) => (
           <List.Item>
-            <Typography.Text mark>
-              Loan ID Number : {<b>{item.key}</b>}
+            <Typography.Text
+              mark
+              onClick={(e) => navigate(`physicalLoan/${item.key}`)}
+            >
+              Physical Loan ID : {<b>{item.key}</b>}
             </Typography.Text>{' '}
             {item}
           </List.Item>
@@ -151,8 +154,11 @@ export default function CustomerHome(props) {
         dataSource={oLoanList}
         renderItem={(item) => (
           <List.Item>
-            <Typography.Text mark>
-              Account Number : {<b>{item.key}</b>}
+            <Typography.Text
+              mark
+              onClick={(e) => navigate(`onlineLoan/${item.key}`)}
+            >
+              Online Loan ID : {<b>{item.key}</b>}
             </Typography.Text>{' '}
             {item}
           </List.Item>

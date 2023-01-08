@@ -17,6 +17,7 @@ export async function getOnlineLoanInstallment(accountID) {
     const response = await axios.get(
       `${HOST}/onlineLoans/onlineLoanInstallment/${accountID}`
     );
+    console.log(response.data);
     return response.data;
   } catch (err) {
     console.log(err);

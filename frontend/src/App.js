@@ -27,6 +27,8 @@ import OnlineBankingReg from './Forms/OnlineCustomerReg';
 import CustomerHome from './pages/CustomerHome';
 import AccountView from './pages/CustomerPortalPages/AccountView';
 import FixedDepositView from './pages/CustomerPortalPages/FixedDepositView';
+import OnlineLoanView from './pages/CustomerPortalPages/OnlineLoanView';
+import PhysicalLoanView from './pages/CustomerPortalPages/PhysicalLoanView';
 // import for home page
 import HomePage from './pages/HomePage';
 
@@ -95,10 +97,9 @@ function App() {
                 <Route exact path='' element={<CustomerHome />} />
                 <Route path='account/:accountID' element={<AccountView />} />
                 <Route path='onlineBanking' element={<OnlineBanking />} />
-                <Route
-                  path='fixedDeposits/:fixedDepositID'
-                  element={<FixedDepositView />}
-                />
+                <Route path='fixedDeposits/:fixedDepositID' element={<FixedDepositView />}/>
+                <Route path='onlineLoans/:onlineLoanID' element={<OnlineLoanView />}/>
+                <Route path='physicalLoans/:physicalLoanID' element={<PhysicalLoanView />}/>
               </RequireAuth>
             }
           ></Route>

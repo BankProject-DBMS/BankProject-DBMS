@@ -1,38 +1,33 @@
 import { useState, useEffect } from 'react';
-import { getAccount } from '../../api/accounts';
 import { Table } from 'antd';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../Images/Logo2.png';
 
-import {
-  getCreditTransactions,
-  getDebitTransactions,
-} from '../../api/transactions';
+import { getCustomerPhysicalLoans, getPhysicalLoanInstallment } from '../../api/physloans';
 
-export default function AccountView() {
-  const [account, setAccount] = useState();
-  const [creditTransactions, setCreditTransactions] = useState();
-  const [debitTransactions, setDebitTransactions] = useState();
+export default function PhysicalLoanView() {
+  const [loan, setLoan] = useState();
+  const [physicalLoanInstallment, setPhysicalLaonInstallment] = useState();
 
-  const { accountID } = useParams();
+  const { loanID } = useParams();
+
   useEffect(() => {
-    console.log(accountID);
-    getAccount(accountID).then((data) => setAccount(data));
-    getCreditTransactions(accountID).then((data) => setCreditTransactions(data));
-    getDebitTransactions(accountID).then((data) => setDebitTransactions(data));
-  }, [accountID]);
+    console.log(loanID);
+    getCustomerPhysicalLoans(loanID).then((data) => setLoan(data));
+    getPhysicalLoanInstallment(loanID).then((data) => setPhysicalLaonInstallment(data));
+  }, [loanID]);
 
   const columns = [
     {
-      title: 'Transaction ID',
-      dataIndex: 'transactionID',
-      key: 'transactionID',
+      title: 'Installment ID',
+      dataIndex: 'installmentID',
+      key: 'installmentID',
     },
     {
-      title: 'Transaction Time',
-      dataIndex: 'transactionTime',
-      key: 'transactionTime',
+      title: 'Deadline Date and Time',
+      dataIndex: 'deadlineDate',
+      key: 'deadlineDate',
     },
     {
       title: 'Amount',
@@ -40,9 +35,9 @@ export default function AccountView() {
       key: 'amount',
     },
     {
-      title: 'Remark',
-      dataIndex: 'remark',
-      key: 'remark',
+      title: 'Paid',
+      dataIndex: 'paid',
+      key: 'paid',
     },
   ];
   const navigate = useNavigate();
@@ -50,33 +45,59 @@ export default function AccountView() {
   return (
     <div>
       <div className='navbar'>
-        <img className='aruci--logo' src={Logo} onClick={() => navigate('/')} />
-        <h1 className='topic'>Account Details</h1>
+        <img className='aruci--logo' src={Logo} onClick={() => navigate('/customerPortal/')} />
+        <h1 className='topic'>Physical Loan Details</h1>
       </div>
       <div style={{ padding: '1%', margin: '2%', border: 'solid' }}>
         <p>
-          <b>Account ID: </b>
-          {account?.AccountID}
+          <b>Loan ID: </b>
+          {loan?.LoanID}
         </p>
         <p>
-          <b>Customer ID: </b>
-          {account?.CustomerID}
+          <b>Coustomer ID: </b>
+          {loan?.CustomerID}
+        </p>
+        <p>
+          <b>Savings Account ID: </b>
+          {loan?.SavingsAccountID}
+        </p>
+        <p>
+          <b>Branch ID: </b>
+          {loan?.BranchID}
+        </p>
+        <p>
+          <b>Employee ID: </b>
+          {loan?.EmployeeID}
+        </p>
+        <p>
+          <b>Amount: </b>Rs.{loan?.Amount}
+        </p>
+        <p>
+          <b>Saving Account ID: </b>
+          {loan?.SavingsAccountID}
         </p>
         <p>
           <b>Date Created: </b>
-          {account?.DateCreated}
+          {loan?.DateCreated}
         </p>
         <p>
-          <b>Balance: </b>Rs.{account?.Balance}
+          <b>Approved: </b>
+          {loan?.Approved}
         </p>
+        <p>
+          <b>Duration: </b>
+          {loan?.Duration}
+        </p>
+        <p>
+          <b>Interest Rate: </b>
+          {loan?.InterestRate}
+        </p>
+        
       </div>
 
       <div style={{ margin: '2% 2%' }}>
-        <h2>Credit Transactions</h2>
-        <Table columns={columns} dataSource={creditTransactions} />
-
-        <h2>Debit Transactions</h2>
-        <Table columns={columns} dataSource={debitTransactions} />
+        <h2>Physical Loan Installments</h2>
+        <Table columns={columns} dataSource={physicalLoanInstallment} />
       </div>
     </div>
   );
