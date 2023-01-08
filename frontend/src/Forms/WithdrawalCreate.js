@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 
 export default function WithdrawalCreate() {
   const withdrawalCreateSchema = Yup.object().shape({
-
     accountID: Yup.number().required().positive().integer(),
     amount: Yup.number().required().positive(),
     remark: Yup.string(),
@@ -18,10 +17,12 @@ export default function WithdrawalCreate() {
       amount: values.amount,
       remark: values.remark,
     };
+    console.log('Withdarawal', withdrawal);
     addWithdrawal({ withdrawal }).then(() => setSubmitting(false));
   };
   return (
     <div>
+      <h2>Record New Withdrawal</h2>
       <Formik
         initialValues={{
           accountID: '',
@@ -39,7 +40,7 @@ export default function WithdrawalCreate() {
             <Form className='withdrawal--create--form'>
               <span>
                 <Field
-                  type='number'
+                  type='text'
                   name='accountID'
                   placeholder='Account ID'
                   style={
@@ -47,8 +48,6 @@ export default function WithdrawalCreate() {
                       ? errorInputStyle
                       : null
                   }
-
-
                 />
               </span>
               <span>
@@ -57,7 +56,6 @@ export default function WithdrawalCreate() {
               <span>
                 <Field type='text' name='remark' placeholder='Remark' />
               </span>
-
 
               <Button
                 className='withdrawal--create--form--submit'
