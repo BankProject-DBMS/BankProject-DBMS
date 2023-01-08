@@ -36,6 +36,18 @@ export default function OnlineBanking() {
     createTransaction(transaction).then(() => setSubmitting(false));
   };
 
+  let options = accounts.map((account) => (
+    <option key={account.AccountID} value={account.AccountID}>
+      {account.AccountID}
+    </option>
+  ));
+  options = [
+    <option selected disabled>
+      Choose Account
+    </option>,
+    ...options,
+  ];
+
   return (
     <div>
       <div className='navbar'>
@@ -49,7 +61,7 @@ export default function OnlineBanking() {
       <Card className='form'>
         <Formik
           initialValues={{
-            myAccountID: '',
+            myAccountID: accounts[0]?.AccountID,
             toAccountID: '',
             amount: '',
             remarks: '',
@@ -63,11 +75,7 @@ export default function OnlineBanking() {
                 <span>
                   <label htmlFor='myAccountID'>My Account ID</label>
                   <Field as='select' name='myAccountID'>
-                    {accounts.map((account) => (
-                      <option key={account.AccountID} value={account.AccountID}>
-                        {account.AccountID}
-                      </option>
-                    ))}
+                    {options}
                   </Field>
                 </span>
                 <span>

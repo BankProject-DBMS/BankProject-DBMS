@@ -4,6 +4,7 @@ drop table if exists PhysicalLoanInstallment,OnlineLoanInstallment,OnlineLoan,Ph
 drop procedure if exists generate_physical_installments;
 drop procedure if exists generate_online_installments;
 drop procedure if exists withdrawals_procedure;
+drop procedure if exists transfers_procedure;
 drop trigger if exists gen_physical_installments_on_loan_approve;
 drop trigger if exists gen_online_installments_on_loan_approve;
 
@@ -309,6 +310,36 @@ BEGIN
         END IF;
 END$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE transfers_procedure (IN ID1 int, IN ID2 int, IN amount int, IN remark varchar(50), OUT code varchar(50))
+BEGIN 
+    DECLARE balance decimal(15,2);
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION 
+        BEGIN
+            ROLLBACK;
+            RESIGNAL;
+        END;
+	
+    START TRANSACTION;
+		SET balance = (SELECT CashAccount.balance FROM CashAccount WHERE AccountID = ID1);
+
+        IF 500>(balance - amount) THEN
+            ROLLBACK;
+            set code = 'Insufficient Balance';
+            select code;
+        ELSE
+            INSERT INTO Transaction(FromAccount, ToAccount, Amount, Remark) values (ID1,ID2,amount,remark);
+            UPDATE CashAccount SET Balance = Balance - amount WHERE AccountID = ID1;
+            UPDATE CashAccount SET Balance = Balance + amount WHERE AccountID = ID2;
+            COMMIT;
+            set code = 'SUCCESS';
+            select code;
+        END IF;
+END$$
+DELIMITER ;
+
+
 -- suggestions for upgrading the database
 -- 1. give special privilages to customers who are also employees
 -- 2. refresh the wcount of the cash account at the end of the month
