@@ -35,9 +35,9 @@ export async function getAccount(accountID) {
 }
 
 // get all cash accounts of a given customer id
-export async function getCustomerAccounts(customerID) {
+export async function getCustomerAccounts() {
   try {
-    const response = await axios.get(`${HOST}/accounts/customer/${customerID}`);
+    const response = await axios.get(`${HOST}/accounts/customer`);
     return response.data;
   } catch (err) {
     console.log(err);

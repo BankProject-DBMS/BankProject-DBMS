@@ -8,8 +8,13 @@ const Customer = function (customer) {
   this.occupation = customer.occupation;
 };
 
-Customer.getAll = (name, result) => {
+Customer.getAll = (name, req, result) => {
   let query = 'SELECT * FROM Customer';
+  if (req.user.role === 'customer') {
+    console.log('no access cust getall');
+    result({ kind: 'access denied' }, null);
+    return;
+  }
 
   if (name) {
     query += ` WHERE name LIKE ${sql.escape(`%${name}%`)}`;
@@ -28,7 +33,12 @@ Customer.getAll = (name, result) => {
   });
 };
 
-Customer.findById = (id, result) => {
+Customer.findById = (id, req, result) => {
+  if (req.user.role === 'customer') {
+    console.log('no access cust findbyid');
+    result({ kind: 'access denied' }, null);
+    return;
+  }
   sql.query('SELECT * FROM Customer WHERE customerID = ?', id, (err, res) => {
     if (err) {
       console.log('error: ', err);
@@ -44,7 +54,12 @@ Customer.findById = (id, result) => {
   });
 };
 
-Customer.create = (newCustomer, result) => {
+Customer.create = (newCustomer, req, result) => {
+  if (req.user.role === 'customer') {
+    console.log('no access cust create');
+    result({ kind: 'access denied' }, null);
+    return;
+  }
   sql.query('INSERT INTO Customer SET ?', newCustomer, (err, res) => {
     if (err) {
       console.log('error: ', err);
@@ -57,7 +72,12 @@ Customer.create = (newCustomer, result) => {
   });
 };
 
-Customer.remove = (id, result) => {
+Customer.remove = (id, req, result) => {
+  if (req.user.role === 'customer') {
+    console.log('no access cust remove');
+    result({ kind: 'access denied' }, null);
+    return;
+  }
   sql.query('DELETE FROM Customer WHERE CustomerID = ?', id, (err, res) => {
     if (err) {
       console.log('error: ', err);
@@ -80,8 +100,13 @@ Customer.removeAll = (result) => {
   });
 };
 
-Customer.updateById = (id, customer, result) => {
+Customer.updateById = (id, req, customer, result) => {
   console.log({ customer, id });
+  if (req.user.role === 'customer') {
+    console.log('no access cust update by id');
+    result({ kind: 'access denied' }, null);
+    return;
+  }
   sql.query(
     'UPDATE Customer SET Name = ?, dateOfBirth = ?, Address = ?, Phone = ?, occupation = ? WHERE CustomerID = ?',
     [

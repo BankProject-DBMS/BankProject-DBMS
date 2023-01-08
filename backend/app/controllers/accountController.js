@@ -2,9 +2,9 @@ const AccountModel = require('../models/account.model');
 
 // Retrieve all accounts for a customer or all accounts
 exports.findAll = (req, res) => {
-  console.log(req.params);
-  const customerID = req.params.customerID;
-  AccountModel.getAll(customerID, (err, data) => {
+  //console.log(req.params);
+  const customerID = req.user.CustomerID;
+  AccountModel.getAll(customerID, req, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
         message: `No accounts found for customer ${customerID}.`,
@@ -21,7 +21,7 @@ exports.findAll = (req, res) => {
 // Retrieve an account by ID
 exports.getFromID = (req, res) => {
   const accountID = req.params.id;
-  AccountModel.findById(accountID, (err, data) => {
+  AccountModel.findById(accountID, req, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
         message: `No account found with id ${accountID}.`,
@@ -29,6 +29,10 @@ exports.getFromID = (req, res) => {
     } else if (err.kind != 'success') {
       res.status(500).send({
         message: err.message || 'Some error occurred while retrieving account.',
+      });
+    } else if (err.kind === 'access denied') {
+      res.status(401).send({
+        message: err.message || 'Access Denied to Page',
       });
     } else res.send(data);
   });

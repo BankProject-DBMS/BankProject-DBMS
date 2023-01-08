@@ -21,7 +21,9 @@ OnlineCustomer.create = (newOnlineCustomer, result) => {
 };
 
 OnlineCustomer.findByUsername = (username, result) => {
+  console.log('in findUser');
   const query = `SELECT * FROM OnlineCustomer WHERE Username = ?`;
+
   sql.query(query, username, (err, res) => {
     if (err) {
       console.log('error: ', err);
@@ -30,6 +32,7 @@ OnlineCustomer.findByUsername = (username, result) => {
     }
 
     if (res.length) {
+      console.log(query);
       console.log('found online customer: ', res[0]);
       result({ kind: 'success' }, res[0]);
     } else {

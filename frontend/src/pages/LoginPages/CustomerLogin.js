@@ -1,27 +1,40 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Card } from 'antd';
-import { loginCustomer } from '../../api/customerLogin';
+import { login } from '../../api/auth';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import '../PageStyling/LoginPage.css';
+import Logo from '../Images/Logo2.png';
 // Use this instead https://github.com/jannikbuschke/formik-antd
 export default function CustomerLogin() {
   const customerRegSchema = Yup.object().shape({
     username: Yup.string().required(),
   });
 
+  const navigate = useNavigate();
+
   const handleSubmit = (values, { setSubmitting }) => {
     setSubmitting(true);
     const loginDetails = {
       userName: values.username,
       password: values.password,
+      role: 'customer',
     };
-    loginCustomer({ loginDetails }).then((response) => {
+    login({ loginDetails }).then((response) => {
       console.log(response);
       setSubmitting(false);
+      if (response.auth === 'success') {
+        navigate('/customerPortal');
+      }
     });
   };
+
   return (
     <div className='login-box'>
-      <Card hoverable title='LOG IN' style={{ width: 600 }}>
+      <div className='navbar'>
+        <img className='aruci--logo' src={Logo} onClick={() => navigate('/')} />
+      </div>
+      <Card hoverable title='LOG IN' className='login--card'>
         <Formik
           initialValues={{
             username: '',
@@ -60,7 +73,7 @@ export default function CustomerLogin() {
                   className='customer--reg--form--submit'
                   type='primary'
                   onClick={props.handleSubmit}
-                  disabled={props.isSubmitting}
+                  loading={props.isSubmitting}
                 >
                   Submit
                 </Button>

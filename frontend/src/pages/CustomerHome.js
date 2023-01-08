@@ -5,6 +5,13 @@ import { getCustomerAccounts } from '../api/accounts';
 import { getCustomerFDs } from '../api/fd';
 import { getCustomerPhysicalLoans } from '../api/physloans';
 import { getCustomerOnlineLoans } from '../api/onlineloans';
+import { customerLogout } from '../api/auth';
+import { getCustomer } from '../api/customers';
+
+// for navbar data
+import Logo from './Images/Logo2.png';
+import './PageStyling/CustomerHome.css';
+
 const { Header, Content, Footer } = Layout;
 
 export default function CustomerHome(props) {
@@ -13,31 +20,22 @@ export default function CustomerHome(props) {
   const [oloans, setOLoans] = React.useState([]);
   const [ploans, setPloans] = React.useState([]);
 
+  const navigate = useNavigate();
+
   React.useEffect(() => {
-    getCustomerAccounts(props.customerID)
+    getCustomerAccounts()
       .then((data) => setAccounts(data))
       .catch((err) => console.log(err));
-  }, [props?.customerID]);
-
-  React.useEffect(() => {
-    getCustomerFDs(props.customerID)
+    getCustomerFDs()
       .then((data) => setFDs(data))
       .catch((err) => console.log(err));
-  }, [props?.customerID]);
-
-  React.useEffect(() => {
-    getCustomerPhysicalLoans(props.customerID)
+    getCustomerPhysicalLoans()
       .then((data) => setPloans(data))
       .catch((err) => console.log(err));
-  }, [props?.customerID]);
-
-  React.useEffect(() => {
-    getCustomerOnlineLoans(props.customerID)
+    getCustomerOnlineLoans()
       .then((data) => setOLoans(data))
       .catch((err) => console.log(err));
-  }, [props?.customerID]);
-
-  const navigate = useNavigate();
+  }, []);
 
   const accountsList = accounts.map((account) => (
     <li key={account.AccountID}>
@@ -104,7 +102,10 @@ export default function CustomerHome(props) {
         dataSource={fdList}
         renderItem={(item) => (
           <List.Item>
-            <Typography.Text mark>
+            <Typography.Text 
+              mark
+              onClick={(e) => navigate(`fixedDeposits/${item.key}`)}
+            >
               Account Number : {<b>{item.key}</b>}
             </Typography.Text>{' '}
             {item}
@@ -162,10 +163,39 @@ export default function CustomerHome(props) {
 
   return (
     <div>
-      <ul>{cashAccs}</ul>
-      <ul>{fdAccs}</ul>
-      <ul>{pLoanAccs}</ul>
-      <ul>{oLoanAccs}</ul>
+      <div className='navbar'>
+        <img
+          className='aruci--logo'
+          src={Logo}
+          alt={'logo'}
+          onClick={() => navigate('/')}
+        />
+        <div className='customerPortal--buttons'>
+          <Button
+            className='customerPortal--button'
+            onClick={() => navigate('onlineBanking')}
+          >
+            Online Banking
+          </Button>
+          <Button
+            danger
+            className='customerPortal--button'
+            color='red'
+            onClick={() => {
+              customerLogout().then(() => navigate(`/customerLogin`));
+            }}
+          >
+            Logout
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <ul>{cashAccs}</ul>
+        <ul>{fdAccs}</ul>
+        <ul>{pLoanAccs}</ul>
+        <ul>{oLoanAccs}</ul>
+      </div>
     </div>
   );
 }
