@@ -2,6 +2,9 @@ import React from 'react';
 
 import { getCustomers } from '../api/customers';
 import { Table } from 'antd';
+import { Navigate, useNavigate, Outlet } from 'react-router-dom';
+import Logo from '../pages/Images/Logo2.png';
+import '../pages/PageStyling/Navbar.css'
 
 export default function CustomerList() {
   const columns = [
@@ -44,13 +47,21 @@ export default function CustomerList() {
       .catch((err) => console.log(err));
   }
 
+  const navigate = useNavigate();
+
   //loadCustomerList();
   //console.log(Customer);
   return (
     <div>
-      <h1>Customer List</h1>
+      <div className='navbar'>
+        <img 
+        className='aruci--logo' 
+        src={Logo}
+        onClick={() => navigate('/employeePortal/')} />
+        <h1 className='topic'>Customer List</h1>
+      </div>
 
-      {<Table dataSource={customers} columns={columns} />}
+      <div className='table'>{<Table dataSource={customers} columns={columns} />}</div>
     </div>
   );
 }
