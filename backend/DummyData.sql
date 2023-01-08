@@ -38,8 +38,8 @@ VALUES
 
 INSERT INTO CashAccountType(TypeID, Type, Minimum, WCountMax, InterestRate )
 VALUES
-	("C0", "Current", 0.00, 0, 0 ),
-    ("SC", "Children", 0.00, 5, 12 ),
+	("C0", "Current", 0.00, 1000000000, 0 ),
+    ("SC", "Children", 0.00, 0, 12 ),
     ("ST", "Teen", 500.00, 5, 11),
     ("SA", "Adult", 1000.00, 5, 10),
     ("SS", "Senior", 1000.00, 5, 13);

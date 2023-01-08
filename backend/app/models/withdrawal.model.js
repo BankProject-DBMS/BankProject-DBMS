@@ -66,59 +66,23 @@ Withdrawal.findByAccountId = (accountid, result) => {
 
 Withdrawal.create = (newWithdrawal, result) => {
   console.log('model withdrawal:', newWithdrawal);
-  sql.query('INSERT INTO Withdrawal SET ?', newWithdrawal, (err, res) => {
-    if (err) {
-      console.log('error: ', err);
-      result(err, null);
-      return;
+  sql.query(
+    'SELECT * FROM cashhaccount WHERE accountID = ?',
+    newWithdrawal.AccountID,
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result(err, null);
+        return;
+      }
+
+      if (res.Wcount === 0) {
+        console.log('Withdrawal Count Exceeded');
+        result(err, null);
+      } else {
+      }
     }
-
-    console.log('Created Withdrawal:', newWithdrawal);
-    const account = newWithdrawal.AccountID;
-    const amount = newWithdrawal.Amount;
-
-    query0 = `select balance from cashaccount where accountid = ?`;
-    query1 = `select typeid from cashaccount where accountid = ?`;
-
-    sql.query(query0, [account], (err, res) => {
-      if (err) {
-        console.log('error: ', err);
-        result(err, null);
-        return;
-      }
-      balance = res;
-    });
-    sql.query(query1, [account], (err, res) => {
-      if (err) {
-        console.log('error: ', err);
-        result(err, null);
-        return;
-      }
-      if (res == 'ST') {
-        balance -= 500;
-      } else if (res == 'SA') {
-        balance -= 1000;
-      } else if (res == 'SS') {
-        balance -= 1000;
-      }
-      if (balance - amount < 0) {
-        console.log('Insufficient Balance');
-        result('Insuficient balance', null);
-        return;
-      }
-    });
-
-    query2 = `update cashaccount set balance = balance - ? where accountID = ? and wcount < 5`;
-
-    sql.query(query2, [amount, account], (err, res) => {
-      if (err) {
-        console.log('error: ', err);
-        result(err, null);
-        return;
-      }
-      result(null, newWithdrawal);
-    });
-  });
+  );
 };
 
 module.exports = Withdrawal;
