@@ -48,4 +48,39 @@ physLoan.create = (newPhysLoan, result) => {
   });
 };
 
+physLoan.getInstallmentsByAccountID = (accountID, req, result) => {
+  sql.query(
+    'SELECT * from physicalloaninstallment WHERE AccountID = ?',
+    accountID,
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error', ...err }, null);
+        return;
+      }
+      sql.query(
+        'SELECT * from physicalloan WHERE LoanID = ?',
+        accountID,
+        (err, res) => {
+          if (res.length) {
+            console.log(res);
+            if (
+              req.user.role === 'customer' &&
+              !(req.user.CustomerID === res[0].CustomerID)
+            ) {
+              console.log('no access physical loan installments find by id');
+              result({ kind: 'access denied' }, null);
+              return;
+            }
+
+            console.log('found installments for account: ', res[0]);
+            result({ kind: 'success' }, res[0]);
+          } else {
+            result({ kind: 'not_found' }, null);
+          }
+        }
+      );
+    }
+  );
+};
 module.exports = physLoan;

@@ -22,3 +22,16 @@ export async function createPhysicalLoan(loan) {
     return await Promise.reject('Failed to create physical loan!');
   }
 }
+
+// get installments by loanID
+export async function getPhysicalLoanInstallment(accountID) {
+  try {
+    const response = await axios.get(
+      `${HOST}/physicalLoans/physicalLoanInstallment/${accountID}`
+    );
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return await Promise.reject('Failed to get installment list!');
+  }
+}

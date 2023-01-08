@@ -13,6 +13,10 @@ module.exports = (app) => {
     [jwtauth, isAccountOwnedByCustomer],
     physLoans.createPhysicalLoan
   );
-
+  router.get(
+    '/physicalLoanInstallment/:accountID',
+    [jwtauth],
+    physLoans.getAccountInstallments
+  );
   app.use('/physicalLoans', router);
 };

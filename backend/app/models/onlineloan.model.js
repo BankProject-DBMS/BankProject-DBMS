@@ -35,7 +35,7 @@ onlineLoan.getAll = (customerID, result) => {
 
 onlineLoan.getInstallmentsByAccountID = (accountID, req, result) => {
   sql.query(
-    'SELECT * from onlineinstallment WHERE AccountID = ?',
+    'SELECT * from onlineloaninstallment WHERE AccountID = ?',
     accountID,
     (err, res) => {
       if (err) {

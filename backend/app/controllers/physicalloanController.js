@@ -84,3 +84,22 @@ function calculateInterestRate(amount, duration) {
 
   return interestRate;
 }
+
+exports.getAccountInstallments = (req, res) => {
+  const accountID = req.params.accountID;
+  PhysLoanModel.getInstallmentsByAccountID(accountID, req, (err, data) => {
+    if (err.kind === 'not_found') {
+      res.status(404).send({
+        message: `No account found with id ${accountID}.`,
+      });
+    } else if (err.kind != 'success') {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while retrieving account.',
+      });
+    } else if (err.kind === 'access denied') {
+      res.status(401).send({
+        message: err.message || 'Access Denied to Page',
+      });
+    } else res.send(data);
+  });
+};
