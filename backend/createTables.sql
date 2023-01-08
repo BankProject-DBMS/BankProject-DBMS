@@ -139,6 +139,31 @@ CREATE Table Deposit (
         on delete cascade
 );
 
+CREATE TABLE LoanRequest (
+    LoanReqID INT NOT NULL AUTO_INCREMENT,
+    CustomerID INT,
+    BranchID INT,
+    EmployeeID INT,
+    Amount numeric(15,2),
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Duration numeric(3,0),
+    InterestRate numeric(4,2),
+    SavingsAccountID INT,
+	primary key(LoanReqID),
+    foreign key(BranchID) 
+        references Branch(BranchID)
+        on delete cascade,
+    foreign key(CustomerID) 
+        references Customer(CustomerID)
+        on delete cascade,
+    foreign key(EmployeeID) 
+        references Employee(EmployeeID)
+        on delete cascade,
+    foreign key(SavingsAccountID) 
+        references CashAccount(AccountID)
+        on delete cascade
+);
+
 
 CREATE Table PhysicalLoan (
 	LoanID INT NOT NULL AUTO_INCREMENT,
@@ -146,8 +171,9 @@ CREATE Table PhysicalLoan (
     BranchID INT,
     EmployeeID INT,
     Amount numeric(15,2),
-    TypeID varchar(5),
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Duration numeric(3,0),
+    InterestRate numeric(4,2),
     SavingsAccountID INT,
 	primary key(LoanID),
     foreign key(BranchID) 
@@ -159,7 +185,6 @@ CREATE Table PhysicalLoan (
     foreign key(EmployeeID) 
         references Employee(EmployeeID)
         on delete cascade,
-    foreign key(TypeID) references LoanType(TypeID),
     foreign key(SavingsAccountID) 
         references CashAccount(AccountID)
         on delete cascade
@@ -170,9 +195,10 @@ CREATE TABLE OnlineLoan (
     CustomerID INT,
     FDAccountID INT,
     Amount numeric(13,2),
-    TypeID varchar(5),
     SavingsAccountID INT,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Duration numeric(3,0),
+    InterestRate numeric(4,2),
     primary key(LoanID),
     foreign key(CustomerID) 
         references Customer(CustomerID)
@@ -180,7 +206,6 @@ CREATE TABLE OnlineLoan (
     foreign key(FDAccountID) 
         references FDAccount(AccountID)
         on delete cascade,
-    foreign key(TypeID) references LoanType(TypeID),
     foreign key(SavingsAccountID) 
         references CashAccount(AccountID)
         on delete cascade
