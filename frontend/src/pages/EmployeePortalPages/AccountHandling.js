@@ -2,25 +2,22 @@ import React from 'react';
 import FixedDepositReg from '../../Forms/FixedDepositReg';
 import AccountReg from '../../Forms/AccountReg';
 import AccountList from '../../Forms/AccountsList';
+import { Link } from 'react-router-dom';
 
 export default function AccountHandling() {
   return (
     <div>
-      
       <div>
-        <a href='employeePortal/account-register'>Register New Account</a>
+        <Link to='account-register'>Register New Account</Link>
       </div>
 
-      
       <div>
-        <a href='employeePortal/account-list'>Account List</a>
+        <Link to='account-list'>Account List</Link>
       </div>
 
-
       <div>
-        <a href='employeePortal/fixed-deposit-register'>Register New Fixed Deposit</a>
+        <Link to='fixed-deposit-register'>Register New FD</Link>
       </div>
-      
     </div>
   );
 }
