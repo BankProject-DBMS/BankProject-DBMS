@@ -1,0 +1,33 @@
+.navbar {
+    height: 60px;
+    display: flex;
+    padding: 14px 20px;
+    box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+  }
+  .aruci--logo {
+    width: 150px;
+    height: fit-content;
+    border-radius: 5px;
+    transition: 0.2s;
+  }
+  .aruci--logo:hover {
+    cursor: pointer;
+    /* Make it move a bit */
+    transform: scale(1.05);
+    transition: 0.2s;
+  }
+
+ .employeePortal--menu {
+    margin-top: 0.45%;
+    
+ }
+ .employeePortal--buttons {
+    margin-top: .65%;
+ }
+
+  /* .employeePortal--button {
+    margin: 1%;
+    align-items: center;
+    margin-left: 15px;
+  } */
