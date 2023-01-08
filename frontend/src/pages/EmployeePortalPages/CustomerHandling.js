@@ -11,6 +11,10 @@ export default function CustomerHandling() {
       <div>
         <Link to='customer-list'>Customer List</Link>
       </div>
+
+      <div>
+        <Link to='online-customer-register'>Register New Online Customer</Link>
+      </div>
     </div>
   );
 }

@@ -139,15 +139,15 @@ CREATE Table Deposit (
         on delete cascade
 );
 
-
 CREATE Table PhysicalLoan (
 	LoanID INT NOT NULL AUTO_INCREMENT,
     CustomerID INT,
     BranchID INT,
     EmployeeID INT,
     Amount numeric(15,2),
-    TypeID varchar(5),
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Duration numeric(3,0),
+    InterestRate numeric(4,2),
     SavingsAccountID INT,
 	primary key(LoanID),
     foreign key(BranchID) 
@@ -159,7 +159,6 @@ CREATE Table PhysicalLoan (
     foreign key(EmployeeID) 
         references Employee(EmployeeID)
         on delete cascade,
-    foreign key(TypeID) references LoanType(TypeID),
     foreign key(SavingsAccountID) 
         references CashAccount(AccountID)
         on delete cascade
@@ -170,9 +169,10 @@ CREATE TABLE OnlineLoan (
     CustomerID INT,
     FDAccountID INT,
     Amount numeric(13,2),
-    TypeID varchar(5),
     SavingsAccountID INT,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Duration numeric(3,0),
+    InterestRate numeric(4,2),
     primary key(LoanID),
     foreign key(CustomerID) 
         references Customer(CustomerID)
@@ -180,7 +180,6 @@ CREATE TABLE OnlineLoan (
     foreign key(FDAccountID) 
         references FDAccount(AccountID)
         on delete cascade,
-    foreign key(TypeID) references LoanType(TypeID),
     foreign key(SavingsAccountID) 
         references CashAccount(AccountID)
         on delete cascade
@@ -189,7 +188,7 @@ CREATE TABLE OnlineLoan (
 CREATE TABLE OnlineLoanInstallment (
 	InstallmentID INT NOT NULL AUTO_INCREMENT,
 	LoanID INT,
-    DeadlineDate date,
+    DeadlineDate timestamp,
     Amount numeric(13,2),
     Paid boolean,
     primary key (InstallmentID) ,
@@ -201,7 +200,7 @@ CREATE TABLE OnlineLoanInstallment (
 CREATE TABLE PhysicalLoanInstallment (
 	InstallmentID INT NOT NULL AUTO_INCREMENT,
 	LoanID INT,
-    DeadlineDate date,
+    DeadlineDate timestamp,
     Amount numeric(13,2),
     Paid boolean,
     primary key (InstallmentID) ,
@@ -210,7 +209,30 @@ CREATE TABLE PhysicalLoanInstallment (
         on delete cascade
 );
 
+DELIMITER $$
+create procedure generate_installments(IN LoanID int, IN installmentCount smallint ,IN approvedDate timestamp, IN loanAmount int)
+begin
+	declare i smallint;
+    declare installmentAmount int;
+    declare installmentDate timestamp;
+    set installmentAmount = loanAmount/installmentCount;
+    set installmentDate = approvedDate;
+    set i = 1;
+    while i <= installmentCount do
+		set installmentDate = timestampadd(MONTH, 1, installmentDate);
+    	insert into PhysicalLoanInstallment (LoanID, DeadlineDate, Amount, Paid) values (LoanID, installmentDate, installmentAmount, false);
+        set i = i + 1;
+    end while;
+end$$
+DELIMITER ;
 
+DELIMITER $$
+create trigger gen_installments_on_loan_approve
+	after insert on PhysicalLoan for each row
+begin
+	call generate_installments(NEW.LoanID, NEW.Duration, NEW.DateCreated, NEW.Amount);
+end$$
+DELIMITER ;
 -- suggestions for upgrading the database
 -- 1. give special privilages to customers who are also employees
 -- 2. refresh the wcount of the cash account at the end of the month

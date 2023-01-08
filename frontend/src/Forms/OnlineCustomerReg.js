@@ -1,28 +1,28 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button, Card } from 'antd';
-import { addFD } from '../api/fd';
+import { addOnlineCustomer } from '../api/onlineCustomers';
 import * as Yup from 'yup';
 import { Navigate, useNavigate, Outlet } from 'react-router-dom';
 import Logo from '../pages/Images/Logo2.png';
 import '../pages/PageStyling/Navbar.css';
 
 // Use this instead https://github.com/jannikbuschke/formik-antd
-export default function FixedDepositReg() {
-  const FixedDepositRegSchema = Yup.object().shape({
-    savings: Yup.string().required(),
-    myRadioGroup: Yup.string().required(),
-    amount: Yup.number().required(),
+export default function OnlineCustomerReg() {
+  const OnlineCustomerRegSchema = Yup.object().shape({
+    username: Yup.string().required(),
+    password: Yup.string().required(),
+    customerID: Yup.number().required(),
   });
 
   const handleSubmit = (values, { setSubmitting }) => {
     setSubmitting(true);
-    const fd = {
-      savings: values.savings,
-      type: values.myRadioGroup,
-      amount: values.amount,
+    const onlineCustomer = {
+      username: values.username,
+      password: values.password,
+      customerID: values.customerID,
     };
     //console.log(fd);
-    addFD({ fd }).then(() => setSubmitting(false));
+    addOnlineCustomer({ onlineCustomer }).then(() => setSubmitting(false));
   };
   const navigate = useNavigate();
 
@@ -34,16 +34,16 @@ export default function FixedDepositReg() {
           src={Logo}
           onClick={() => navigate('/employeePortal/')}
         />
-        <h1 className='topic'>Fixed Deposit Registration</h1>
+        <h1 className='topic'>Online Customer Registration</h1>
       </div>
       <Card className='form'>
         <Formik
           initialValues={{
-            savings: '',
-            myRadioGroup: '',
-            amount: '',
+            username: '',
+            password: '',
+            customerID: '',
           }}
-          validationSchema={FixedDepositRegSchema}
+          validationSchema={OnlineCustomerRegSchema}
           onSubmit={handleSubmit}
         >
           {(props) => {
@@ -55,8 +55,8 @@ export default function FixedDepositReg() {
                 <span className='fd--reg--form--fillers'>
                   <Field
                     type='text'
-                    name='savings'
-                    placeholder='Savings Account ID'
+                    name='customerID'
+                    placeholder='Customer ID'
                     style={
                       props.touched.name && props.errors.name
                         ? errorInputStyle
@@ -66,37 +66,15 @@ export default function FixedDepositReg() {
                 </span>
 
                 <span className='fd--reg--form--fillers'>
-                  <Field type='text' name='amount' placeholder='Amount' />
+                  <Field type='text' name='username' placeholder='Username' />
                 </span>
-                <span className='fd--duration'>
-                  <h4>Duration</h4>
-                  <div>
-                    <Field
-                      type='radio'
-                      id='radioOne'
-                      name='myRadioGroup'
-                      value='6'
-                    />
-                    <label htmlFor='radioOne'>6 Months</label>
-                  </div>
-                  <div>
-                    <Field
-                      type='radio'
-                      id='radioTwo'
-                      name='myRadioGroup'
-                      value='12'
-                    />
-                    <label htmlFor='radioTwo'>1 Year</label>
-                  </div>
-                  <div>
-                    <Field
-                      type='radio'
-                      id='radioThree'
-                      name='myRadioGroup'
-                      value='36'
-                    />
-                    <label htmlFor='radioThree'>3 Years</label>
-                  </div>
+
+                <span className='fd--reg--form--fillers'>
+                  <Field type='password' name='password' placeholder='Password' />
+                </span>
+
+                <span className='fd--reg--form--fillers'>
+                  <Field type='password' name='confirmpassword' placeholder='Confirm Password' />
                 </span>
                 <Button
                   className='customer--reg--form--submit'
@@ -109,9 +87,9 @@ export default function FixedDepositReg() {
                 {Object.values(props.touched).includes(true) &&
                   Object.values(props.errors).length !== 0 && (
                     <Card className='errors'>
-                      <ErrorMessage name='savings' component='div' />
-                      <ErrorMessage name='myRadioGroup' component='div' />
-                      <ErrorMessage name='amount' component='div' />
+                      <ErrorMessage name='customerID' component='div' />
+                      <ErrorMessage name='username' component='div' />
+                      <ErrorMessage name='password' component='div' />
                     </Card>
                   )}
               </Form>

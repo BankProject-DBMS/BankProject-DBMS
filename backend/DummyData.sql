@@ -44,13 +44,6 @@ VALUES
     ("SA", "Adult", 1000.00, 5, 10),
     ("SS", "Senior", 1000.00, 5, 13);
 
-INSERT INTO LoanType(TypeID, Type, InterestRate)
-VALUES
-    ('H1050', 'Housing', 10.5),
-    ('V1150', 'Vehicle', 11.5),
-    ('P1250', 'Personal', 12.5),
-    ('B1450', 'Business', 14.5),
-    ('L1350', 'Land', 13.5);
 
 INSERT INTO CashAccount(customerID, TypeID, Balance, WCount)
 VALUES
@@ -71,11 +64,11 @@ VALUES
     ('F361500', 5, 300000);
 
 
-INSERT INTO OnlineLoan(CustomerID, FDAccountID, Amount, TypeID, SavingsAccountID)
+INSERT INTO OnlineLoan(CustomerID, FDAccountID, Amount, Duration, InterestRate, SavingsAccountID)
 VALUES
-    (4, 1, 100000, 'H1050', 1),
-    (2, 2, 200000, 'V1150', 2),
-    (3, 3, 300000, 'P1250', 3);
+    (4, 1, 150000, 6, 13.0, 1),
+    (2, 2, 212000, 12, 14.5, 2),
+    (3, 3, 550000, 36, 15.0, 3);
 
 INSERT INTO Employee(Name, Position, BranchID, isManager, OnlineID, Password)
 VALUES
@@ -88,11 +81,11 @@ VALUES
     ("Ravi K","Manager",3,1,"ravi","12345");
     
     
-INSERT INTO PhysicalLoan(CustomerID, BranchID, EmployeeID, Amount, TypeID, SavingsAccountID)
+INSERT INTO PhysicalLoan(CustomerID, BranchID, EmployeeID, Amount, Duration, InterestRate, SavingsAccountID)
 VALUES
-    (4, 1, 1, 100000, 'B1450', 4),
-    (5, 2, 2, 200000, 'L1350', 5),
-    (6, 3, 3, 300000, 'H1050', 6);
+    (1, 1, 1, 100000, 6, 13.0, 1),
+    (2, 2, 2, 200000, 12, 14.5, 2),
+    (3, 3, 3, 300000, 36, 15.0, 3);
 
 INSERT INTO OnlineCustomer(CustomerID, Username, Password)
 VALUES

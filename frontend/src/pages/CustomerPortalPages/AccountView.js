@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { getAccount } from '../../api/accounts';
 import { Table } from 'antd';
 import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, Outlet } from 'react-router-dom';
+import Logo from '../Images/Logo2.png';
 
 import {
   getCreditTransactions,
@@ -45,20 +47,39 @@ export default function AccountView() {
       key: 'remark',
     },
   ];
+  const navigate = useNavigate();
 
   return (
     <div>
-      <h2>Account View</h2>
-      <p>Account ID: {account?.AccountID}</p>
-      <p>Customer ID: {account?.CustomerID}</p>
-      <p>Date Created: {account?.DateCreated}</p>
-      <p>Balance: Rs.{account?.Balance}</p>
+      <div className='navbar'>
+        <img className='aruci--logo' src={Logo} onClick={() => navigate('/')} />
+        <h1 className='topic'>Account Details</h1>
+      </div>
+      <div style={{ padding: '1%', margin: '2%', border: 'solid' }}>
+        <p>
+          <b>Account ID: </b>
+          {account?.AccountID}
+        </p>
+        <p>
+          <b>Customer ID: </b>
+          {account?.CustomerID}
+        </p>
+        <p>
+          <b>Date Created: </b>
+          {account?.DateCreated}
+        </p>
+        <p>
+          <b>Balance: </b>Rs.{account?.Balance}
+        </p>
+      </div>
 
-      <h3>Credit Transactions</h3>
-      <Table columns={columns} dataSource={creditTransactions} />
+      <div style={{ margin: '2% 2%' }}>
+        <h2>Credit Transactions</h2>
+        <Table columns={columns} dataSource={creditTransactions} />
 
-      <h3>Debit Transactions</h3>
-      <Table columns={columns} dataSource={debitTransactions} />
+        <h2>Debit Transactions</h2>
+        <Table columns={columns} dataSource={debitTransactions} />
+      </div>
     </div>
   );
 }
