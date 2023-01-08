@@ -22,3 +22,16 @@ export async function getDebitTransactions(accountID) {
     return await Promise.reject('Failed to get debit transactions list!');
   }
 }
+
+export async function createTransaction(transaction) {
+  try {
+    const response = await axios.post(
+      `${HOST}/transactions/create`,
+      transaction
+    );
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to create transaction!');
+  }
+}
