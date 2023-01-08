@@ -67,8 +67,8 @@ Withdrawal.findByAccountId = (accountid, result) => {
 Withdrawal.create = (newWithdrawal, result) => {
   console.log('model withdrawal:', newWithdrawal);
   sql.query(
-    'SELECT * FROM cashhaccount WHERE accountID = ?',
-    newWithdrawal.AccountID,
+    'call withdrawals_procedure(?,?,?,@code)',
+    [newWithdrawal.accountID, newWithdrawal.amount, newWithdrawal.remark],
     (err, res) => {
       if (err) {
         console.log('error: ', err);
@@ -76,11 +76,16 @@ Withdrawal.create = (newWithdrawal, result) => {
         return;
       }
 
-      if (res.Wcount === 0) {
-        console.log('Withdrawal Count Exceeded');
-        result(err, null);
-      } else {
-      }
+      sql.query('SELECT @code', (err, res) => {
+        if (err) {
+          console.log('error: ', err);
+          result(err, null);
+          return;
+        }
+
+        result(err, res);
+        return;
+      });
     }
   );
 };

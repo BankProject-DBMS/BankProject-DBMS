@@ -40,7 +40,7 @@ export default function WithdrawalCreate() {
             <Form className='withdrawal--create--form'>
               <span>
                 <Field
-                  type='text'
+                  type='number'
                   name='accountID'
                   placeholder='Account ID'
                   style={
