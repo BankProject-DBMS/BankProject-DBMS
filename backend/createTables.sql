@@ -1,6 +1,8 @@
 CREATE SCHEMA IF NOT EXISTS DBMS_BankApp;
 use DBMS_BankApp;
 drop table if exists PhysicalLoanInstallment,OnlineLoanInstallment,OnlineLoan,PhysicalLoan,Deposit,Withdrawal,Transaction,FDAccount,CashAccount,LoanType,CashAccountType,FDAccountType,OnlineCustomer,Customer,Employee,Branch;
+drop procedure if exists generate_installments;
+drop trigger if exists gen_installments_on_loan_approve;
 
 CREATE Table Branch (
 	BranchID INT NOT NULL AUTO_INCREMENT,
@@ -146,6 +148,7 @@ CREATE Table PhysicalLoan (
     EmployeeID INT,
     Amount numeric(15,2),
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Approved boolean default false,
     Duration numeric(3,0),
     InterestRate numeric(4,2),
     SavingsAccountID INT,

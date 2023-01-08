@@ -34,4 +34,14 @@ const isAccountOwnedByCustomer = (req, res, next) => {
   }
 };
 
-module.exports = { isAccountOwnedByCustomer };
+const isEmployee = (req, res, next) => {
+  if (req.user.role === 'employee' || req.user.role === 'manager') {
+    next();
+  } else {
+    res.status(401).send({
+      message: 'Unauthorized Access',
+    });
+  }
+};
+
+module.exports = { isAccountOwnedByCustomer, isEmployee };
