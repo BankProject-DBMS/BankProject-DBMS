@@ -41,6 +41,8 @@ export async function login(credentials) {
 export async function customerLogout() {
   try {
     localStorage.removeItem('token');
+    localStorage.removeItem('tokenExpiration');
+    localStorage.removeItem('role');
     return await Promise.resolve('Logout Successful');
   } catch (error) {
     return await Promise.reject('Logout Error: ', error);

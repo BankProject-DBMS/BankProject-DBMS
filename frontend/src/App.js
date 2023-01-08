@@ -50,6 +50,10 @@ function App() {
                 <Route path='account-register' element={<AccountReg />} />
                 <Route path='account-list' element={<AccountList />} />
                 <Route
+                  path='account-list/:accountID'
+                  element={<AccountView />}
+                />
+                <Route
                   path='fixed-deposit-register'
                   element={<FixedDepositReg />}
                 />

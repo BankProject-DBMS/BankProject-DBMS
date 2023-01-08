@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getAccounts } from '../api/accounts';
 import { Table } from 'antd';
-import { Navigate, useNavigate, Outlet } from 'react-router-dom';
+import { Navigate, useNavigate, Outlet, Link } from 'react-router-dom';
 import Logo from '../pages/Images/Logo2.png';
 import '../pages/PageStyling/Navbar.css'
 
@@ -12,6 +12,8 @@ export default function AccountList() {
       title: 'Account Number',
       dataIndex: 'AccountID',
       key: 'AccountID',
+      // type the code for redirect to anther page when the account number is clicked
+      render : (text, record) => <Link to={`/employeePortal/account-list/${record.AccountID}`}>{text}</Link> 
     },
     {
       title: 'Customer Number',
@@ -66,7 +68,12 @@ export default function AccountList() {
         <h1 className='topic'>Account List</h1>
       </div>
 
-      <div className='table'>{<Table dataSource={accounts} columns={columns} />}</div>
+      <div className='table'>
+        {<Table 
+            dataSource={accounts} 
+            columns={columns}
+             />}
+      </div>
     </div>
   );
 }
