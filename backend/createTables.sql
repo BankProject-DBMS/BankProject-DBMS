@@ -3,6 +3,7 @@ use DBMS_BankApp;
 drop table if exists PhysicalLoanInstallment,OnlineLoanInstallment,OnlineLoan,PhysicalLoan,Deposit,Withdrawal,Transaction,FDAccount,CashAccount,LoanType,CashAccountType,FDAccountType,OnlineCustomer,Customer,Employee,Branch;
 drop procedure if exists generate_physical_installments;
 drop procedure if exists generate_online_installments;
+drop procedure if exists withdrawals_procedure;
 drop trigger if exists gen_physical_installments_on_loan_approve;
 drop trigger if exists gen_online_installments_on_loan_approve;
 
@@ -266,6 +267,41 @@ begin
 end$$
 DELIMITER ;
 
+DELIMITER $$
+CREATE PROCEDURE withdrawals_procedure (IN ID int, IN amount int, IN remark varchar(50) , OUT code varchar(50))
+
+BEGIN
+	DECLARE balance int;
+    DECLARE wCount int;
+    
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION 
+        BEGIN
+            ROLLBACK;
+            RESIGNAL;
+        END;
+	
+    
+    
+    START TRANSACTION;
+		SET balance = (SELECT Balance FROM cashaccount WHERE AccountID = ID);
+		SET wCount = (SELECT WCount FROM cashaccount WHERE AccountID = ID);
+        IF 0 >= wCount  THEN
+			ROLLBACK;
+            SET code = 'Withdrawal Count Exceeded';
+		ELSE
+			IF 500>(balance - amount) THEN
+				ROLLBACK;
+                SET code = 'Insufficient Balance';
+            ELSE
+				INSERT INTO withdrawal(AccountID, Amount, Remark) values (ID,amount,remark);
+                UPDATE cashaccount SET WCount = WCount -1 WHERE AccountID = ID;
+                UPDATE cashaccount SET Balance = Balance - amount WHERE AccountID = ID;
+				COMMIT;	
+				SET code =  'SUCCESS';
+			END IF;
+        END IF;
+END$$
+DELIMITER ;
 -- suggestions for upgrading the database
 -- 1. give special privilages to customers who are also employees
 -- 2. refresh the wcount of the cash account at the end of the month
