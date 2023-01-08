@@ -1,68 +1,112 @@
-import { useState } from 'react';
-import React from 'react';
-import { DownOutlined, SmileOutlined } from '@ant-design/icons';
-import { Dropdown, Space } from 'antd';
-
+import { useState, useEffect } from 'react';
+import { getAccounts } from '../../api/accounts';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Card, Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { createTransaction } from '../../api/transactions';
+import Logo from '../Images/Logo2.png';
+import * as Yup from 'yup';
 export default function OnlineBanking() {
-  const [accountList, setAccountList] = useState([]);
-  const items = [
-    {
-      key: '1',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://www.antgroup.com'
-        >
-          1st menu item
-        </a>
-      ),
-    },
-    {
-      key: '2',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://www.aliyun.com'
-        >
-          2nd menu item (disabled)
-        </a>
-      ),
-      icon: <SmileOutlined />,
-      disabled: true,
-    },
-    {
-      key: '3',
-      label: (
-        <a
-          target='_blank'
-          rel='noopener noreferrer'
-          href='https://www.luohanacademy.com'
-        >
-          3rd menu item (disabled)
-        </a>
-      ),
-      disabled: true,
-    },
-    {
-      key: '4',
-      danger: true,
-      label: 'a danger item',
-    },
-  ];
+  const [accounts, setAccounts] = useState([]);
+
+  const navigate = useNavigate();
+
+  const customerRegSchema = Yup.object().shape({
+    myAccountID: Yup.string().required(),
+    toAccountID: Yup.string().required(),
+    amount: Yup.number().required(),
+    remarks: Yup.string().required(),
+  });
+
+  useEffect(() => {
+    getAccounts().then((accounts) => {
+      setAccounts(accounts);
+    });
+  }, []);
+
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log(values);
+    setSubmitting(true);
+    const transaction = {
+      fromAccountID: values.myAccountID,
+      toAccountID: values.toAccountID,
+      amount: values.amount,
+      remarks: values.remarks,
+    };
+    createTransaction(transaction).then(() => setSubmitting(false));
+  };
+
   return (
-    <Dropdown
-      menu={{
-        items,
-      }}
-    >
-      <a onClick={(e) => e.preventDefault()}>
-        <Space>
-          Hover me
-          <DownOutlined />
-        </Space>
-      </a>
-    </Dropdown>
+    <div>
+      <div className='navbar'>
+        <img
+          className='aruci--logo'
+          src={Logo}
+          onClick={() => navigate('/employeePortal/')}
+        />
+        <h1 className='topic'>Online Banking</h1>
+      </div>
+      <Card className='form'>
+        <Formik
+          initialValues={{
+            myAccountID: '',
+            toAccountID: '',
+            amount: '',
+            remarks: '',
+          }}
+          onSubmit={handleSubmit}
+          validationSchema={customerRegSchema}
+        >
+          {(props) => {
+            return (
+              <Form className='customer--reg--form'>
+                <span>
+                  <label htmlFor='myAccountID'>My Account ID</label>
+                  <Field as='select' name='myAccountID'>
+                    {accounts.map((account) => (
+                      <option key={account.AccountID} value={account.AccountID}>
+                        {account.AccountID}
+                      </option>
+                    ))}
+                  </Field>
+                </span>
+                <span>
+                  <Field
+                    type='number'
+                    name='toAccountID'
+                    placeholder='To Account'
+                  />
+                </span>
+                <span>
+                  <Field type='number' name='amount' placeholder='Amount' />
+                </span>
+                <span>
+                  <Field type='text' name='remarks' placeholder='Remarks' />
+                </span>
+
+                <Button
+                  className='customer--reg--form--submit'
+                  type='primary'
+                  onClick={props.handleSubmit}
+                  disabled={props.isSubmitting}
+                >
+                  Submit
+                </Button>
+
+                {Object.values(props.touched).includes(true) &&
+                  Object.values(props.errors).length !== 0 && (
+                    <Card className='errors'>
+                      <ErrorMessage name='myAccountID' />
+                      <ErrorMessage name='toAccountID' />
+                      <ErrorMessage name='amount' />
+                      <ErrorMessage name='remarks' />
+                    </Card>
+                  )}
+              </Form>
+            );
+          }}
+        </Formik>
+      </Card>
+    </div>
   );
 }

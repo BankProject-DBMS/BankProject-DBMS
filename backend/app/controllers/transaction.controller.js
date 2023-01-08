@@ -62,12 +62,13 @@ exports.create = (req, res) => {
       message: 'Content can not be empty!',
     });
   }
-
+  console.log('Came Here ', req.body);
   // Create a Transaction
   const transaction = {
-    fromAccount: req.body.fromAccount,
-    toAccount: req.body.toAccount,
-    amount: req.body.amount,
+    FromAccount: req.body.fromAccountID,
+    ToAccount: req.body.toAccountID,
+    Amount: req.body.amount,
+    Remark: req.body.remarks,
   };
 
   // Save Transaction in the database
