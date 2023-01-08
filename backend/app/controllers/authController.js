@@ -81,3 +81,16 @@ exports.employeeLogin = (req, res) => {
     }
   });
 };
+
+exports.createOnlineCustomer = (req, res) => {
+  console.log(req.body);
+  const onlineCustomer = req.body.onlineCustomer;
+  onlineCustomers.create(onlineCustomer, (err, data) => {
+    if (err.kind === 'error')
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while creating online customer.',
+      });
+    else res.send(data);
+  });
+};

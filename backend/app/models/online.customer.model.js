@@ -7,6 +7,7 @@ const OnlineCustomer = function (onlineCustomer) {
 };
 
 OnlineCustomer.create = (newOnlineCustomer, result) => {
+  console.log('in create ', newOnlineCustomer);
   const query = `INSERT INTO OnlineCustomer SET ?`;
   sql.query(query, newOnlineCustomer, (err, res) => {
     if (err) {
