@@ -1,11 +1,10 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Button } from 'antd';
-import { addDeposit } from '../api/deposites';
+import { addDeposit } from '../api/deposits';
 import * as Yup from 'yup';
 
 export default function DepositCreate() {
   const depositCreateSchema = Yup.object().shape({
-
     accountID: Yup.number().required().positive().integer(),
     amount: Yup.number().required().positive(),
     remark: Yup.string(),
@@ -47,8 +46,6 @@ export default function DepositCreate() {
                       ? errorInputStyle
                       : null
                   }
-
-
                 />
               </span>
               <span>
@@ -57,7 +54,6 @@ export default function DepositCreate() {
               <span>
                 <Field type='text' name='remark' placeholder='Remark' />
               </span>
-
 
               <Button
                 className='deposit--create--form--submit'

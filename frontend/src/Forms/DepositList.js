@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getDeposites } from '../api/deposites';
+import { getDeposites } from '../api/deposits';
 import { Table } from 'antd';
 
 export default function DepositList() {

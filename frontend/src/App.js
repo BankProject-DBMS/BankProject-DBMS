@@ -19,6 +19,8 @@ import RequireAuth from './utils/RequireAuth';
 import OnlineBanking from './pages/CustomerPortalPages/OnlineBanking';
 import WithdrawalList from './Forms/WithdrawalList';
 import WithdrawalCreate from './Forms/WithdrawalCreate';
+import DepositList from './Forms/DepositList';
+import DepositCreate from './Forms/DepositCreate';
 import OnlineBankingReg from './Forms/OnlineCustomerReg';
 
 // import for customer portal
@@ -50,7 +52,10 @@ function App() {
                   path='customer/:customerId'
                   element={<CustomerEditor />}
                 />
-                <Route path='online-customer-register' element={<OnlineBankingReg />} />
+                <Route
+                  path='online-customer-register'
+                  element={<OnlineBankingReg />}
+                />
                 <Route path='account-register' element={<AccountReg />} />
                 <Route path='account-list' element={<AccountList />} />
                 <Route
@@ -69,6 +74,8 @@ function App() {
                   path='withdrawal-newWithdrawal'
                   element={<WithdrawalCreate />}
                 />
+                <Route path='deposit-list' element={<DepositList />} />
+                <Route path='deposit-newDeposit' element={<DepositCreate />} />
               </RequireAuth>
             }
           ></Route>
