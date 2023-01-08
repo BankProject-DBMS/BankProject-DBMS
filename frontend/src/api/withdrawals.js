@@ -4,6 +4,7 @@ import { HOST } from './config';
 export async function getWithdrawals() {
   try {
     const response = await axios.post(`${HOST}/withdrawals`);
+    console.log('Retrieved:', response.data);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -11,7 +12,7 @@ export async function getWithdrawals() {
   }
 }
 
-export async function getWithdrawalByID() {
+export async function getWithdrawalByAccountID() {
   try {
     const response = await axios.post(`${HOST}/withdrawals/findbyid`);
     return response.data;
@@ -30,4 +31,3 @@ export async function addWithdrawal(newWithdrawal) {
     return await Promise.reject('Failed to do the withdrawal!');
   }
 }
-

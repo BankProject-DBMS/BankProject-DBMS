@@ -26,7 +26,7 @@ export async function login(credentials) {
       const response = await axios.post(`${HOST}/login/employee`, credentials);
       if (response.data.auth === 'success') {
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('tokenExpiration', Date.now() + 900000);
+        localStorage.setItem('tokenExpiration', Date.now() + 7200000);
         localStorage.setItem('role', response.data.role);
         return response.data;
       } else {

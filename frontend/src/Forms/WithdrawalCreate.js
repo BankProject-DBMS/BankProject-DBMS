@@ -17,6 +17,7 @@ export default function WithdrawalCreate() {
       amount: values.amount,
       remark: values.remark,
     };
+    console.log('Withdarawal', withdrawal);
     addWithdrawal({ withdrawal }).then(() => setSubmitting(false));
   };
   return (
@@ -39,7 +40,7 @@ export default function WithdrawalCreate() {
             <Form className='withdrawal--create--form'>
               <span>
                 <Field
-                  type='number'
+                  type='text'
                   name='accountID'
                   placeholder='Account ID'
                   style={

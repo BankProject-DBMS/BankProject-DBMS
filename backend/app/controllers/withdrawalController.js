@@ -13,7 +13,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.findByAccountID = (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const id = req.params.AccountID;
   WithdrawalModel.findByAccountId(id, (err, data) => {
     if (err)
@@ -25,25 +25,25 @@ exports.findByAccountID = (req, res) => {
   });
 };
 
-
 exports.create = (req, res) => {
-  
   if (!req.body) {
     res.status(400).send({
       message: 'Invalid Content!',
     });
   }
-
+  console.log(req.body);
   const withdrawal = {
-    accountID: req.body.AccountID,
-    amount: req.body.amount,
+    accountID: req.body.withdrawal.accountID,
+    amount: req.body.withdrawal.amount,
+    remark: req.body.withdrawal.remark,
   };
 
   WithdrawalModel.create(withdrawal, (err, data) => {
-    if (err){
+    if (err) {
       res.status(500).send({
-        message: err.message || 'Some error occurred while creating withdrawal.',
+        message:
+          err.message || 'Some error occurred while creating withdrawal.',
       });
-    }else res.send(data);
+    } else res.send(data);
   });
 };
