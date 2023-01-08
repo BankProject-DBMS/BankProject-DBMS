@@ -33,4 +33,34 @@ onlineLoan.getAll = (customerID, result) => {
   });
 };
 
+onlineLoan.getInstallmentsByAccountID = (accountID, req, result) => {
+  sql.query(
+    'SELECT * from onlineinstallments WHERE AccountID = ?',
+    accountID,
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error', ...err }, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log(res);
+        // if (
+        //   req.user.role === 'customer' &&
+        //   !(req.user.CustomerID === res[0].CustomerID)
+        // ) {
+        //   console.log('no access fd find by id');
+        //   result({ kind: 'access denied' }, null);
+        //   return;
+        // }
+
+        console.log('found account: ', res[0]);
+        result({ kind: 'success' }, res[0]);
+      } else {
+        result({ kind: 'not_found' }, null);
+      }
+    }
+  );
+};
 module.exports = onlineLoan;

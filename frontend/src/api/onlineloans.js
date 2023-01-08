@@ -14,7 +14,9 @@ export async function getCustomerOnlineLoans() {
 
 export async function getOnlineLoanInstallment(accountID) {
   try {
-    const response = await axios.get(`${HOST}/onlineLoanInstallment/${accountID}`);
+    const response = await axios.get(
+      `${HOST}/onlineLoans/onlineLoanInstallment/${accountID}`
+    );
     return response.data;
   } catch (err) {
     console.log(err);

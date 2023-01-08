@@ -6,6 +6,10 @@ module.exports = (app) => {
   const router = require('express').Router();
 
   router.get('/customer', [jwtauth], onlineLoans.getCustomerOnlineLoans);
-
+  router.get(
+    '/onlineLoanInstallment/:accountID',
+    [jwtauth],
+    onlineLoans.getAccountInstallments
+  );
   app.use('/onlineLoans', router);
 };
