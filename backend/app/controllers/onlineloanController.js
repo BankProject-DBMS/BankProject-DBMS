@@ -32,6 +32,73 @@ exports.getCustomerOnlineLoans = (req, res) => {
     });
   }
 };
+function calculateInterestRate(amount, duration) {
+  let interestRate = 20;
+
+  // Increase interest rate based on loan amount
+  if (amount > 10000) {
+    interestRate += 5;
+  }
+  if (amount > 100000) {
+    interestRate += 10;
+  }
+  if (amount > 1000000) {
+    interestRate += 15;
+  }
+
+  // Increase interest rate based on loan duration
+  if (duration > 12) {
+    interestRate += 5;
+  }
+  if (duration > 24) {
+    interestRate += 10;
+  }
+  if (duration > 36) {
+    interestRate += 15;
+  }
+
+  // Add an additional random factor to the interest rate
+  interestRate += Math.random() * 5 - 2.5;
+
+  return interestRate;
+}
+
+exports.createOnlineLoan = (req, res) => {
+  if (!req.body) {
+    res.status(400).send({
+      message: 'Content can not be empty!',
+    });
+  } else if (req.user.role === 'customer') {
+    console.log('controller OL', req.body.loan);
+    const onlineLoan = {
+      CustomerID: req.user.CustomerID,
+      Amount: req.body.loan.amount,
+      Duration: req.body.loan.duration,
+      SavingsAccountID: req.body.loan.savingsAccountID,
+      FDAccountID: req.body.loan.fdAccountID,
+    };
+
+    onlineLoan.InterestRate = calculateInterestRate(
+      onlineLoan.Amount,
+      onlineLoan.Duration
+    );
+
+    OnlineLoanModel.create(onlineLoan, (err, data) => {
+      if (err.kind === 'error') {
+        res.status(500).send({
+          message:
+            err.message || 'Some error occurred while creating the loan.',
+        });
+      } else {
+        res.send(data);
+      }
+    });
+  } else {
+    res.status(403).send({
+      message: 'You are not authorized to create a physical loan.',
+    });
+  }
+};
 
 exports.getAccountInstallments = (req, res) => {
   console.log(req);

@@ -1,39 +1,44 @@
 import { useState, useEffect } from 'react';
 import { getAccounts } from '../../api/accounts';
+import { getCustomerFDs } from '../../api/fd';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Card, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { createTransaction } from '../../api/transactions';
+import { createOnlineLoan } from '../../api/onlineloans';
 import Logo from '../Images/Logo2.png';
 import * as Yup from 'yup';
 export default function OnlineLoanReg() {
   const [accounts, setAccounts] = useState([]);
+  const [fds, setFds] = useState([]);
 
   const navigate = useNavigate();
 
   const customerRegSchema = Yup.object().shape({
-    myAccountID: Yup.string().required(),
-    toAccountID: Yup.string().required(),
+    myAccountID: Yup.number().required(),
+    fdAccountID: Yup.number().required(),
     amount: Yup.number().required(),
-    remarks: Yup.string().required(),
+    duration: Yup.number().required(),
   });
 
   useEffect(() => {
     getAccounts().then((accounts) => {
       setAccounts(accounts);
     });
+    getCustomerFDs().then((fd) => {
+      setFds(fd);
+    });
   }, []);
 
   const handleSubmit = (values, { setSubmitting }) => {
-    console.log(values);
+    console.log('in handle submit', values);
     setSubmitting(true);
-    const transaction = {
-      fromAccountID: values.myAccountID,
-      toAccountID: values.toAccountID,
+    const loan = {
+      fdAccountID: parseInt(values.fdAccountID, 10),
       amount: values.amount,
-      remarks: values.remarks,
+      duration: values.duration,
+      savingsAccountID: parseInt(values.myAccountID, 10),
     };
-    createTransaction(transaction).then(() => setSubmitting(false));
+    createOnlineLoan({ loan }).then(() => setSubmitting(false));
   };
 
   let options = accounts.map((account) => (
@@ -43,9 +48,21 @@ export default function OnlineLoanReg() {
   ));
   options = [
     <option selected disabled>
-      Choose Account
+      Choose Savings Account
     </option>,
     ...options,
+  ];
+
+  let optionsfd = fds.map((fd) => (
+    <option key={fd.AccountID} value={fd.AccountID}>
+      {fd.AccountID}
+    </option>
+  ));
+  optionsfd = [
+    <option selected disabled>
+      Choose FD
+    </option>,
+    ...optionsfd,
   ];
 
   return (
@@ -63,9 +80,9 @@ export default function OnlineLoanReg() {
         <Formik
           initialValues={{
             myAccountID: accounts[0]?.AccountID,
-            toAccountID: '',
-            amount: '',
-            remarks: '',
+            fdAccountID: fds[0]?.AccountID,
+            amount: 0,
+            duration: 0,
           }}
           onSubmit={handleSubmit}
           validationSchema={customerRegSchema}
@@ -74,27 +91,30 @@ export default function OnlineLoanReg() {
             return (
               <Form className='customer--reg--form'>
                 <span>
-                  <label htmlFor='myAccountID'>My Account ID</label>
+                  <label htmlFor='myAccountID'>Savings Account ID </label>
                   <Field as='select' name='myAccountID'>
                     {options}
                   </Field>
                 </span>
                 <span>
-                  <Field
-                    type='number'
-                    name='toAccountID'
-                    placeholder='To Account'
-                  />
+                  <label htmlFor='fdAccountID'>FD Account ID </label>
+                  <Field as='select' name='fdAccountID'>
+                    {optionsfd}
+                  </Field>
                 </span>
                 <span>
                   <Field type='number' name='amount' placeholder='Amount' />
                 </span>
                 <span>
-                  <Field type='text' name='remarks' placeholder='Remarks' />
+                  <Field
+                    type='number'
+                    name='duration'
+                    placeholder='Duration in Months'
+                  />
                 </span>
 
                 <Button
-                  className='customer--reg--form--submit'
+                  className='loan--reg--form--submit'
                   type='primary'
                   onClick={props.handleSubmit}
                   disabled={props.isSubmitting}
@@ -106,9 +126,9 @@ export default function OnlineLoanReg() {
                   Object.values(props.errors).length !== 0 && (
                     <Card className='errors'>
                       <ErrorMessage name='myAccountID' />
-                      <ErrorMessage name='toAccountID' />
+                      <ErrorMessage name='fdAccountID' />
                       <ErrorMessage name='amount' />
-                      <ErrorMessage name='remarks' />
+                      <ErrorMessage name='duration' />
                     </Card>
                   )}
               </Form>

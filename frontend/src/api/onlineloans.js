@@ -25,3 +25,15 @@ export async function getOnlineLoanInstallment(accountID) {
     return await Promise.reject('Failed to get installment list!');
   }
 }
+
+// create a new online loan
+export async function createOnlineLoan(loan) {
+  try {
+    console.log(loan);
+    const response = await axios.post(`${HOST}/onlineLoans/create`, loan);
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to create online loan!');
+  }
+}

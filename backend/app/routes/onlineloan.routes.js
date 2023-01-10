@@ -11,5 +11,8 @@ module.exports = (app) => {
     [jwtauth],
     onlineLoans.getAccountInstallments
   );
+
+  router.post('/create', [jwtauth], onlineLoans.createOnlineLoan);
+
   app.use('/onlineLoans', router);
 };

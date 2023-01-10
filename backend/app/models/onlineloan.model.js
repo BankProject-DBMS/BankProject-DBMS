@@ -33,6 +33,36 @@ onlineLoan.getAll = (customerID, result) => {
   });
 };
 
+onlineLoan.create = (newOnlineLoan, result) => {
+  console.log('IN OL model', newOnlineLoan);
+  sql.query(
+    'SELECT BranchID FROM CashAccount WHERE AccountID = ?',
+    newOnlineLoan.SavingsAccountID,
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error', ...err }, null);
+        return;
+      }
+      console.log(res);
+      newOnlineLoan.BranchID = res[0].BranchID;
+      sql.query('INSERT INTO OnlineLoan SET ?', newOnlineLoan, (err, res) => {
+        if (err) {
+          console.log('error: ', err);
+          result({ kind: 'error', ...err }, null);
+          return;
+        }
+
+        console.log('created Online Loan: ', {
+          id: res.insertId,
+          ...newOnlineLoan,
+        });
+        result({ kind: 'success' }, { id: res.insertId, ...newOnlineLoan });
+      });
+    }
+  );
+};
+
 onlineLoan.getInstallmentsByAccountID = (accountID, req, result) => {
   sql.query(
     'SELECT * from OnlineLoanInstallment WHERE LoanID = ?',
