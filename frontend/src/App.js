@@ -31,7 +31,7 @@ import FixedDepositView from './pages/CustomerPortalPages/FixedDepositView';
 import OnlineLoanView from './pages/CustomerPortalPages/OnlineLoanView';
 import PhysicalLoanView from './pages/CustomerPortalPages/PhysicalLoanView';
 import OnlineBanking from './pages/CustomerPortalPages/OnlineBanking';
-import OnlineLoanReg  from './pages/CustomerPortalPages/OnlineLoanReg';
+import OnlineLoanReg from './pages/CustomerPortalPages/OnlineLoanReg';
 // import for home page
 import HomePage from './pages/HomePage';
 
@@ -110,10 +110,19 @@ function App() {
                 <Route exact path='' element={<CustomerHome />} />
                 <Route path='account/:accountID' element={<AccountView />} />
                 <Route path='onlineBanking' element={<OnlineBanking />} />
-                <Route path='onlineLoan' element={<OnlineLoanReg/>}/>
-                <Route path='fixedDeposits/:fixedDepositID' element={<FixedDepositView />}/>
-                <Route path='onlineLoans/:onlineLoanID' element={<OnlineLoanView />}/>
-                <Route path='physicalLoans/:physicalLoanID' element={<PhysicalLoanView />}/>
+                <Route path='onlineLoan' element={<OnlineLoanReg />} />
+                <Route
+                  path='fixedDeposits/:fixedDepositID'
+                  element={<FixedDepositView />}
+                />
+                <Route
+                  path='onlineLoans/:onlineLoanID'
+                  element={<OnlineLoanView />}
+                />
+                <Route
+                  path='physicalLoans/:physicalLoanID'
+                  element={<PhysicalLoanView />}
+                />
               </RequireAuth>
             }
           ></Route>
