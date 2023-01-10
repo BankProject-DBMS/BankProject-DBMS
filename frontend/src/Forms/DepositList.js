@@ -28,6 +28,11 @@ export default function DepositList() {
       dataIndex: 'DepositTime',
       key: 'DepositTime',
     },
+    {
+      title: 'Remarks',
+      dataIndex: 'Remark',
+      key: 'Remark',
+    },
   ];
 
   const [Deposit, setDeposit] = React.useState();
