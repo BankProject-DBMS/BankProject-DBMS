@@ -11,21 +11,21 @@ drop trigger if exists gen_online_installments_on_loan_approve;
 
 CREATE Table Branch (
 	BranchID INT NOT NULL AUTO_INCREMENT,
-    City varchar(20),
-    Address varchar(200),
+    City varchar(20) NOT NULL,
+    Address varchar(200) NOT NULL,
 	primary key(BranchID)
 );
 
     
 CREATE Table Employee (
 	EmployeeID INT NOT NULL AUTO_INCREMENT,
-    Name varchar(20),
-    Position varchar(200),
-    BranchID INT,
+    Name varchar(20) NOT NULL,
+    Position varchar(200) NOT NULL,
+    BranchID INT NOT NULL,
     isManager boolean default false,
-    OnlineID varchar(10),
-    Password varchar(100),
-	primary key(EmployeeID),
+    OnlineID varchar(10) NOT NULL,
+    Password varchar(100) NOT NULL,
+	primary key(EmployeeID) ,
     foreign key(BranchID) 
         references Branch(BranchID)
         on delete cascade
@@ -33,11 +33,11 @@ CREATE Table Employee (
 
 CREATE Table Customer (
 	CustomerID INT NOT NULL AUTO_INCREMENT,
-    Name varchar(20),
-    dateofbirth date,
-    Address varchar(200),
-    Phone char(12),
-    occupation varchar(20),
+    Name varchar(20) NOT NULL,
+    dateofbirth date NOT NULL,
+    Address varchar(200) NOT NULL,
+    Phone char(12) NOT NULL,
+    occupation varchar(20) NOT NULL,
 	primary key(CustomerID)
 );
 
@@ -45,10 +45,10 @@ CREATE Table Customer (
 CREATE TABLE OnlineCustomer
 (
 	OnlineID INT NOT NULL AUTO_INCREMENT,
-    Username varchar(12),
-    CustomerID INT,
-    Password varchar(100),
-    PRIMARY KEY (OnlineID),
+    Username varchar(12) NOT NULL,
+    CustomerID INT NOT NULL,
+    Password varchar(100) NOT NULL,
+    PRIMARY KEY (OnlineID) ,
     foreign key (CustomerID) 
         references Customer(CustomerID)
         on delete cascade
@@ -56,36 +56,36 @@ CREATE TABLE OnlineCustomer
 
 CREATE TABLE FDAccountType
 (
-	TypeID varchar(7),
+	TypeID varchar(7) ,
     Duration numeric(3,0),
     InterestRate numeric(4,2),
 	primary key(TypeID)
 );
 
 CREATE Table CashAccountType (
-	TypeID varchar(5),
-    Type varchar(20),
-    Minimum numeric(15,2),
-    WCountMax int,
-    InterestRate numeric(4,2),
+	TypeID varchar(5) NOT NULL,
+    Type varchar(20) NOT NULL,
+    Minimum numeric(15,2) NOT NULL,
+    WCountMax int NOT NULL,
+    InterestRate numeric(4,2) NOT NULL,
     primary key (TypeID)
 );
 
 CREATE Table LoanType (
-	TypeID varchar(5),
-    Type varchar(20),
-    InterestRate numeric(4,2),
+	TypeID varchar(5) NOT NULL,
+    Type varchar(20) NOT NULL,
+    InterestRate numeric(4,2) NOT NULL,
     primary key(TypeID)
 );
 
 CREATE Table CashAccount (
 	AccountID INT NOT NULL AUTO_INCREMENT,
-    CustomerID INT,
-    BranchID INT,
-    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    TypeID varchar(5),
-    Balance numeric(15,2),
-    WCount int,
+    CustomerID INT NOT NULL,
+    BranchID INT NOT NULL,
+    DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    TypeID varchar(5) NOT NULL,
+    Balance numeric(15,2) NOT NULL,
+    WCount int NOT NULL,
     primary key (AccountID),
     foreign key (CustomerID) 
         references Customer(CustomerID)
@@ -99,9 +99,9 @@ CREATE Table CashAccount (
 CREATE TABLE FDAccount
 (
 	AccountID INT NOT NULL AUTO_INCREMENT,
-    TypeID varchar(7),
-    SavingsAccountID INT,
-    Amount numeric(15,2),
+    TypeID varchar(7) NOT NULL,
+    SavingsAccountID INT NOT NULL,
+    Amount numeric(15,2) NOT NULL,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key (AccountID),
     foreign key (TypeID) references FDAccountType(TypeID),
@@ -112,9 +112,9 @@ CREATE TABLE FDAccount
 
 CREATE Table Transaction (
 	TransactionID INT NOT NULL AUTO_INCREMENT,
-    FromAccount INT,
-    ToAccount INT,
-    Amount numeric(15,2),
+    FromAccount INT NOT NULL,
+    ToAccount INT NOT NULL,
+    Amount numeric(15,2) NOT NULL,
     Remark varchar(50),
     TransactionTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	primary key (TransactionID),
@@ -128,9 +128,9 @@ CREATE Table Transaction (
 
 CREATE Table Withdrawal (
 	TransactionID INT NOT NULL AUTO_INCREMENT,
-    AccountID INT,
-    Amount numeric(15,2),
-    Remark varchar(50),
+    AccountID INT NOT NULL,
+    Amount numeric(15,2) NOT NULL,
+    Remark varchar(50) ,
     WithdrawalTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	primary key (TransactionID),
     foreign key (AccountID) 
@@ -140,9 +140,9 @@ CREATE Table Withdrawal (
 
 CREATE Table Deposit (
 	TransactionID INT NOT NULL AUTO_INCREMENT,
-    AccountID INT,
-    Amount numeric(15,2),
-    Remark varchar(50),
+    AccountID INT NOT NULL,
+    Amount numeric(15,2) NOT NULL,
+    Remark varchar(50) ,
     DepositTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	primary key (TransactionID),
     foreign key (AccountID) 
@@ -152,15 +152,15 @@ CREATE Table Deposit (
 
 CREATE Table PhysicalLoan (
 	LoanID INT NOT NULL AUTO_INCREMENT,
-    CustomerID INT,
-    BranchID INT,
-    EmployeeID INT,
-    Amount numeric(15,2),
+    CustomerID INT NOT NULL,
+    BranchID INT NOT NULL,
+    EmployeeID INT NOT NULL,
+    Amount numeric(15,2) NOT NULL,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Approved boolean default false,
-    Duration numeric(3,0),
-    InterestRate numeric(4,2),
-    SavingsAccountID INT,
+    Duration numeric(3,0) NOT NULL,
+    InterestRate numeric(4,2) NOT NULL,
+    SavingsAccountID INT NOT NULL,
 	primary key(LoanID),
     foreign key(BranchID) 
         references Branch(BranchID)
@@ -178,14 +178,14 @@ CREATE Table PhysicalLoan (
 
 CREATE TABLE OnlineLoan (
 	LoanID INT NOT NULL AUTO_INCREMENT,
-    CustomerID INT,
-    FDAccountID INT,
-    Amount numeric(13,2),
-    SavingsAccountID INT,
-    BranchID INT,
+    CustomerID INT NOT NULL,
+    FDAccountID INT NOT NULL,
+    Amount numeric(13,2) NOT NULL,
+    SavingsAccountID INT NOT NULL,
+    BranchID INT NOT NULL,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Duration numeric(3,0),
-    InterestRate numeric(4,2),
+    Duration numeric(3,0) NOT NULL,
+    InterestRate numeric(4,2) NOT NULL,
     primary key(LoanID),
     foreign key(CustomerID) 
         references Customer(CustomerID)
@@ -203,10 +203,10 @@ CREATE TABLE OnlineLoan (
 
 CREATE TABLE OnlineLoanInstallment (
 	InstallmentID INT NOT NULL AUTO_INCREMENT,
-	LoanID INT,
+	LoanID INT NOT NULL,
     DeadlineDate timestamp,
-    Amount numeric(13,2),
-    Paid boolean,
+    Amount numeric(13,2) NOT NULL,
+    Paid boolean NOT NULL,
     primary key (InstallmentID) ,
     foreign key (LoanID) 
         references OnlineLoan(LoanID)
@@ -215,10 +215,10 @@ CREATE TABLE OnlineLoanInstallment (
 
 CREATE TABLE PhysicalLoanInstallment (
 	InstallmentID INT NOT NULL AUTO_INCREMENT,
-	LoanID INT,
+	LoanID INT NOT NULL,
     DeadlineDate timestamp,
-    Amount numeric(13,2),
-    Paid boolean,
+    Amount numeric(13,2) NOT NULL,
+    Paid boolean NOT NULL,
     primary key (InstallmentID) ,
     foreign key(LoanID) 
         references PhysicalLoan(LoanID)

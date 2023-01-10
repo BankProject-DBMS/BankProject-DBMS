@@ -35,30 +35,52 @@ onlineLoan.getAll = (customerID, result) => {
 
 onlineLoan.create = (newOnlineLoan, result) => {
   console.log('IN OL model', newOnlineLoan);
+
+  if (newOnlineLoan.Amount > 500000) {
+    result({ kind: 'Limit exceeded' }, null);
+    return;
+  }
   sql.query(
-    'SELECT BranchID FROM CashAccount WHERE AccountID = ?',
-    newOnlineLoan.SavingsAccountID,
+    'SELECT amount FROM fdaccount WHERE AccountID = ?',
+    newOnlineLoan.FDAccountID,
     (err, res) => {
-      if (err) {
-        console.log('error: ', err);
-        result({ kind: 'error', ...err }, null);
+      if (0.6 * res[0].amount < newOnlineLoan.Amount) {
+        result({ kind: 'FD Amount is not sufficient' }, null);
         return;
       }
-      console.log(res);
-      newOnlineLoan.BranchID = res[0].BranchID;
-      sql.query('INSERT INTO OnlineLoan SET ?', newOnlineLoan, (err, res) => {
-        if (err) {
-          console.log('error: ', err);
-          result({ kind: 'error', ...err }, null);
-          return;
-        }
+      sql.query(
+        'SELECT BranchID FROM CashAccount WHERE AccountID = ?',
+        newOnlineLoan.SavingsAccountID,
+        (err, res) => {
+          if (err) {
+            console.log('error: ', err);
+            result({ kind: 'error', ...err }, null);
+            return;
+          }
+          console.log(res);
+          newOnlineLoan.BranchID = res[0].BranchID;
+          sql.query(
+            'INSERT INTO OnlineLoan SET ?',
+            newOnlineLoan,
+            (err, res) => {
+              if (err) {
+                console.log('error: ', err);
+                result({ kind: 'error', ...err }, null);
+                return;
+              }
 
-        console.log('created Online Loan: ', {
-          id: res.insertId,
-          ...newOnlineLoan,
-        });
-        result({ kind: 'success' }, { id: res.insertId, ...newOnlineLoan });
-      });
+              console.log('created Online Loan: ', {
+                id: res.insertId,
+                ...newOnlineLoan,
+              });
+              result(
+                { kind: 'success' },
+                { id: res.insertId, ...newOnlineLoan }
+              );
+            }
+          );
+        }
+      );
     }
   );
 };

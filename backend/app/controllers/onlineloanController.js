@@ -84,7 +84,8 @@ exports.createOnlineLoan = (req, res) => {
     );
 
     OnlineLoanModel.create(onlineLoan, (err, data) => {
-      if (err.kind === 'error') {
+      if (err.kind != 'success') {
+        console.log(err);
         res.status(500).send({
           message:
             err.message || 'Some error occurred while creating the loan.',
