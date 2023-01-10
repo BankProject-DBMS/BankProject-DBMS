@@ -56,6 +56,7 @@ exports.employeeLogin = (req, res) => {
   console.log('in auth controller');
   const userName = req.body.loginDetails.userName;
   const password = req.body.loginDetails.password;
+  const bcrypt = require('bcrypt');
 
   onlineEmployee.findByUsername(userName, (err, data) => {
     if (err.kind === 'not_found') {
@@ -69,25 +70,32 @@ exports.employeeLogin = (req, res) => {
         message: 'Error retrieving user',
       });
     } else {
-      if (data.Password === password) {
-        // TODO
-        const role = data.isManager ? 'manager' : 'employee';
-        const token = jwt.sign({ ...data, role: role }, JWT_SECRET, {
-          expiresIn: '2h',
-        });
-        const employeeID = data.EmployeeID;
-        const branchID = data.BranchID;
-        res.send({
-          auth: 'success',
-          role: role,
-          employeeID,
-          branchID,
-          userName,
-          token,
-        });
-      } else {
-        res.status(401).send({ auth: 'fail', message: 'Incorrect Password' });
-      }
+      hash = data.Password;
+      bcrypt.compare(password, hash, function (err, result) {
+        if (err === 'error') {
+          res.status(500).send({
+            auth: 'fail',
+            message: 'Error retrieving user',
+          });
+        } else if (result === true) {
+          const role = data.isManager ? 'manager' : 'employee';
+          const token = jwt.sign({ ...data, role: role }, JWT_SECRET, {
+            expiresIn: '2h',
+          });
+          const employeeID = data.EmployeeID;
+          const branchID = data.BranchID;
+          res.send({
+            auth: 'success',
+            role: role,
+            employeeID,
+            branchID,
+            userName,
+            token,
+          });
+        } else {
+          res.status(401).send({ auth: 'fail', message: 'Incorrect Password' });
+        }
+      });
     }
   });
 };

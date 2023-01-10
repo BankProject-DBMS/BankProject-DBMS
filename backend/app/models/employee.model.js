@@ -78,14 +78,31 @@ Employee.findByUsername = (userName, result) => {
 };
 
 Employee.createEmployee = (newEmployee, result) => {
-  sql.query('INSERT INTO Employee SET ?', newEmployee, (err, res) => {
+
+  const bcrypt = require('bcrypt');
+  const saltRounds = 10;
+  console.log('in create ', newEmployee);
+  const query = `INSERT INTO Employee SET ?`;
+
+  bcrypt.hash(newEmployee.Password, saltRounds, function(err, hash){
+
     if (err) {
       console.log('error: ', err);
       result({ kind: 'error', err }, null);
       return;
     }
-    console.log('created employee: ', newEmployee);
-    result({ kind: 'success' }, newEmployee);
+
+    newEmployee.Password = hash;
+    sql.query(query, newEmployee, (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error', err }, null);
+        return;
+      }
+      console.log('created employee: ', newEmployee);
+      result({ kind: 'success' }, newEmployee);
+    });
   });
-};
+  };
+
 module.exports = Employee;

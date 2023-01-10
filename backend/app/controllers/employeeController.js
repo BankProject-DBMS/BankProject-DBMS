@@ -34,7 +34,6 @@ exports.create = (req, res) => {
     Name: req.body.name,
     Position: req.body.position,
     BranchID: req.body.branchID,
-    isManager: req.body.isManager,
     OnlineID: req.body.onlineID,
     Password: req.body.password,
   };

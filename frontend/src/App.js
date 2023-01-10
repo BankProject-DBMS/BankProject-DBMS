@@ -23,6 +23,8 @@ import WithdrawalCreate from './Forms/WithdrawalCreate';
 import DepositList from './Forms/DepositList';
 import DepositCreate from './Forms/DepositCreate';
 import OnlineBankingReg from './Forms/OnlineCustomerReg';
+import TransactionCreate from './Forms/TransactionCreate';
+import TransactionList from './Forms/TransactionList';
 
 // import for customer portal
 import CustomerHome from './pages/CustomerHome';
@@ -36,7 +38,7 @@ import OnlineLoanReg from './pages/CustomerPortalPages/OnlineLoanReg';
 import HomePage from './pages/HomePage';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import TransactionCreate from './pages/EmployeePortalPages/TransactionCreate';
+
 
 function App() {
   return (
@@ -91,6 +93,7 @@ function App() {
                   path='transaction-newTransaction'
                   element={<TransactionCreate />}
                 />
+                <Route path='transaction-list' element={<TransactionList />} />
               </RequireAuth>
             }
           ></Route>
