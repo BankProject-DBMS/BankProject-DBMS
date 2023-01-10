@@ -26,5 +26,12 @@ module.exports = (app) => {
     [jwtauth, isManager],
     physLoans.getLoansNeedingApproval
   );
+
+  router.put('/approve/:loanID', [jwtauth, isManager], physLoans.approveLoan);
+
+  router.put('/reject/:loanID', [jwtauth, isManager], physLoans.rejectLoan);
+
+  router.get('/:loanID', [jwtauth, isManager], physLoans.getPhysicalLoanByID);
+
   app.use('/physicalLoans', router);
 };

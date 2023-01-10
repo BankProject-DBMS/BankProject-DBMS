@@ -271,7 +271,7 @@ DELIMITER ;
 
 DELIMITER $$
 create trigger gen_online_installments_on_loan_approve
-	after insert on PhysicalLoan for each row
+	after insert on OnlineLoan for each row
 begin
     call generate_online_installments(NEW.LoanID, NEW.Duration, NEW.DateCreated, NEW.Amount);
 end$$

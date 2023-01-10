@@ -39,7 +39,7 @@ import ApprovalLoansList from './Forms/ApprovalLoansList';
 import HomePage from './pages/HomePage';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+import LoanApproveView from './pages/EmployeePortalPages/LoanApproveView';
 
 function App() {
   return (
@@ -90,6 +90,7 @@ function App() {
                       authRole={'manager'}
                     >
                       <Route exact path='/' element={<ApprovalLoansList />} />
+                      <Route path=':loanID' element={<LoanApproveView />} />
                     </RequireAuth>
                   }
                 />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getLoansNeedingApproval } from '../api/physloans';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Table } from 'antd';
 import Logo from '../pages/Images/Logo2.png';
 
@@ -10,6 +10,11 @@ export default function ApprovalLoansList() {
       title: 'Loan ID',
       dataIndex: 'LoanID',
       key: 'LoanID',
+      render: (text, record) => (
+        <Link to={`/employeePortal/loan-approval/${record.LoanID}`}>
+          {text}
+        </Link>
+      ),
     },
     {
       title: 'Customer ID',
@@ -67,7 +72,16 @@ export default function ApprovalLoansList() {
         />
         <h1 className='topic'>Loans Approval</h1>
       </div>
-      <Table columns={columns} dataSource={loans} />
+      <Table
+        columns={columns}
+        dataSource={loans}
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: (event) =>
+              navigate(`/employeePortal/loan-approval/${record.LoanID}`), // click row
+          };
+        }}
+      />
     </div>
   );
 }

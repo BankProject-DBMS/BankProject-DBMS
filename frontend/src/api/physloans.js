@@ -45,3 +45,33 @@ export async function getLoansNeedingApproval() {
     return await Promise.reject('Failed to get loans needing approval!');
   }
 }
+
+export async function approveLoan(loanID) {
+  try {
+    const response = await axios.put(`${HOST}/physicalLoans/approve/${loanID}`);
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to approve loan!');
+  }
+}
+
+export async function getPhysicalLoanByID(loanID) {
+  try {
+    const response = await axios.get(`${HOST}/physicalLoans/${loanID}`);
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to get physical loan!');
+  }
+}
+
+export async function rejectLoan(loanID) {
+  try {
+    const response = await axios.put(`${HOST}/physicalLoans/reject/${loanID}`);
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to reject loan!');
+  }
+}

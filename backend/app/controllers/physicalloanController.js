@@ -120,7 +120,7 @@ exports.getLoansNeedingApproval = (req, res) => {
 
 exports.approveLoan = (req, res) => {
   const loanID = req.params.loanID;
-  PhysLoanModel.approveLoan(loanID, req, (err, data) => {
+  PhysLoanModel.approveLoan(loanID, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
         message: `No loan found with id ${loanID}.`,
@@ -132,6 +132,40 @@ exports.approveLoan = (req, res) => {
     } else if (err.kind != 'success') {
       res.status(500).send({
         message: err.message || 'Some error occurred while approving loan.',
+      });
+    } else res.send(data);
+  });
+};
+
+exports.rejectLoan = (req, res) => {
+  const loanID = req.params.loanID;
+  PhysLoanModel.rejectLoan(loanID, (err, data) => {
+    if (err.kind === 'not_found') {
+      res.status(404).send({
+        message: `No loan found with id ${loanID}.`,
+      });
+    } else if (err.kind != 'success') {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while rejecting loan.',
+      });
+    } else res.send(data);
+  });
+};
+
+exports.getPhysicalLoanByID = (req, res) => {
+  const loanID = req.params.loanID;
+  PhysLoanModel.getLoanByID(loanID, (err, data) => {
+    if (err.kind === 'not_found') {
+      res.status(404).send({
+        message: `No loan found with id ${loanID}.`,
+      });
+    } else if (err.kind === 'access denied') {
+      res.status(401).send({
+        message: err.message || 'Access Denied to Page',
+      });
+    } else if (err.kind != 'success') {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while retrieving loan.',
       });
     } else res.send(data);
   });
