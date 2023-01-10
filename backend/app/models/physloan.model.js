@@ -50,7 +50,7 @@ physLoan.create = (newPhysLoan, result) => {
 
 physLoan.getInstallmentsByAccountID = (accountID, req, result) => {
   sql.query(
-    'SELECT * from physicalloaninstallment WHERE AccountID = ?',
+    'SELECT * from PhysicalLoanInstallment WHERE AccountID = ?',
     accountID,
     (err, res) => {
       if (err) {
@@ -59,7 +59,7 @@ physLoan.getInstallmentsByAccountID = (accountID, req, result) => {
         return;
       }
       sql.query(
-        'SELECT * from physicalloan WHERE LoanID = ?',
+        'SELECT * from PhysicalLoan WHERE LoanID = ?',
         accountID,
         (err, res) => {
           if (res.length) {

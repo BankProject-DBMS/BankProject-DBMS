@@ -67,6 +67,9 @@ export default function EmployeeHome() {
         </div>
         <div className='employeePortal--menu'>
           <Menu
+            style={{
+              borderRadius: 10
+            }}
             theme='light'
             mode='horizontal'
             items={items}

@@ -131,7 +131,7 @@ export default function CustomerHome(props) {
           <List.Item>
             <Typography.Text
               mark
-              onClick={(e) => navigate(`physicalLoan/${item.key}`)}
+              onClick={(e) => navigate(`physicalLoans/${item.key}`)}
             >
               Physical Loan ID : {<b>{item.key}</b>}
             </Typography.Text>{' '}
@@ -156,7 +156,7 @@ export default function CustomerHome(props) {
           <List.Item>
             <Typography.Text
               mark
-              onClick={(e) => navigate(`onlineLoan/${item.key}`)}
+              onClick={(e) => navigate(`onlineLoans/${item.key}`)}
             >
               Online Loan ID : {<b>{item.key}</b>}
             </Typography.Text>{' '}
