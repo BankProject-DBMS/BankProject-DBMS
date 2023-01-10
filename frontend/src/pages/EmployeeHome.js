@@ -5,6 +5,7 @@ import CustomerHandling from './EmployeePortalPages/CustomerHandling';
 import AccountHandling from './EmployeePortalPages/AccountHandling';
 import LoanHandling from './EmployeePortalPages/LoanHandling';
 import WithdrawalHandling from './EmployeePortalPages/WithdrawalHandling';
+import DepositHandling from './EmployeePortalPages/DepositHandling';
 import { customerLogout } from '../api/auth';
 import Logo from './Images/Logo2.png';
 import './PageStyling/EmployeeHome.css';
@@ -31,8 +32,9 @@ export default function EmployeeHome() {
     getItem('Account', '1', <AccountHandling />),
     getItem('Loan', '2', <LoanHandling />),
     getItem('Withdrawal', '3', <WithdrawalHandling />),
-    getItem('Employee', '4', <EmployeeHandling />, true),
-    getItem('Reports', '5', <ManagerReports />, true),
+    getItem('Deposit', '4', <DepositHandling/>),
+    getItem('Employee', '5', <EmployeeHandling />, true),
+    getItem('Reports', '6', <ManagerReports />, true),
   ]);
 
   useEffect(() => {
@@ -71,7 +73,7 @@ export default function EmployeeHome() {
               borderRadius: 10
             }}
             theme='light'
-            mode='horizontal'
+            mode='horizontal' 
             items={items}
             onClick={handleClick}
           />
