@@ -40,6 +40,7 @@ export default function EmployeeLogin() {
     <div className='login-box'>
       <div className='navbar'>
         <img className='aruci--logo' src={Logo} onClick={() => navigate('/')} />
+        <h1 className='topic'>Employee Login</h1>
       </div>
       <Card
         hoverable
