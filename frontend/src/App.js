@@ -18,7 +18,6 @@ import LoanList from './Forms/LoanList';
 import CustomerLogin from './pages/LoginPages/CustomerLogin';
 import EmployeeLogin from './pages/LoginPages/EmployeeLogin';
 import RequireAuth from './utils/RequireAuth';
-import OnlineBanking from './pages/CustomerPortalPages/OnlineBanking';
 import WithdrawalList from './Forms/WithdrawalList';
 import WithdrawalCreate from './Forms/WithdrawalCreate';
 import DepositList from './Forms/DepositList';
@@ -31,6 +30,8 @@ import AccountView from './pages/CustomerPortalPages/AccountView';
 import FixedDepositView from './pages/CustomerPortalPages/FixedDepositView';
 import OnlineLoanView from './pages/CustomerPortalPages/OnlineLoanView';
 import PhysicalLoanView from './pages/CustomerPortalPages/PhysicalLoanView';
+import OnlineBanking from './pages/CustomerPortalPages/OnlineBanking';
+import OnlineLoanReg  from './pages/CustomerPortalPages/OnlineLoanReg';
 // import for home page
 import HomePage from './pages/HomePage';
 
@@ -103,6 +104,7 @@ function App() {
                 <Route exact path='' element={<CustomerHome />} />
                 <Route path='account/:accountID' element={<AccountView />} />
                 <Route path='onlineBanking' element={<OnlineBanking />} />
+                <Route path='onlineLoan' element={<OnlineLoanReg/>}/>
                 <Route path='fixedDeposits/:fixedDepositID' element={<FixedDepositView />}/>
                 <Route path='onlineLoans/:onlineLoanID' element={<OnlineLoanView />}/>
                 <Route path='physicalLoans/:physicalLoanID' element={<PhysicalLoanView />}/>

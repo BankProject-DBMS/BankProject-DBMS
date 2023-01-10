@@ -179,6 +179,12 @@ export default function CustomerHome(props) {
         <div className='customerPortal--buttons'>
           <Button
             className='customerPortal--button'
+            onClick={() => navigate('onlineLoan')}>
+              Online Loan
+
+          </Button>
+          <Button
+            className='customerPortal--button'
             onClick={() => navigate('onlineBanking')}
           >
             Online Banking
