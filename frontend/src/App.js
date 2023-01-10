@@ -116,7 +116,7 @@ function App() {
                   element={<FixedDepositView />}
                 />
                 <Route
-                  path='onlineLoans/:onlineLoanID'
+                  path='onlineLoans/:loanID'
                   element={<OnlineLoanView />}
                 />
                 <Route

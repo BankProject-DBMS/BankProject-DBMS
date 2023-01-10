@@ -34,11 +34,13 @@ exports.getCustomerOnlineLoans = (req, res) => {
 };
 
 exports.getAccountInstallments = (req, res) => {
-  const accountID = req.params.accountID;
-  OnlineLoanModel.getInstallmentsByAccountID(accountID, req, (err, data) => {
+  console.log(req);
+  const LoanID = req.params.accountID;
+  console.log(LoanID, 'ACCOUNT ID');
+  OnlineLoanModel.getInstallmentsByAccountID(LoanID, req, (err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
-        message: `No account found with id ${accountID}.`,
+        message: `No account found with id ${LoanID}.`,
       });
     } else if (err.kind != 'success') {
       res.status(500).send({

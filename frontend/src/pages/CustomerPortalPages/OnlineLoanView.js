@@ -4,40 +4,46 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../Images/Logo2.png';
 
-import { getCustomerOnlineLoans, getOnlineLoanInstallment } from '../../api/onlineloans';
+import {
+  getCustomerOnlineLoans,
+  getOnlineLoanInstallment,
+} from '../../api/onlineloans';
 
 export default function OnlineLoanView() {
   const [loan, setLoan] = useState();
-  const [onlineLoanInstallment, setOnlineLaonInstallment] = useState();
+  const [onlineLoanInstallment, setOnlineLoanInstallment] = useState();
 
   const { loanID } = useParams();
 
   useEffect(() => {
-    console.log(loanID);
-    getCustomerOnlineLoans(loanID).then((data) => setLoan(data));
-    getOnlineLoanInstallment(loanID).then((data) => setOnlineLaonInstallment(data));
+    getCustomerOnlineLoans(loanID).then((data) => {
+      setLoan(data[0]);
+    });
+    getOnlineLoanInstallment(loanID).then((data) =>
+      setOnlineLoanInstallment(data)
+    );
   }, [loanID]);
-
+  //console.log(loan[0]);
   const columns = [
     {
       title: 'Installment ID',
-      dataIndex: 'installmentID',
-      key: 'installmentID',
+      dataIndex: 'InstallmentID',
+      key: 'InstallmentID',
     },
     {
       title: 'Deadline Date and Time',
-      dataIndex: 'deadlineDate',
-      key: 'deadlineDate',
+      dataIndex: 'DeadlineDate',
+      key: 'DeadlineDate',
     },
     {
       title: 'Amount',
-      dataIndex: 'amount',
-      key: 'amount',
+      dataIndex: 'Amount',
+      key: 'Amount',
     },
     {
       title: 'Paid',
-      dataIndex: 'paid',
-      key: 'paid',
+      dataIndex: 'Paid',
+      key: 'Paid',
     },
   ];
   const navigate = useNavigate();
@@ -45,7 +51,11 @@ export default function OnlineLoanView() {
   return (
     <div>
       <div className='navbar'>
-        <img className='aruci--logo' src={Logo} onClick={() => navigate('/customerPortal/')} />
+        <img
+          className='aruci--logo'
+          src={Logo}
+          onClick={() => navigate('/customerPortal/')}
+        />
         <h1 className='topic'>Online Loan Details</h1>
       </div>
       <div style={{ padding: '1%', margin: '2%', border: 'solid' }}>
@@ -80,7 +90,6 @@ export default function OnlineLoanView() {
           <b>Interest Rate: </b>
           {loan?.InterestRate}
         </p>
-        
       </div>
 
       <div style={{ margin: '2% 2%' }}>

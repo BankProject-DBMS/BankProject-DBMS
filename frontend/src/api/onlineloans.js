@@ -12,6 +12,7 @@ export async function getCustomerOnlineLoans() {
   }
 }
 
+// gets installmetns for a givwen loan ID
 export async function getOnlineLoanInstallment(accountID) {
   try {
     const response = await axios.get(

@@ -61,6 +61,10 @@ export default function AccountView() {
           {account?.AccountID}
         </p>
         <p>
+          <b>Branch ID: </b>
+          {account?.BranchID}
+        </p>
+        <p>
           <b>Customer ID: </b>
           {account?.CustomerID}
         </p>
