@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { createTransaction } from '../../api/transactions';
 import Logo from '../Images/Logo2.png';
 import * as Yup from 'yup';
-export default function OnlineBanking() {
+export default function OnlineLoanReg() {
   const [accounts, setAccounts] = useState([]);
 
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ export default function OnlineBanking() {
           onClick={() => navigate('/customerPortal/')}
           alt='logo'
         />
-        <h1 className='topic'>Online Banking</h1>
+        <h1 className='topic'>Online Loan Registration</h1>
       </div>
       <Card className='form'>
         <Formik

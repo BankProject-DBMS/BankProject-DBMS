@@ -2,11 +2,14 @@ import React from 'react';
 
 import { getDeposites } from '../api/deposits';
 import { Table } from 'antd';
+import { Navigate, useNavigate, Outlet, Link } from 'react-router-dom';
+import Logo from '../pages/Images/Logo2.png';
+import '../pages/PageStyling/Navbar.css';
 
 export default function DepositList() {
   const columns = [
     {
-      title: 'Transaction ID',
+      title: 'Deposit ID',
       dataIndex: 'TransactionID',
       key: 'TransactionID',
     },
@@ -25,6 +28,11 @@ export default function DepositList() {
       dataIndex: 'DepositTime',
       key: 'DepositTime',
     },
+    {
+      title: 'Remarks',
+      dataIndex: 'Remark',
+      key: 'Remark',
+    },
   ];
 
   const [Deposit, setDeposit] = React.useState();
@@ -39,12 +47,21 @@ export default function DepositList() {
       })
       .catch((err) => console.log(err));
   }
+  const navigate = useNavigate();
 
   return (
     <div>
-      <h1>Deposit List</h1>
-
-      {<Table dataSource={Deposit} columns={columns} />}
+      <div className='navbar'>
+        <img
+          className='aruci--logo'
+          src={Logo}
+          onClick={() => navigate('/employeePortal/')}
+        />
+        <h1 className='topic'>Deposit List</h1>
+      </div>
+      <div className='table'>
+        {<Table dataSource={Deposit} columns={columns} />}
+      </div>
     </div>
   );
 }

@@ -1,7 +1,10 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Button } from 'antd';
+import { Button, Card } from 'antd';
 import { addDeposit } from '../api/deposits';
 import * as Yup from 'yup';
+import { Navigate, useNavigate, Outlet } from 'react-router-dom';
+import Logo from '../pages/Images/Logo2.png';
+import '../pages/PageStyling/Navbar.css';
 
 export default function DepositCreate() {
   const depositCreateSchema = Yup.object().shape({
@@ -19,8 +22,18 @@ export default function DepositCreate() {
     };
     addDeposit({ deposit }).then(() => setSubmitting(false));
   };
+  const navigate = useNavigate();
   return (
     <div>
+      <div className='navbar'>
+        <img
+          className='aruci--logo'
+          src={Logo}
+          onClick={() => navigate('/employeePortal/')}
+        />
+        <h1 className='topic'>Create Deposit</h1>
+      </div>
+      <Card className='form'>
       <Formik
         initialValues={{
           accountID: '',
@@ -35,7 +48,7 @@ export default function DepositCreate() {
             borderColor: 'red',
           };
           return (
-            <Form className='deposit--create--form'>
+            <Form className='customer--reg--form'>
               <span>
                 <Field
                   type='number'
@@ -65,16 +78,17 @@ export default function DepositCreate() {
               </Button>
               {Object.values(props.touched).includes(true) &&
                 Object.values(props.errors).length !== 0 && (
-                  <div className='deposit--create--form--errors'>
+                  <Card className='errors'>
                     <ErrorMessage name='accountID' component='div' />
                     <ErrorMessage name='amount' component='div' />
                     <ErrorMessage name='remark' component='div' />
-                  </div>
+                  </Card>
                 )}
             </Form>
           );
         }}
       </Formik>
+      </Card>
     </div>
   );
 }

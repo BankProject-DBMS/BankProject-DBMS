@@ -6,29 +6,21 @@ import { useNavigate } from 'react-router-dom';
 import { createTransaction } from '../../api/transactions';
 import Logo from '../Images/Logo2.png';
 import * as Yup from 'yup';
-export default function OnlineBanking() {
-  const [accounts, setAccounts] = useState([]);
-
+export default function TransactionCreate() {
   const navigate = useNavigate();
 
   const customerRegSchema = Yup.object().shape({
-    myAccountID: Yup.string().required(),
-    toAccountID: Yup.string().required(),
-    amount: Yup.number().required(),
+    fromAccountID: Yup.number().positive().required(),
+    toAccountID: Yup.number().positive().required(),
+    amount: Yup.number().positive().required(),
     remarks: Yup.string().required(),
   });
-
-  useEffect(() => {
-    getAccounts().then((accounts) => {
-      setAccounts(accounts);
-    });
-  }, []);
 
   const handleSubmit = (values, { setSubmitting }) => {
     console.log(values);
     setSubmitting(true);
     const transaction = {
-      fromAccountID: values.myAccountID,
+      fromAccountID: values.fromAccountID,
       toAccountID: values.toAccountID,
       amount: values.amount,
       remarks: values.remarks,
@@ -36,33 +28,21 @@ export default function OnlineBanking() {
     createTransaction(transaction).then(() => setSubmitting(false));
   };
 
-  let options = accounts.map((account) => (
-    <option key={account.AccountID} value={account.AccountID}>
-      {account.AccountID}
-    </option>
-  ));
-  options = [
-    <option selected disabled>
-      Choose Account
-    </option>,
-    ...options,
-  ];
-
   return (
     <div>
       <div className='navbar'>
         <img
           className='aruci--logo'
           src={Logo}
-          onClick={() => navigate('/customerPortal/')}
+          onClick={() => navigate('/employeePortal/')}
           alt='logo'
         />
-        <h1 className='topic'>Online Banking</h1>
+        <h1 className='topic'>Create Transaction</h1>
       </div>
       <Card className='form'>
         <Formik
           initialValues={{
-            myAccountID: accounts[0]?.AccountID,
+            fromAccountID: '',
             toAccountID: '',
             amount: '',
             remarks: '',
@@ -74,14 +54,15 @@ export default function OnlineBanking() {
             return (
               <Form className='customer--reg--form'>
                 <span>
-                  <label htmlFor='myAccountID'>My Account ID</label>
-                  <Field as='select' name='myAccountID'>
-                    {options}
-                  </Field>
+                  <Field
+                    type='text'
+                    name='fromAccountID'
+                    placeholder='From Account'
+                  />
                 </span>
                 <span>
                   <Field
-                    type='number'
+                    type='text'
                     name='toAccountID'
                     placeholder='To Account'
                   />
@@ -105,7 +86,7 @@ export default function OnlineBanking() {
                 {Object.values(props.touched).includes(true) &&
                   Object.values(props.errors).length !== 0 && (
                     <Card className='errors'>
-                      <ErrorMessage name='myAccountID' />
+                      <ErrorMessage name='fromAccountID' />
                       <ErrorMessage name='toAccountID' />
                       <ErrorMessage name='amount' />
                       <ErrorMessage name='remarks' />

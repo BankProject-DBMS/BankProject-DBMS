@@ -5,11 +5,13 @@ import CustomerHandling from './EmployeePortalPages/CustomerHandling';
 import AccountHandling from './EmployeePortalPages/AccountHandling';
 import LoanHandling from './EmployeePortalPages/LoanHandling';
 import WithdrawalHandling from './EmployeePortalPages/WithdrawalHandling';
+import DepositHandling from './EmployeePortalPages/DepositHandling';
 import { customerLogout } from '../api/auth';
 import Logo from './Images/Logo2.png';
 import './PageStyling/EmployeeHome.css';
 import ManagerReports from './EmployeePortalPages/ManagerReports';
 import EmployeeHandling from './EmployeePortalPages/EmployeeHandling';
+import TransactionHandling from './EmployeePortalPages/TransactionHandling';
 
 const { Header, Content, Footer } = Layout;
 
@@ -31,8 +33,10 @@ export default function EmployeeHome() {
     getItem('Account', '1', <AccountHandling />),
     getItem('Loan', '2', <LoanHandling />),
     getItem('Withdrawal', '3', <WithdrawalHandling />),
-    getItem('Employee', '4', <EmployeeHandling />, true),
-    getItem('Reports', '5', <ManagerReports />, true),
+    getItem('Deposit', '4', <DepositHandling />),
+    getItem('Transaction', '5', <TransactionHandling />),
+    getItem('Employee', '6', <EmployeeHandling />, true),
+    getItem('Reports', '7', <ManagerReports />, true),
   ]);
 
   useEffect(() => {
@@ -40,8 +44,8 @@ export default function EmployeeHome() {
     if (role === 'manager') {
       setItems((oldItems) => {
         let newItems = [...oldItems];
-        newItems[4].disabled = false;
-        newItems[5].disabled = false;
+        newItems[6].disabled = false;
+        newItems[7].disabled = false;
         return newItems;
       });
     }
@@ -68,7 +72,7 @@ export default function EmployeeHome() {
         <div className='employeePortal--menu'>
           <Menu
             style={{
-              borderRadius: 10
+              borderRadius: 10,
             }}
             theme='light'
             mode='horizontal'

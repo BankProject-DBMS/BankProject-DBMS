@@ -5,7 +5,7 @@ export default function DepositHandling() {
   return (
     <div>
       <div>
-        <Link to='deposit-register'>Register New Deposit</Link>
+        <Link to='deposit-newDeposit'>Register New Deposit</Link>
       </div>
       <div>
         <Link to='deposit-list'>Deposit List</Link>
