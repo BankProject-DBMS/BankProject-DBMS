@@ -90,7 +90,7 @@ CREATE Table CashAccount (
         references Customer(CustomerID)
         on delete cascade,
 	foreign key(BranchID) 
-        references branch(BranchID)
+        references Branch(BranchID)
         on delete cascade,
     foreign key (TypeID) references CashAccountType(TypeID)
 );
@@ -196,7 +196,7 @@ CREATE TABLE OnlineLoan (
         references CashAccount(AccountID)
         on delete cascade,
 	foreign key(BranchID) 
-        references branch(BranchID)
+        references Branch(BranchID)
         on delete cascade
 );
 
