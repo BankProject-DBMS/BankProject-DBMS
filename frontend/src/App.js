@@ -36,6 +36,7 @@ import OnlineLoanReg  from './pages/CustomerPortalPages/OnlineLoanReg';
 import HomePage from './pages/HomePage';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import TransactionCreate from './pages/EmployeePortalPages/TransactionCreate';
 
 function App() {
   return (
@@ -85,6 +86,11 @@ function App() {
                 />
                 <Route path='deposit-list' element={<DepositList />} />
                 <Route path='deposit-newDeposit' element={<DepositCreate />} />
+
+                <Route
+                  path='transaction-newTransaction'
+                  element={<TransactionCreate />}
+                />
               </RequireAuth>
             }
           ></Route>
