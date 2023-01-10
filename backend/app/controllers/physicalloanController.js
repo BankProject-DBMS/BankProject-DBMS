@@ -17,6 +17,31 @@ exports.getCustomerPhysicalLoans = (req, res) => {
   });
 };
 
+exports.getCustomerPhysicalLoanByID = (req, res) => {
+  const customerID = req.user.CustomerID;
+  const loanID = req.params.loanID;
+  PhysLoanModel.getLoanByID(loanID, (err, data) => {
+    if (err.kind === 'not_found') {
+      res.status(404).send({
+        message: `No physical loan found for customer ${customerID} with ID ${loanID}.`,
+      });
+    } else if (err.kind != 'success') {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while retrieving loan.',
+      });
+    } else {
+      console.log(data);
+      if (data.CustomerID === customerID) {
+        res.send(data);
+      } else {
+        res.status(403).send({
+          message: 'You are not authorized to view this loan.',
+        });
+      }
+    }
+  });
+};
+
 exports.createPhysicalLoan = (req, res) => {
   if (!req.body) {
     res.status(400).send({

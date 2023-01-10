@@ -33,5 +33,11 @@ module.exports = (app) => {
 
   router.get('/:loanID', [jwtauth, isManager], physLoans.getPhysicalLoanByID);
 
+  router.get(
+    '/customer/:loanID',
+    [jwtauth],
+    physLoans.getCustomerPhysicalLoanByID
+  );
+
   app.use('/physicalLoans', router);
 };

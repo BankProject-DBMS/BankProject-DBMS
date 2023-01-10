@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Logo from '../Images/Logo2.png';
 
 import {
-  getCustomerPhysicalLoans,
+  getCustomerPhysicalLoanByID,
   getPhysicalLoanInstallment,
 } from '../../api/physloans';
 
@@ -17,8 +17,8 @@ export default function PhysicalLoanView() {
 
   useEffect(() => {
     console.log(physicalLoanID);
-    getCustomerPhysicalLoans(physicalLoanID).then((data) => {
-      setLoan(data[0]);
+    getCustomerPhysicalLoanByID(physicalLoanID).then((data) => {
+      setLoan(data);
     });
     getPhysicalLoanInstallment(physicalLoanID).then((data) => {
       setPhysicalLaonInstallment(data);

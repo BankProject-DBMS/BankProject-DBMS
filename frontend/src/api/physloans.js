@@ -12,6 +12,19 @@ export async function getCustomerPhysicalLoans() {
   }
 }
 
+// get a physical loan account by loanID
+export async function getCustomerPhysicalLoanByID(loanID) {
+  try {
+    const response = await axios.get(
+      ` ${HOST}/physicalLoans/customer/${loanID}`
+    );
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return await Promise.reject('Failed to get physical loan!');
+  }
+}
+
 // create a new physical loan
 export async function createPhysicalLoan(loan) {
   try {
