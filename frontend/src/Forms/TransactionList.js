@@ -1,22 +1,26 @@
 import React from 'react';
-
-import { getWithdrawals } from '../api/withdrawals';
+import { getTransactions } from '../api/transactions';
 import { Table } from 'antd';
 import Logo from '../pages/Images/Logo2.png';
 import { Navigate, useNavigate, Outlet } from 'react-router-dom';
 import '../pages/PageStyling/Navbar.css'
 
-export default function WithdrawalList() {
+export default function TransactionList() {
   const columns = [
     {
-      title: 'Widthdrawal ID',
+      title: 'Transaction ID',
       dataIndex: 'TransactionID',
       key: 'TransactionID',
     },
     {
-      title: 'Account Number',
-      dataIndex: 'AccountID',
-      key: 'AccountID',
+      title: 'From Account ID',
+      dataIndex: 'FromAccount',
+      key: 'FromAccount',
+    },
+    {
+      title: 'To Account ID',
+      dataIndex: 'ToAccount',
+      key: 'ToAccount',
     },
     {
       title: 'Amount Rs.',
@@ -25,8 +29,8 @@ export default function WithdrawalList() {
     },
     {
       title: 'Date-Time',
-      dataIndex: 'WithdrawalTime',
-      key: 'WithdrawalTime',
+      dataIndex: 'TransactionTime',
+      key: 'TransactionTime',
     },
     {
       title: 'Remarks',
@@ -35,15 +39,15 @@ export default function WithdrawalList() {
     },
   ];
 
-  const [Withdrawal, setWithdrawal] = React.useState();
+  const [Transaction, setTransaction] = React.useState();
   //const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => loadWithdrawalList(), []);
+  React.useEffect(() => loadTransactionList(), []);
 
-  function loadWithdrawalList() {
-    getWithdrawals()
+  function loadTransactionList() {
+    getTransactions()
       .then((data) => {
-        setWithdrawal(data);
+        setTransaction(data);
       })
       .catch((err) => console.log(err));
   }
@@ -57,10 +61,10 @@ export default function WithdrawalList() {
         className='aruci--logo' 
         src={Logo}
         onClick={() => navigate('/employeePortal/')} />
-        <h1 className='topic'>Withdrawal List</h1>
+        <h1 className='topic'>Transaction List</h1>
       </div >
       <div className='table'>
-      {<Table dataSource={Withdrawal} columns={columns} />}
+      {<Table dataSource={Transaction} columns={columns} />}
       </div>
     </div>
   );

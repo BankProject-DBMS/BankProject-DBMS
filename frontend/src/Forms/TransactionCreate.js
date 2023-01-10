@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { getAccounts } from '../../api/accounts';
+import { getAccounts } from '../api/accounts';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Card, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { createTransaction } from '../../api/transactions';
-import Logo from '../Images/Logo2.png';
+import { createTransaction } from '../api/transactions';
+import Logo from '../pages/Images/Logo2.png';
 import * as Yup from 'yup';
 export default function TransactionCreate() {
   const navigate = useNavigate();

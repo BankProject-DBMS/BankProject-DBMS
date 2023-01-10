@@ -1,5 +1,5 @@
 const TransactionModel = require('../models/transaction.model');
-const AccountModel = require('../models/account.model');
+
 
 // Retrieve all outgoing transactions for an account
 exports.getAllOutgoing = (req, res) => {
@@ -81,5 +81,17 @@ exports.create = (req, res) => {
     } else {
       res.send(data);
     }
+  });
+};
+
+exports.findAll = (req, res) => {
+  console.log(req.body);
+  TransactionModel.getAll(null, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while retrieving transactions.',
+      });
+    else res.send(data);
   });
 };

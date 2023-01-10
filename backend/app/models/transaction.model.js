@@ -125,4 +125,20 @@ Transaction.findById = (id, result) => {
   );
 };
 
+Transaction.getAll = (transactionID, result) => {
+  let query1 = 'SELECT * FROM Transaction';
+
+  sql.query(query1, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
+    }
+
+    result(null, res);
+    return;
+  });
+};
+
+
 module.exports = Transaction;

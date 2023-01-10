@@ -1,6 +1,16 @@
 import axios from 'axios';
 import { HOST } from './config';
 
+export async function getTransactions() {
+  try {
+    const response = await axios.get(`${HOST}/transactions`);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return await Promise.reject('Failed to get accounts list!');
+  }
+}
+
 export async function getCreditTransactions(accountID) {
   try {
     const response = await axios.get(

@@ -10,7 +10,6 @@ export default function EmployeeReg() {
     name: Yup.string().required(),
     position: Yup.string().required(),
     branchID: Yup.number().required(),
-    isManager: Yup.boolean(),
     onlineID: Yup.string().required(),
     password: Yup.string().required(),
   });
@@ -22,7 +21,6 @@ export default function EmployeeReg() {
       name: values.name,
       position: values.position,
       branchID: values.branchID,
-      isManager: values.isManager,
       onlineID: values.onlineID,
       password: values.password,
     };
@@ -52,7 +50,6 @@ export default function EmployeeReg() {
             name: '',
             position: '',
             branchID: '',
-            isManager: false,
             onlineID: '',
             password: '',
           }}
@@ -88,14 +85,7 @@ export default function EmployeeReg() {
                   />
                 </span>
                 <span>
-                  <Field
-                    type='checkbox'
-                    name='isManager'
-                    placeholder='Is Manager'
-                  />
-                </span>
-                <span>
-                  <Field type='text' name='onlineID' placeholder='Online ID' />
+                  <Field type='text' name='onlineID' placeholder='Online Username' />
                 </span>
                 <span>
                   <Field
@@ -119,7 +109,6 @@ export default function EmployeeReg() {
                       <ErrorMessage name='name' />
                       <ErrorMessage name='position' />
                       <ErrorMessage name='branchID' />
-                      <ErrorMessage name='isManager' />
                       <ErrorMessage name='onlineID' />
                       <ErrorMessage name='password' />
                     </Card>

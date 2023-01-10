@@ -72,13 +72,13 @@ VALUES
 
 INSERT INTO Employee(Name, Position, BranchID, isManager, OnlineID, Password)
 VALUES
-	("A.N.Cabral","L1-Employee",1,0,"cabral","12345"),
-    ("Vasudewa","L1-Employee",2,0,"vasu","12345"),
-    ("Mahinda R","L2-Employee",3,0,"MR","12345"),
-    ("Basil","L1-Employee",1,0,"basil","12345"),
-    ("Ranil W.","Manager",1,1,"ranil","12345"),
-    ("Gotabaya R","Manager",2,1,"gota","12345"),
-    ("Ravi K","Manager",3,1,"ravi","12345");
+	("A.N.Cabral","L1-Employee",1,0,"cabral","$2b$10$q9H/eX.eoU2KTwJ.i54gjOf9AUFSP3KiCJJ08V0WSdEF8JsNd.5vC"),
+    ("Vasudewa","L1-Employee",2,0,"vasu","$2b$10$q9H/eX.eoU2KTwJ.i54gjOf9AUFSP3KiCJJ08V0WSdEF8JsNd.5vC"),
+    ("Mahinda R","L2-Employee",3,0,"MR","$2b$10$q9H/eX.eoU2KTwJ.i54gjOf9AUFSP3KiCJJ08V0WSdEF8JsNd.5vC"),
+    ("Basil","L1-Employee",1,0,"basil","$2b$10$q9H/eX.eoU2KTwJ.i54gjOf9AUFSP3KiCJJ08V0WSdEF8JsNd.5vC"),
+    ("Ranil W.","Manager",1,1,"ranil","$2b$10$q9H/eX.eoU2KTwJ.i54gjOf9AUFSP3KiCJJ08V0WSdEF8JsNd.5vC"),
+    ("Gotabaya R","Manager",2,1,"gota","$2b$10$q9H/eX.eoU2KTwJ.i54gjOf9AUFSP3KiCJJ08V0WSdEF8JsNd.5vC"),
+    ("Ravi K","Manager",3,1,"ravi","$2b$10$q9H/eX.eoU2KTwJ.i54gjOf9AUFSP3KiCJJ08V0WSdEF8JsNd.5vC");
     
     
 INSERT INTO PhysicalLoan(CustomerID, BranchID, EmployeeID, Amount, Duration, InterestRate, SavingsAccountID)

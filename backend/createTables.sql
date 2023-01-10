@@ -21,9 +21,9 @@ CREATE Table Employee (
     Name varchar(20),
     Position varchar(200),
     BranchID INT,
-    isManager boolean,
+    isManager boolean default false,
     OnlineID varchar(10),
-    Password varchar(20),
+    Password varchar(100),
 	primary key(EmployeeID),
     foreign key(BranchID) 
         references Branch(BranchID)
