@@ -28,10 +28,11 @@ function getItem(label, key, component, disabled, icon, children) {
 
 export default function EmployeeHome() {
   const [Links, setLinks] = useState(<h1>ARUCI</h1>);
+  const [role] = useState(localStorage.getItem('role'));
   const [items, setItems] = useState([
     getItem('Customer', '0', <CustomerHandling />),
     getItem('Account', '1', <AccountHandling />),
-    getItem('Loan', '2', <LoanHandling />),
+    getItem('Loan', '2', <LoanHandling role={role} />),
     getItem('Withdrawal', '3', <WithdrawalHandling />),
     getItem('Deposit', '4', <DepositHandling />),
     getItem('Transaction', '5', <TransactionHandling />),
@@ -40,7 +41,6 @@ export default function EmployeeHome() {
   ]);
 
   useEffect(() => {
-    const role = localStorage.getItem('role');
     if (role === 'manager') {
       setItems((oldItems) => {
         let newItems = [...oldItems];
@@ -49,7 +49,7 @@ export default function EmployeeHome() {
         return newItems;
       });
     }
-  }, []);
+  }, [role]);
 
   function handleClick(event) {
     console.log(items[event.key].label);

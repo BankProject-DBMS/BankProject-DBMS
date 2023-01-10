@@ -83,4 +83,31 @@ physLoan.getInstallmentsByAccountID = (accountID, req, result) => {
     }
   );
 };
+
+physLoan.getLoansNeedingApproval = (req, result) => {
+  const branchID = req.user.BranchID;
+  sql.query(
+    'SELECT * from PhysicalLoan WHERE Approved = false and BranchID = ?',
+    branchID,
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error', ...err }, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log('found loans needing approval: ', res);
+        result({ kind: 'success' }, res);
+      } else {
+        console.log('no loans needing approval');
+        result({ kind: 'not_found' }, null);
+      }
+    }
+  );
+};
+
+physLoan.approveLoan = (loanID, result) => {
+  sql.query(
+    
 module.exports = physLoan;

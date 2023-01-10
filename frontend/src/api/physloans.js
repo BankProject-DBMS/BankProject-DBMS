@@ -35,3 +35,13 @@ export async function getPhysicalLoanInstallment(accountID) {
     return await Promise.reject('Failed to get installment list!');
   }
 }
+
+export async function getLoansNeedingApproval() {
+  try {
+    const response = await axios.get(`${HOST}/physicalLoans/needApproval`);
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to get loans needing approval!');
+  }
+}

@@ -34,6 +34,7 @@ import OnlineLoanView from './pages/CustomerPortalPages/OnlineLoanView';
 import PhysicalLoanView from './pages/CustomerPortalPages/PhysicalLoanView';
 import OnlineBanking from './pages/CustomerPortalPages/OnlineBanking';
 import OnlineLoanReg from './pages/CustomerPortalPages/OnlineLoanReg';
+import ApprovalLoansList from './Forms/ApprovalLoansList';
 // import for home page
 import HomePage from './pages/HomePage';
 
@@ -80,7 +81,18 @@ function App() {
                 />
 
                 <Route path='loan-register' element={<LoanReg />} />
-                <Route path='loan-list' element={<LoanList />} />
+                <Route path='loan-list' element={<ApprovalLoansList />} />
+                <Route
+                  path='loan-approval/*'
+                  element={
+                    <RequireAuth
+                      redirectTo='/employeePortal'
+                      authRole={'manager'}
+                    >
+                      <Route exact path='/' element={<ApprovalLoansList />} />
+                    </RequireAuth>
+                  }
+                />
                 <Route path='withdrawal-list' element={<WithdrawalList />} />
                 <Route
                   path='withdrawal-newWithdrawal'
