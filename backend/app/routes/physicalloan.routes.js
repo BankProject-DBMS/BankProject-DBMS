@@ -1,5 +1,8 @@
 const { jwtauth } = require('../middleware/jwt');
-const { isAccountOwnedByCustomer } = require('../middleware/middleware');
+const {
+  isAccountOwnedByCustomer,
+  isManager,
+} = require('../middleware/middleware');
 
 module.exports = (app) => {
   const physLoans = require('../controllers/physicalloanController');
@@ -18,5 +21,17 @@ module.exports = (app) => {
     [jwtauth],
     physLoans.getAccountInstallments
   );
+  router.get(
+    '/needApproval',
+    [jwtauth, isManager],
+    physLoans.getLoansNeedingApproval
+  );
+
+  router.put('/approve/:loanID', [jwtauth, isManager], physLoans.approveLoan);
+
+  router.put('/reject/:loanID', [jwtauth, isManager], physLoans.rejectLoan);
+
+  router.get('/:loanID', [jwtauth, isManager], physLoans.getPhysicalLoanByID);
+
   app.use('/physicalLoans', router);
 };

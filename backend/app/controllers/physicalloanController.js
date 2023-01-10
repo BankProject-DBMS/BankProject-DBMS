@@ -103,3 +103,70 @@ exports.getAccountInstallments = (req, res) => {
     } else res.send(data);
   });
 };
+
+exports.getLoansNeedingApproval = (req, res) => {
+  PhysLoanModel.getLoansNeedingApproval(req, (err, data) => {
+    if (err.kind === 'not_found') {
+      res.status(404).send({
+        message: 'No loans needing approval found.',
+      });
+    } else if (err.kind != 'success') {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while retrieving loans.',
+      });
+    } else res.send(data);
+  });
+};
+
+exports.approveLoan = (req, res) => {
+  const loanID = req.params.loanID;
+  PhysLoanModel.approveLoan(loanID, (err, data) => {
+    if (err.kind === 'not_found') {
+      res.status(404).send({
+        message: `No loan found with id ${loanID}.`,
+      });
+    } else if (err.kind === 'already_approved') {
+      res.status(400).send({
+        message: 'Loan has already been approved.',
+      });
+    } else if (err.kind != 'success') {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while approving loan.',
+      });
+    } else res.send(data);
+  });
+};
+
+exports.rejectLoan = (req, res) => {
+  const loanID = req.params.loanID;
+  PhysLoanModel.rejectLoan(loanID, (err, data) => {
+    if (err.kind === 'not_found') {
+      res.status(404).send({
+        message: `No loan found with id ${loanID}.`,
+      });
+    } else if (err.kind != 'success') {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while rejecting loan.',
+      });
+    } else res.send(data);
+  });
+};
+
+exports.getPhysicalLoanByID = (req, res) => {
+  const loanID = req.params.loanID;
+  PhysLoanModel.getLoanByID(loanID, (err, data) => {
+    if (err.kind === 'not_found') {
+      res.status(404).send({
+        message: `No loan found with id ${loanID}.`,
+      });
+    } else if (err.kind === 'access denied') {
+      res.status(401).send({
+        message: err.message || 'Access Denied to Page',
+      });
+    } else if (err.kind != 'success') {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while retrieving loan.',
+      });
+    } else res.send(data);
+  });
+};

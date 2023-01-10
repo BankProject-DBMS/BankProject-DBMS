@@ -5,6 +5,7 @@ drop procedure if exists generate_physical_installments;
 drop procedure if exists generate_online_installments;
 drop procedure if exists withdrawals_procedure;
 drop procedure if exists transfers_procedure;
+drop procedure if exists approve_loan;
 drop trigger if exists gen_physical_installments_on_loan_approve;
 drop trigger if exists gen_online_installments_on_loan_approve;
 
@@ -270,7 +271,7 @@ DELIMITER ;
 
 DELIMITER $$
 create trigger gen_online_installments_on_loan_approve
-	after insert on PhysicalLoan for each row
+	after insert on OnlineLoan for each row
 begin
     call generate_online_installments(NEW.LoanID, NEW.Duration, NEW.DateCreated, NEW.Amount);
 end$$
@@ -340,6 +341,32 @@ BEGIN
             INSERT INTO Transaction(FromAccount, ToAccount, Amount, Remark) values (ID1,ID2,amount,remark);
             UPDATE CashAccount SET Balance = Balance - amount WHERE AccountID = ID1;
             UPDATE CashAccount SET Balance = Balance + amount WHERE AccountID = ID2;
+            COMMIT;
+            set code = 'SUCCESS';
+            select code;
+        END IF;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE approve_loan (IN loanID INT)
+BEGIN
+    DECLARE approved boolean;
+    DECLARE code varchar(50);
+    DECLARE EXIT HANDLER FOR SQLEXception 
+        BEGIN
+            ROLLBACK;
+            RESIGNAL;
+        END;
+    START TRANSACTION;
+        
+        SET approved = (SELECT PhysicalLoan.Approved FROM PhysicalLoan WHERE LoanID = loanID LIMIT 1);
+        IF approved = true THEN
+            ROLLBACK;
+            set code = 'ALREADY_APPROVED';
+            select code;
+        ELSE
+            UPDATE PhysicalLoan SET Approved = true WHERE PhysicalLoan.LoanID = loanID;
             COMMIT;
             set code = 'SUCCESS';
             select code;
