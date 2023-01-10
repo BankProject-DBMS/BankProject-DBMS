@@ -50,7 +50,7 @@ physLoan.create = (newPhysLoan, result) => {
 
 physLoan.getInstallmentsByAccountID = (accountID, req, result) => {
   sql.query(
-    'SELECT * from PhysicalLoanInstallment WHERE AccountID = ?',
+    'SELECT * from PhysicalLoanInstallment WHERE LoanID = ?',
     accountID,
     (err, res) => {
       if (err) {
@@ -61,20 +61,20 @@ physLoan.getInstallmentsByAccountID = (accountID, req, result) => {
       sql.query(
         'SELECT * from PhysicalLoan WHERE LoanID = ?',
         accountID,
-        (err, res) => {
-          if (res.length) {
-            console.log(res);
+        (err, res1) => {
+          if (res1.length) {
+            console.log(res1);
             if (
               req.user.role === 'customer' &&
-              !(req.user.CustomerID === res[0].CustomerID)
+              !(req.user.CustomerID === res1[0].CustomerID)
             ) {
               console.log('no access physical loan installments find by id');
               result({ kind: 'access denied' }, null);
               return;
             }
 
-            console.log('found installments for account: ', res[0]);
-            result({ kind: 'success' }, res[0]);
+            console.log('found installments for account: ', res);
+            result({ kind: 'success' }, res);
           } else {
             result({ kind: 'not_found' }, null);
           }

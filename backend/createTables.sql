@@ -80,6 +80,7 @@ CREATE Table LoanType (
 CREATE Table CashAccount (
 	AccountID INT NOT NULL AUTO_INCREMENT,
     CustomerID INT,
+    BranchID INT,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     TypeID varchar(5),
     Balance numeric(15,2),
@@ -87,6 +88,9 @@ CREATE Table CashAccount (
     primary key (AccountID),
     foreign key (CustomerID) 
         references Customer(CustomerID)
+        on delete cascade,
+	foreign key(BranchID) 
+        references branch(BranchID)
         on delete cascade,
     foreign key (TypeID) references CashAccountType(TypeID)
 );
@@ -177,6 +181,7 @@ CREATE TABLE OnlineLoan (
     FDAccountID INT,
     Amount numeric(13,2),
     SavingsAccountID INT,
+    BranchID INT,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Duration numeric(3,0),
     InterestRate numeric(4,2),
@@ -189,6 +194,9 @@ CREATE TABLE OnlineLoan (
         on delete cascade,
     foreign key(SavingsAccountID) 
         references CashAccount(AccountID)
+        on delete cascade,
+	foreign key(BranchID) 
+        references branch(BranchID)
         on delete cascade
 );
 

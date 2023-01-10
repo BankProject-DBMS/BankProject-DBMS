@@ -68,7 +68,7 @@ Account.findById = (id, req, result) => {
 };
 
 // SQL query to create a new account
-Account.create = (newAccount, result) => {
+Account.create = (newAccount, req, result) => {
   sql.query('INSERT INTO CashAccount SET ?', newAccount, (err, res) => {
     if (err) {
       console.log('error: ', err);

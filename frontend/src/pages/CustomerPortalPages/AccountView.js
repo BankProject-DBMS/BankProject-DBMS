@@ -24,7 +24,7 @@ export default function AccountView() {
     );
     getDebitTransactions(accountID).then((data) => setDebitTransactions(data));
   }, [accountID]);
-
+  console.log(debitTransactions);
   const columns = [
     {
       title: 'Transaction ID',

@@ -45,15 +45,15 @@ VALUES
     ("SS", "Senior", 1000.00, 5, 13);
 
 
-INSERT INTO CashAccount(customerID, TypeID, Balance, WCount)
+INSERT INTO CashAccount(customerID,BranchID, TypeID, Balance, WCount)
 VALUES
-    (1, "SA", 1004000.00, 4),
-    (2, "SA", 2834000.00, 2),
-    (3, "SA", 3000561.00, 3),
-    (4, "C0", 141000.00, 0),
-    (4, "SA", 145000.00, 0),
-    (5, "ST", 1341.00, 4),
-    (6, "SS", 4240010.00, 5);
+    (1,1, "SA", 1004000.00, 4),
+    (2,1, "SA", 2834000.00, 2),
+    (3,2, "SA", 3000561.00, 3),
+    (4,2, "C0", 141000.00, 0),
+    (4,1, "SA", 145000.00, 0),
+    (5,1, "ST", 1341.00, 4),
+    (6,1, "SS", 4240010.00, 5);
 
 INSERT INTO FDAccount(TypeID, SavingsAccountID, Amount)
 VALUES
@@ -64,11 +64,11 @@ VALUES
     ('F361500', 5, 300000);
 
 
-INSERT INTO OnlineLoan(CustomerID, FDAccountID, Amount, Duration, InterestRate, SavingsAccountID)
+INSERT INTO OnlineLoan(CustomerID, FDAccountID, Amount, Duration, InterestRate, SavingsAccountID,BranchID)
 VALUES
-    (4, 1, 150000, 6, 13.0, 1),
-    (2, 2, 212000, 12, 14.5, 2),
-    (3, 3, 550000, 36, 15.0, 3);
+    (4, 1, 150000, 6, 13.0, 1,1),
+    (2, 2, 212000, 12, 14.5, 2,1),
+    (3, 3, 550000, 36, 15.0, 3,1);
 
 INSERT INTO Employee(Name, Position, BranchID, isManager, OnlineID, Password)
 VALUES
@@ -89,10 +89,10 @@ VALUES
 
 INSERT INTO OnlineCustomer(CustomerID, Username, Password)
 VALUES
-    (1, 'AnjulaRox', '123456'),
-    (2, 'UdaraMali', '456789'),
-    (4, 'Inuka123', '159456'),
-    (5, 'RadithSam', '345615');
+    (1, 'AnjulaRox', '$2b$10$lQOrEvIUlVVQgcHFWsOJM.i8GWyqlTnOoT5POomjVCmh6YK0wzeyi'),
+    (2, 'UdaraMali', '$2b$10$lQOrEvIUlVVQgcHFWsOJM.i8GWyqlTnOoT5POomjVCmh6YK0wzeyi'),
+    (4, 'Inuka123', '$2b$10$lQOrEvIUlVVQgcHFWsOJM.i8GWyqlTnOoT5POomjVCmh6YK0wzeyi'),
+    (5, 'RadithSam', '$2b$10$lQOrEvIUlVVQgcHFWsOJM.i8GWyqlTnOoT5POomjVCmh6YK0wzeyi');
     
 INSERT INTO Deposit(AccountID, Amount, Remark)
 VALUES

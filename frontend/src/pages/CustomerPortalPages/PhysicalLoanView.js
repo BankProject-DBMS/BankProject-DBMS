@@ -17,32 +17,36 @@ export default function PhysicalLoanView() {
 
   useEffect(() => {
     console.log(physicalLoanID);
-    getCustomerPhysicalLoans(physicalLoanID).then((data) => setLoan(data));
-    getPhysicalLoanInstallment(physicalLoanID).then((data) =>
-      setPhysicalLaonInstallment(data)
-    );
+    getCustomerPhysicalLoans(physicalLoanID).then((data) => {
+      setLoan(data[0]);
+    });
+    getPhysicalLoanInstallment(physicalLoanID).then((data) => {
+      setPhysicalLaonInstallment(data);
+    });
   }, [physicalLoanID]);
+
+  console.log(physicalLoanInstallment);
 
   const columns = [
     {
       title: 'Installment ID',
-      dataIndex: 'installmentID',
-      key: 'installmentID',
+      dataIndex: 'InstallmentID',
+      key: 'InstallmentID',
     },
     {
       title: 'Deadline Date and Time',
-      dataIndex: 'deadlineDate',
-      key: 'deadlineDate',
+      dataIndex: 'DeadlineDate',
+      key: 'DeadlineDate',
     },
     {
       title: 'Amount',
-      dataIndex: 'amount',
-      key: 'amount',
+      dataIndex: 'Amount',
+      key: 'Amount',
     },
     {
       title: 'Paid',
-      dataIndex: 'paid',
-      key: 'paid',
+      dataIndex: 'Paid',
+      key: 'Paid',
     },
   ];
   const navigate = useNavigate();
