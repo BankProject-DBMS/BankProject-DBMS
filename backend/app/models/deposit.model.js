@@ -71,7 +71,7 @@ Deposit.create = (newDeposit, result) => {
     const account = newDeposit.accountID;
     const amount = newDeposit.amount;
 
-    query0 = `update cashaccount set balance = balance + ? where accountID = ?`;
+    query0 = `update CashAccount set Balance = Balance + ? where AccountID = ?`;
 
     sql.query(query0, [amount, account], (err, res) => {
       if (err) {
