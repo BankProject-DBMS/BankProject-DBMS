@@ -83,9 +83,9 @@ export default function LoanList() {
       key: 'Amount',
     },
     {
-      title: 'Saving Account ID',
-      dataIndex: 'SavingAccountID',
-      key: 'SavingAccountID',
+      title: 'Savings Account ID',
+      dataIndex: 'SavingsAccountID',
+      key: 'SavingsAccountID',
     },
     {
       title: 'Branch ID',
@@ -106,7 +106,7 @@ export default function LoanList() {
       title: 'Interest Rate',
       dataIndex: 'InterestRate',
       key: 'InterestRate',
-    }, 
+    },
   ];
   const [physicalLoans, setPhysicalLoans] = React.useState();
   const [onlineLoans, setOnlineLoans] = React.useState();

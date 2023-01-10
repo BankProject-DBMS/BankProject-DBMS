@@ -140,5 +140,60 @@ Transaction.getAll = (transactionID, result) => {
   });
 };
 
+Transaction.getBranchInReport = (branchID, result) => {
+  const query = `select * from Transaction t left join CashAccount ct on ct.AccountID = t.ToAccount WHERE ct.BranchID = ?;`;
+  sql.query(query, branchID, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error' }, null);
+      return;
+    }
+
+    result({ kind: 'success' }, res);
+    return;
+  });
+};
+
+Transaction.getBranchOutReport = (branchID, result) => {
+  const query = `select * from Transaction t left join CashAccount ca on ca.AccountID = t.FromAccount WHERE ca.BranchID = ?`;
+  sql.query(query, branchID, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error' }, null);
+      return;
+    }
+
+    result({ kind: 'success' }, res);
+    return;
+  });
+};
+
+Transaction.getBranchInCount = (branchID, result) => {
+  const query = `select count(*) as count from Transaction t left join CashAccount ct on ct.AccountID = t.ToAccount WHERE ct.BranchID = ?;`;
+  sql.query(query, branchID, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error' }, null);
+      return;
+    }
+
+    result({ kind: 'success' }, res);
+    return;
+  });
+};
+
+Transaction.getBranchOutCount = (branchID, result) => {
+  const query = `select count(*) as count from Transaction t left join CashAccount ca on ca.AccountID = t.FromAccount WHERE ca.BranchID = ?`;
+  sql.query(query, branchID, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error' }, null);
+      return;
+    }
+
+    result({ kind: 'success' }, res);
+    return;
+  });
+};
 
 module.exports = Transaction;

@@ -18,7 +18,7 @@ exports.getCustomerOnlineLoans = (req, res) => {
       } else res.send(data);
     });
   } else {
-    OnlineLoanModel.getAll((err, data) => {
+    OnlineLoanModel.getAll(null, (err, data) => {
       if (err.kind === 'not_found') {
         res.status(404).send({
           message: `No online loans found for customer ${customerID}.`,

@@ -8,7 +8,7 @@ export async function getCustomerOnlineLoans() {
     return response.data;
   } catch (err) {
     // console.log(err);
-    return await Promise.reject('Failed to get online deposits list!');
+    return await Promise.reject('Failed to get online loans list!');
   }
 }
 

@@ -10,7 +10,7 @@ const onlineLoan = function (loan) {
 
 //get all phyical loans for a given customer ID or get all online loans
 onlineLoan.getAll = (customerID, result) => {
-  console.log('in get all');
+  console.log('in get all', customerID);
   let query = 'SELECT * from OnlineLoan';
 
   if (customerID) {

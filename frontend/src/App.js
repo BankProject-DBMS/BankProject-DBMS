@@ -40,6 +40,7 @@ import HomePage from './pages/HomePage';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoanApproveView from './pages/EmployeePortalPages/LoanApproveView';
+import TransactionReports from './pages/EmployeePortalPages/TransactionReport';
 
 function App() {
   return (
@@ -81,7 +82,7 @@ function App() {
                 />
 
                 <Route path='loan-register' element={<LoanReg />} />
-                <Route path='loan-list' element={<ApprovalLoansList />} />
+                <Route path='loan-list' element={<LoanList />} />
                 <Route
                   path='loan-approval/*'
                   element={
@@ -107,6 +108,18 @@ function App() {
                   element={<TransactionCreate />}
                 />
                 <Route path='transaction-list' element={<TransactionList />} />
+
+                <Route
+                  path='manager-reports'
+                  element={
+                    <RequireAuth
+                      redirectTo='/employeePortal'
+                      authRole={'manager'}
+                    >
+                      <Route exact path='/' element={<TransactionReports />} />
+                    </RequireAuth>
+                  }
+                />
               </RequireAuth>
             }
           ></Route>

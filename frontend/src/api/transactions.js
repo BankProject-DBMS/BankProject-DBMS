@@ -45,3 +45,43 @@ export async function createTransaction(transaction) {
     return await Promise.reject('Failed to create transaction!');
   }
 }
+
+export async function getBranchInReport() {
+  try {
+    const response = await axios.get(`${HOST}/transactions/report/in`);
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to get branch in report!');
+  }
+}
+
+export async function getBranchInCount() {
+  try {
+    const response = await axios.get(`${HOST}/transactions/report/in/count`);
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to get branch in count!');
+  }
+}
+
+export async function getBranchOutReport() {
+  try {
+    const response = await axios.get(`${HOST}/transactions/report/out`);
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to get branch out report!');
+  }
+}
+
+export async function getBranchOutCount() {
+  try {
+    const response = await axios.get(`${HOST}/transactions/report/out/count`);
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to get branch out count!');
+  }
+}
