@@ -35,6 +35,7 @@ import PhysicalLoanView from './pages/CustomerPortalPages/PhysicalLoanView';
 import HomePage from './pages/HomePage';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import TransactionCreate from './pages/EmployeePortalPages/TransactionCreate';
 
 function App() {
   return (
@@ -84,6 +85,11 @@ function App() {
                 />
                 <Route path='deposit-list' element={<DepositList />} />
                 <Route path='deposit-newDeposit' element={<DepositCreate />} />
+
+                <Route
+                  path='transaction-newTransaction'
+                  element={<TransactionCreate />}
+                />
               </RequireAuth>
             }
           ></Route>
@@ -103,9 +109,18 @@ function App() {
                 <Route exact path='' element={<CustomerHome />} />
                 <Route path='account/:accountID' element={<AccountView />} />
                 <Route path='onlineBanking' element={<OnlineBanking />} />
-                <Route path='fixedDeposits/:fixedDepositID' element={<FixedDepositView />}/>
-                <Route path='onlineLoans/:onlineLoanID' element={<OnlineLoanView />}/>
-                <Route path='physicalLoans/:physicalLoanID' element={<PhysicalLoanView />}/>
+                <Route
+                  path='fixedDeposits/:fixedDepositID'
+                  element={<FixedDepositView />}
+                />
+                <Route
+                  path='onlineLoans/:onlineLoanID'
+                  element={<OnlineLoanView />}
+                />
+                <Route
+                  path='physicalLoans/:physicalLoanID'
+                  element={<PhysicalLoanView />}
+                />
               </RequireAuth>
             }
           ></Route>
