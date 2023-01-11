@@ -1,11 +1,10 @@
-import  { React, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import {
   getBranchInReport,
   getBranchInCount,
   getBranchOutReport,
-  getBranchOutCount
-
+  getBranchOutCount,
 } from '../../api/transactions';
 import { Table } from 'antd';
 import { Navigate, useNavigate, Outlet } from 'react-router-dom';
@@ -46,23 +45,23 @@ export default function TransactionReport() {
     },
   ];
 
-  const [inCount, setInCount] = React.useState();
-  const [OutCount, setOutCount] = React.useState();
+  const [inCount, setInCount] = useState();
+  const [OutCount, setOutCount] = useState();
 
   useEffect(() => {
     getBranchInCount().then((data) => setInCount(data));
-  });
+  }, []);
 
   useEffect(() => {
     getBranchOutCount().then((data) => setOutCount(data));
-  });
+  }, []);
 
-  const [inTransaction, setInTransaction] = React.useState();
-  const [outTransaction, setOutTransaction] = React.useState();
+  const [inTransaction, setInTransaction] = useState();
+  const [outTransaction, setOutTransaction] = useState();
 
   // loan list is loaded on the first component render
-  React.useEffect(() => loadInTransactionList(), []);
-  React.useEffect(() => loadOutTransactionList(), []);
+  useEffect(() => loadInTransactionList(), []);
+  useEffect(() => loadOutTransactionList(), []);
 
   function loadInTransactionList() {
     getBranchInReport()
@@ -94,17 +93,23 @@ export default function TransactionReport() {
         <h1 className='topic'>Transaction Report</h1>
       </div>
       <div className='table'>
-        console.log(inTransaction);
+        {/* {console.log(inTransaction)} */}
 
         <h2>Incoming Transaction List</h2>
-        {<Table dataSource={inTransaction} columns={columns} />}
-        <p><b>Incoming Transaction Count: </b>{inCount?.count}</p>
+        <Table dataSource={inTransaction} columns={columns} />
+        <p>
+          <b>Incoming Transaction Count: </b>
+          {inCount?.count}
+        </p>
       </div>
 
       <div className='table'>
         <h2>Outgoing Transaction List</h2>
         {<Table dataSource={outTransaction} columns={columns} />}
-        <p><b>Outgoing Transaction Count: </b>{OutCount?.count}</p>
+        <p>
+          <b>Outgoing Transaction Count: </b>
+          {OutCount?.count}
+        </p>
       </div>
     </div>
   );

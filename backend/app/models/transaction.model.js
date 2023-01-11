@@ -177,7 +177,7 @@ Transaction.getBranchInCount = (branchID, result) => {
       return;
     }
 
-    result({ kind: 'success' }, res);
+    result({ kind: 'success' }, res[0]);
     return;
   });
 };
@@ -191,7 +191,7 @@ Transaction.getBranchOutCount = (branchID, result) => {
       return;
     }
 
-    result({ kind: 'success' }, res);
+    result({ kind: 'success' }, res[0]);
     return;
   });
 };

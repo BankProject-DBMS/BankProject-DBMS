@@ -108,19 +108,18 @@ function App() {
                   element={<TransactionCreate />}
                 />
                 <Route path='transaction-list' element={<TransactionList />} />
-                <Route path='transaction-report' element={<TransactionReport />} />
 
-                {/* <Route
-                  path='manager-reports'
+                <Route
+                  path='transaction-report/*'
                   element={
                     <RequireAuth
                       redirectTo='/employeePortal'
                       authRole={'manager'}
                     >
-                      <Route exact path='/' element={<TransactionReports />} />
+                      <Route exact path='/' element={<TransactionReport />} />
                     </RequireAuth>
                   }
-                /> */}
+                />
               </RequireAuth>
             }
           ></Route>
