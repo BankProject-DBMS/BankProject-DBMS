@@ -10,13 +10,30 @@ import * as Yup from 'yup';
 export default function OnlineLoanReg() {
   const [accounts, setAccounts] = useState([]);
   const [fds, setFds] = useState([]);
+  const [selectedFD, setSelectedFD] = useState();
 
   const navigate = useNavigate();
+
+  const maxAmount = selectedFD
+    ? selectedFD.Amount > 500000
+      ? 500000
+      : selectedFD.Amount
+    : 500000;
+
+  const validateAmount = (value) => {
+    let error;
+    // console.log(value);
+    if (!value) {
+      error = 'Amount is required';
+    } else if (value > maxAmount) {
+      error = `Cannot be greater than ${maxAmount}`;
+    }
+    return error;
+  };
 
   const customerRegSchema = Yup.object().shape({
     myAccountID: Yup.number().required(),
     fdAccountID: Yup.number().required(),
-    amount: Yup.number().required(),
     duration: Yup.number().required(),
   });
 
@@ -98,12 +115,27 @@ export default function OnlineLoanReg() {
                 </span>
                 <span>
                   <label htmlFor='fdAccountID'>FD Account ID </label>
-                  <Field as='select' name='fdAccountID'>
+                  <Field
+                    as='select'
+                    name='fdAccountID'
+                    onChange={(e) => {
+                      const fd = fds.find(
+                        (fd) => fd.AccountID === parseInt(e.target.value, 10)
+                      );
+                      setSelectedFD(fd);
+                      props.setFieldValue('fdAccountID', e.target.value);
+                    }}
+                  >
                     {optionsfd}
                   </Field>
                 </span>
                 <span>
-                  <Field type='number' name='amount' placeholder='Amount' />
+                  <Field
+                    type='number'
+                    name='amount'
+                    placeholder='Amount'
+                    validate={validateAmount}
+                  />
                 </span>
                 <span>
                   <Field
