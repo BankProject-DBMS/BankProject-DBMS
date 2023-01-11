@@ -11,10 +11,13 @@ const Employee = function (employee) {
 };
 
 Employee.getAll = (name, result) => {
-  let query = 'SELECT * FROM Employee';
+  let query = 'SELECT EmployeeID, Name, Position, BranchID FROM Employee';
 
   if (name) {
     query += ` WHERE Name LIKE ${sql.escape(`%${name}%`)}`;
+  }
+  else {
+    query += ` WHERE isManager = 0`;
   }
 
   sql.query(query, (err, res) => {
