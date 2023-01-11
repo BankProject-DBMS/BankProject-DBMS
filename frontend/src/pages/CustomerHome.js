@@ -80,6 +80,7 @@ export default function CustomerHome(props) {
         renderItem={(item) => (
           <List.Item>
             <Typography.Text
+              style={{ cursor: 'pointer' }}
               mark
               onClick={(e) => navigate(`account/${item.key}`)}
             >
@@ -103,6 +104,7 @@ export default function CustomerHome(props) {
         renderItem={(item) => (
           <List.Item>
             <Typography.Text
+              style={{ cursor: 'pointer' }}
               mark
               onClick={(e) => navigate(`fixedDeposits/${item.key}`)}
             >
@@ -130,6 +132,7 @@ export default function CustomerHome(props) {
         renderItem={(item) => (
           <List.Item>
             <Typography.Text
+              style={{ cursor: 'pointer' }}
               mark
               onClick={(e) => navigate(`physicalLoans/${item.key}`)}
             >
@@ -155,6 +158,7 @@ export default function CustomerHome(props) {
         renderItem={(item) => (
           <List.Item>
             <Typography.Text
+              style={{ cursor: 'pointer' }}
               mark
               onClick={(e) => navigate(`onlineLoans/${item.key}`)}
             >
@@ -179,9 +183,9 @@ export default function CustomerHome(props) {
         <div className='customerPortal--buttons'>
           <Button
             className='customerPortal--button'
-            onClick={() => navigate('onlineLoan')}>
-              Online Loan
-
+            onClick={() => navigate('onlineLoan')}
+          >
+            Online Loan
           </Button>
           <Button
             className='customerPortal--button'
