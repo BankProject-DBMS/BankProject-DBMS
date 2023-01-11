@@ -37,7 +37,7 @@ CREATE Table Customer (
     dateofbirth date NOT NULL,
     Address varchar(200) NOT NULL,
     Phone char(12) NOT NULL,
-    occupation varchar(20) NOT NULL,
+    occupation varchar(50) NOT NULL,
 	primary key(CustomerID)
 );
 
