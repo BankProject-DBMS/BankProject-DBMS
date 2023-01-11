@@ -37,3 +37,16 @@ export async function createOnlineLoan(loan) {
     return await Promise.reject('Failed to create online loan!');
   }
 }
+
+// get all unpaid online loan installments
+export async function getUnpaidOnlineInstallments() {
+  try {
+    const response = await axios.get(
+      `${HOST}/onlineLoans/onlineLoanInstallmentUnpaid`
+    );
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to get unpaid online installments!');
+  }
+}

@@ -88,3 +88,15 @@ export async function rejectLoan(loanID) {
     return await Promise.reject('Failed to reject loan!');
   }
 }
+
+export async function getUnpaidPhysicalInstallments() {
+  try {
+    const response = await axios.get(
+      `${HOST}/physicalLoans/physicalLoanInstallmentUnpaid`
+    );
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to get unpaid installments!');
+  }
+}

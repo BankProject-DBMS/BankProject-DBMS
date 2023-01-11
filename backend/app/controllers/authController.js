@@ -101,7 +101,7 @@ exports.employeeLogin = (req, res) => {
 };
 
 exports.createOnlineCustomer = (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const onlineCustomer = req.body.onlineCustomer;
   onlineCustomers.create(onlineCustomer, (err, data) => {
     if (err.kind === 'error')

@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
 
-import {
-  getBranchInReport,
-  getBranchInCount,
-  getBranchOutReport,
-  getBranchOutCount,
-} from '../../api/transactions';
+import { getUnpaidOnlineInstallments } from '../../api/onlineloans';
+import { getUnpaidPhysicalInstallments } from '../../api/physloans';
+
 import { Table } from 'antd';
 import { Navigate, useNavigate, Outlet } from 'react-router-dom';
 import Logo from '../Images/Logo2.png';
@@ -37,19 +34,8 @@ export default function UnpaidLoanReport() {
       title: 'Paid',
       dataIndex: 'Paid',
       key: 'Paid',
-    }
+    },
   ];
-
-  const [unpaidOnlineLoanCount, setUnpaidOnlineLoanCount] = useState();
-  const [unpaidPhysicalLoanCount, setUnpaidPhysicalLoanCount] = useState();
-
-  useEffect(() => {
-    getBranchInCount().then((data) => setUnpaidOnlineLoanCount(data));
-  }, []);
-
-  useEffect(() => {
-    getBranchOutCount().then((data) => setUnpaidPhysicalLoanCount(data));
-  }, []);
 
   const [unpaidOnlineLoan, setUnpaidOnlineLoan] = useState();
   const [unpaidPhysicalLoan, setUnpaidPhysicalLoan] = useState();
@@ -59,7 +45,7 @@ export default function UnpaidLoanReport() {
   useEffect(() => loadUnpaidPhysicalLoan(), []);
 
   function loadUnpaidOnlineLoan() {
-    getBranchInReport()
+    getUnpaidOnlineInstallments()
       .then((data) => {
         setUnpaidOnlineLoan(data);
       })
@@ -67,7 +53,7 @@ export default function UnpaidLoanReport() {
   }
 
   function loadUnpaidPhysicalLoan() {
-    getBranchOutReport()
+    getUnpaidPhysicalInstallments()
       .then((data) => {
         setUnpaidPhysicalLoan(data);
       })
@@ -88,12 +74,11 @@ export default function UnpaidLoanReport() {
         <h1 className='topic'>Unpaid Loan Report</h1>
       </div>
       <div className='table'>
-
         <h2>Unpaid Physical Loan Report</h2>
         <Table dataSource={unpaidPhysicalLoan} columns={columns} />
         <p>
           <b>Unpaid Physical Loan Count: </b>
-          {unpaidPhysicalLoanCount?.count}
+          {unpaidPhysicalLoan?.length}
         </p>
       </div>
 
@@ -102,7 +87,7 @@ export default function UnpaidLoanReport() {
         {<Table dataSource={unpaidOnlineLoan} columns={columns} />}
         <p>
           <b>Unpaid Online Loan Count: </b>
-          {unpaidOnlineLoanCount?.count}
+          {unpaidOnlineLoan?.length}
         </p>
       </div>
     </div>

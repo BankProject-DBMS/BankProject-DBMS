@@ -41,7 +41,7 @@ import HomePage from './pages/HomePage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoanApproveView from './pages/EmployeePortalPages/LoanApproveView';
 import TransactionReport from './pages/EmployeePortalPages/TransactionReport';
-import LoanReort from './pages/EmployeePortalPages/LoanReport';
+import LoanReport from './pages/EmployeePortalPages/LoanReport';
 
 function App() {
   return (
@@ -118,6 +118,17 @@ function App() {
                       authRole={'manager'}
                     >
                       <Route exact path='/' element={<TransactionReport />} />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path='loan-report/*'
+                  element={
+                    <RequireAuth
+                      redirectTo='/employeePortal'
+                      authRole={'manager'}
+                    >
+                      <Route exact path='/' element={<LoanReport />} />
                     </RequireAuth>
                   }
                 />

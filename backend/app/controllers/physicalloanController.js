@@ -197,7 +197,8 @@ exports.getPhysicalLoanByID = (req, res) => {
 };
 
 exports.getUnpaidPhysicalInstallments = (req, res) => {
-  PhysLoanModel.getUnpaidOnlineInstallments((err, data) => {
+  console.log('Came into Unpaid');
+  PhysLoanModel.getUnpaidPhysicalInstallments((err, data) => {
     if (err.kind === 'not_found') {
       res.status(404).send({
         message: 'No unpaid installments found.',
