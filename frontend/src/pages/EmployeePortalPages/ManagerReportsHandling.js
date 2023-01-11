@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Card } from 'antd';
 
-
-export default function EmployeeHandling() {
+export default function ManagerReports() {
   return (
     <div>
       <Card
-        title='Customer Handling'
+        title='Manager Reports'
         style={{
           borderRadius: 10,
           margin: '3% 1%',
@@ -15,10 +14,13 @@ export default function EmployeeHandling() {
         }}
       >
         <div>
-          <Link to='employee-register'>Register New Employee</Link>
+          <Link to='/employeePortal/transaction-report'>
+            Transaction Reports
+          </Link>
         </div>
+
         <div>
-          <Link to='employee-list'>Employee List</Link>
+          <Link to='/employeePortal/loan-report'>Loan Reports</Link>
         </div>
       </Card>
     </div>

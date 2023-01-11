@@ -40,7 +40,7 @@ import HomePage from './pages/HomePage';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoanApproveView from './pages/EmployeePortalPages/LoanApproveView';
-import TransactionReports from './pages/EmployeePortalPages/TransactionReport';
+import TransactionReport from './pages/EmployeePortalPages/TransactionReport';
 
 function App() {
   return (
@@ -108,8 +108,9 @@ function App() {
                   element={<TransactionCreate />}
                 />
                 <Route path='transaction-list' element={<TransactionList />} />
+                <Route path='transaction-report' element={<TransactionReport />} />
 
-                <Route
+                {/* <Route
                   path='manager-reports'
                   element={
                     <RequireAuth
@@ -119,7 +120,7 @@ function App() {
                       <Route exact path='/' element={<TransactionReports />} />
                     </RequireAuth>
                   }
-                />
+                /> */}
               </RequireAuth>
             }
           ></Route>

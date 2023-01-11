@@ -9,7 +9,7 @@ import DepositHandling from './EmployeePortalPages/DepositHandling';
 import { customerLogout } from '../api/auth';
 import Logo from './Images/Logo2.png';
 import './PageStyling/EmployeeHome.css';
-import ManagerReports from './EmployeePortalPages/ManagerReports';
+import ManagerReports from './EmployeePortalPages/ManagerReportsHandling';
 import EmployeeHandling from './EmployeePortalPages/EmployeeHandling';
 import TransactionHandling from './EmployeePortalPages/TransactionHandling';
 
@@ -93,7 +93,7 @@ export default function EmployeeHome() {
           </Button>
         </div>
       </div>
-      <Content style={{ padding: '0 50px' }}>
+      <Content style={{ padding: '0 50px', height: '575px' }}>
         {/* <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>Home</Breadcrumb.Item>
           <Breadcrumb.Item>List</Breadcrumb.Item>

@@ -5,7 +5,15 @@ import { Card } from 'antd';
 export default function LoanHandling(props) {
   return (
     <div>
-      <Card title='Loan Handling'>
+      <Card 
+        title='Loan Handling'
+        style={{
+          borderRadius: 10,
+          margin: "3% 1%",
+          height: "180px",
+          borderBlockColor: "black",
+        }}
+         >
         <div>
           <Link to='loan-register'>Register New Loan</Link>
         </div>
