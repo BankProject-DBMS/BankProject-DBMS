@@ -49,36 +49,28 @@ onlineLoan.create = (newOnlineLoan, result) => {
         return;
       }
       sql.query(
-        'SELECT BranchID FROM CashAccount WHERE AccountID = ?',
-        newOnlineLoan.SavingsAccountID,
+        'call create_onlineloan_procedure (?,?,?,?,?,?, @code)',
+        [
+          newOnlineLoan.CustomerID,
+          newOnlineLoan.SavingsAccountID,
+          newOnlineLoan.Amount,
+          newOnlineLoan.Duration,
+          newOnlineLoan.FDAccountID,
+          newOnlineLoan.InterestRate,
+        ],
+
         (err, res) => {
           if (err) {
             console.log('error: ', err);
             result({ kind: 'error', ...err }, null);
             return;
           }
-          console.log(res);
-          newOnlineLoan.BranchID = res[0].BranchID;
-          sql.query(
-            'INSERT INTO OnlineLoan SET ?',
-            newOnlineLoan,
-            (err, res) => {
-              if (err) {
-                console.log('error: ', err);
-                result({ kind: 'error', ...err }, null);
-                return;
-              }
 
-              console.log('created Online Loan: ', {
-                id: res.insertId,
-                ...newOnlineLoan,
-              });
-              result(
-                { kind: 'success' },
-                { id: res.insertId, ...newOnlineLoan }
-              );
-            }
-          );
+          console.log('created Online Loan: ', {
+            id: res.insertId,
+            ...newOnlineLoan,
+          });
+          result({ kind: 'success' }, { id: res.insertId, ...newOnlineLoan });
         }
       );
     }

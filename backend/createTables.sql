@@ -6,6 +6,7 @@ drop procedure if exists generate_online_installments;
 drop procedure if exists withdrawals_procedure;
 drop procedure if exists transfers_procedure;
 drop procedure if exists approve_loan;
+drop procedure if exists create_onlineloan_procedure;
 drop trigger if exists gen_physical_installments_on_loan_approve;
 drop trigger if exists gen_online_installments_on_loan_approve;
 
@@ -227,10 +228,12 @@ CREATE TABLE PhysicalLoanInstallment (
 
 DELIMITER $$
 create procedure generate_physical_installments(IN LoanID int, IN installmentCount smallint ,IN approvedDate timestamp, IN loanAmount int)
+
 begin
 	declare i smallint;
     declare installmentAmount int;
     declare installmentDate timestamp;
+    
     set installmentAmount = loanAmount/installmentCount;
     set installmentDate = approvedDate;
     set i = 1;
@@ -248,14 +251,17 @@ begin
 	declare i smallint;
     declare installmentAmount int;
     declare installmentDate timestamp;
-    set installmentAmount = loanAmount/installmentCount;
-    set installmentDate = approvedDate;
-    set i = 1;
-    while i <= installmentCount do
+	
+	
+	set installmentAmount = loanAmount/installmentCount;
+	set installmentDate = approvedDate;
+	set i = 1;
+	while i <= installmentCount do
 		set installmentDate = timestampadd(MONTH, 1, installmentDate);
-    	insert into OnlineLoanInstallment (LoanID, DeadlineDate, Amount, Paid) values (LoanID, installmentDate, installmentAmount, false);
-        set i = i + 1;
-    end while;
+		insert into OnlineLoanInstallment (LoanID, DeadlineDate, Amount, Paid) values (LoanID, installmentDate, installmentAmount, false);
+		set i = i + 1;
+	end while;
+
 end$$
 DELIMITER ;
 
@@ -275,6 +281,28 @@ create trigger gen_online_installments_on_loan_approve
 begin
     call generate_online_installments(NEW.LoanID, NEW.Duration, NEW.DateCreated, NEW.Amount);
 end$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE create_onlineloan_procedure (IN customerID int, IN savingsAccountID int, IN amount int, IN duration int ,IN fDAccountID int,IN interestRate decimal(4,2), OUT code varchar(50))
+BEGIN  	
+	DECLARE branchID int;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION 
+        BEGIN
+            ROLLBACK;
+            RESIGNAL;
+        END;
+    
+    START TRANSACTION;
+		SET branchID = (SELECT cashaccount.BranchID FROM CashAccount WHERE cashaccount.AccountID = savingsAccountID);
+        SELECT branchID;
+		INSERT INTO OnlineLoan 
+        (OnlineLoan.CustomerID, OnlineLoan.FDAccountID, OnlineLoan.Amount, OnlineLoan.Duration, OnlineLoan.InterestRate, OnlineLoan.SavingsAccountID,OnlineLoan.BranchID) 
+        Values 
+			(customerID,fDAccountID,amount,duration,interestRate,savingsAccountID,branchID);
+		UPDATE cashaccount SET Balance = Balance + amount WHERE cashaccount.AccountID = savingsAccountID;
+		COMMIT;
+END$$
 DELIMITER ;
 
 DELIMITER $$
@@ -353,20 +381,28 @@ CREATE PROCEDURE approve_loan (IN loanID INT)
 BEGIN
     DECLARE approved boolean;
     DECLARE code varchar(50);
+    DECLARE amount int;
+    DECLARE savingsID int;
+    
     DECLARE EXIT HANDLER FOR SQLEXception 
         BEGIN
             ROLLBACK;
             RESIGNAL;
         END;
     START TRANSACTION;
-        
-        SET approved = (SELECT PhysicalLoan.Approved FROM PhysicalLoan WHERE LoanID = loanID LIMIT 1);
+        SET approved = (SELECT PhysicalLoan.Approved FROM PhysicalLoan WHERE PhysicalLoan.LoanID = loanID LIMIT 1);
+        SELECT loanID;
         IF approved = true THEN
             ROLLBACK;
             set code = 'ALREADY_APPROVED';
             select code;
         ELSE
             UPDATE PhysicalLoan SET Approved = true WHERE PhysicalLoan.LoanID = loanID;
+            # TO BE CHECKED
+            SET amount = (SELECT PhysicalLoan.Amount FROM PhysicalLoan WHERE PhysicalLoan.LoanID = loanID);
+            # SELECT amount;
+            UPDATE cashaccount SET Balance = Balance + (SELECT PhysicalLoan.Amount FROM PhysicalLoan WHERE PhysicalLoan.LoanID = loanID) 
+            WHERE cashaccount.AccountID =(SELECT PhysicalLoan.SavingsAccountID FROM PhysicalLoan WHERE PhysicalLoan.LoanID = loanID) ;
             COMMIT;
             set code = 'SUCCESS';
             select code;
