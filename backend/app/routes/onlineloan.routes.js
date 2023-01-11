@@ -1,4 +1,5 @@
 const { jwtauth } = require('../middleware/jwt');
+const { isManager } = require('../middleware/middleware');
 
 module.exports = (app) => {
   const onlineLoans = require('../controllers/onlineloanController');
@@ -10,6 +11,12 @@ module.exports = (app) => {
     '/onlineLoanInstallment/:accountID',
     [jwtauth],
     onlineLoans.getAccountInstallments
+  );
+
+  router.get(
+    '/onlineLoanInstallment/unpaid',
+    [jwtauth, isManager],
+    onlineLoans.getUnpaidOnlineInstallments
   );
 
   router.post('/create', [jwtauth], onlineLoans.createOnlineLoan);

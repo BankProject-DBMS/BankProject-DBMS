@@ -120,4 +120,22 @@ onlineLoan.getInstallmentsByAccountID = (accountID, req, result) => {
     }
   );
 };
+
+onlineLoan.getUnpaidOnlineInstallments = (result) => {
+  const query = `select * from OnlineLoanInstallment where DeadlineDate < CURRENT_TIMESTAMP and Paid = false order by DeadlineDate`;
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error', ...err }, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log('found unpaid installments: ', res);
+      result({ kind: 'success' }, res);
+    } else {
+      result({ kind: 'not_found' }, null);
+    }
+  });
+};
 module.exports = onlineLoan;
