@@ -98,47 +98,47 @@ exports.findAll = (req, res) => {
 exports.getBranchInReport = (req, res) => {
   const branchID = req.user.BranchID;
   TransactionModel.getBranchInReport(branchID, (err, data) => {
-    if (err)
+    if (err.kind === 'error') {
       res.status(500).send({
         message:
           err.message || 'Some error occurred while retrieving transactions.',
       });
-    else res.send(data);
+    } else res.send(data);
   });
 };
 
 exports.getBranchInCount = (req, res) => {
   const branchID = req.user.BranchID;
   TransactionModel.getBranchInCount(branchID, (err, data) => {
-    if (err)
+    if (err.kind === 'error') {
       res.status(500).send({
         message:
           err.message || 'Some error occurred while retrieving transactions.',
       });
-    else res.send(data);
+    } else res.send(data);
   });
 };
 
 exports.getBranchOutReport = (req, res) => {
   const branchID = req.user.BranchID;
   TransactionModel.getBranchOutReport(branchID, (err, data) => {
-    if (err)
+    if (err.kind === 'error') {
       res.status(500).send({
         message:
           err.message || 'Some error occurred while retrieving transactions.',
       });
-    else res.send(data);
+    } else res.send(data);
   });
 };
 
 exports.getBranchOutCount = (req, res) => {
   const branchID = req.user.BranchID;
   TransactionModel.getBranchOutCount(branchID, (err, data) => {
-    if (err)
+    if (err.kind === 'error') {
       res.status(500).send({
         message:
           err.message || 'Some error occurred while retrieving transactions.',
       });
-    else res.send(data);
+    } else res.send(data);
   });
 };

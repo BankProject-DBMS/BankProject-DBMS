@@ -51,7 +51,6 @@ export async function getBranchInReport() {
     const response = await axios.get(`${HOST}/transactions/report/in`);
     return response.data;
   } catch (err) {
-    // console.log(err);
     return await Promise.reject('Failed to get branch in report!');
   }
 }

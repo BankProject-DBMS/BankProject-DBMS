@@ -53,7 +53,7 @@ let tokenValidation = async (req, res, next) => {
               decoded.Username,
               (err, res) => {
                 console.log('Result:');
-                console.log(res);
+                // console.log(res);
               }
             );
             console.log(user);

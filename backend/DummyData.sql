@@ -28,7 +28,19 @@ VALUES
     ("Nimesh Ranchagoda", '2000-08-17', "No; 144, Angoda", "+94774964790", "Tennis Trainer"),
     ("Inuka Ampavila", '2000-10-16', "No: 15, Rathanapitiya, Boralesgamuwa", "+94774567891" ,"Shooter"),
     ("Radith Samarakoon", '1998-12-12', "No: 12, Galle Road, Mount Laviniya", "+94724561232", "Full Stack Developer"),
-    ("Akmal A. Jasmin", '1999-01-01', "No: 54, Galle Road, Kalutara", "+94724561232", "Full Stack Developer");
+    ("Akmal A. Jasmin", '1999-01-01', "No: 54, Galle Road, Kalutara", "+94724561232", "Full Stack Developer"),
+    ("K.W.P.K. Peiris", '1998-05-20', "No: 78, Matara Road, Kamburupitiya", "+94765783421", "Electronics Engineer"),
+    ("L.G. Jayawardana", '1997-07-15', "No: 12, Colombo Road, Ambepussa", "+94774567890", "Mechanical Engineer"),
+    ("N.P. Nandalal", '1998-11-23', "No: 34, Galle Road, Welipenna", "+94734567890", "Civil Engineer"),
+    ("R.M.S.R. Rajapaksha", '1999-02-28', "No: 11, Kandy Road, Kadawatha", "+94721567890", "Chemical Engineer"),
+    ("S.S.S. Kumara", '1997-09-09', "No: 45, Gampaha Road, Minuwangoda", "+94789756432", "Electronics Engineer"),
+    ("D.M.S.K. De Silva", '1997-12-01', "No: 12, Kottawa Road, Pannipitiya", "+94787564321", "Electrical Engineer"),
+    ("M.W. Premarathne", '1997-01-25', "No: 16, Kegalle Road, Avissawella", "+94789456123", "Computer Engineer"),
+    ("N.D. Jayawardene", '1997-03-14', "No: 22, Matara Road, Galle", "+94713456789", "Environmental Engineer"),
+    ("P.G. Wijeratne", '1997-05-12', "No: 34, Batticaloa Road, Trincomalee", "+94778456789", "Geotechnical Engineer"),
+    ("R.G. Jayasinghe", '1997-07-29', "No: 45, Anuradhapura Road, Kurunegala", "+94771345678", "Structural Engineer"),
+    ("S.S. Silva", '1997-10-02', "No: 12, Nuwara Eliya Road, Hatton", "+94778451234", "Transportation Engineer"),
+    ("T.K. Rajapaksha", '1997-11-19', "No: 15, Jaffna Road, Vavuniya", "+94779651234", "Industrial Engineer");
 
 INSERT INTO FDAccountType(TypeID, Duration, Interestrate)
 VALUES

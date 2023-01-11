@@ -121,3 +121,18 @@ exports.getAccountInstallments = (req, res) => {
     } else res.send(data);
   });
 };
+
+exports.getUnpaidOnlineInstallments = (req, res) => {
+  OnlineLoanModel.getUnpaidOnlineInstallments((err, data) => {
+    if (err.kind === 'not_found') {
+      res.status(404).send({
+        message: 'No unpaid installments found.',
+      });
+    } else if (err.kind != 'success') {
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while retrieving installments.',
+      });
+    } else res.send(data);
+  });
+};

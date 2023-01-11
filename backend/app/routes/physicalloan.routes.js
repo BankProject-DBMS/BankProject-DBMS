@@ -21,6 +21,13 @@ module.exports = (app) => {
     [jwtauth],
     physLoans.getAccountInstallments
   );
+
+  router.get(
+    '/physicalLoanInstallmentUnpaid/',
+    [jwtauth, isManager],
+    physLoans.getUnpaidPhysicalInstallments
+  );
+
   router.get(
     '/needApproval',
     [jwtauth, isManager],
