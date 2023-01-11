@@ -23,7 +23,7 @@ module.exports = (app) => {
   );
 
   router.get(
-    '/physicalLoanInstallment/unpaid',
+    '/physicalLoanInstallmentUnpaid/',
     [jwtauth, isManager],
     physLoans.getUnpaidPhysicalInstallments
   );

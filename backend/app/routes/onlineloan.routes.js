@@ -14,7 +14,7 @@ module.exports = (app) => {
   );
 
   router.get(
-    '/onlineLoanInstallment/unpaid',
+    '/onlineLoanInstallmentUnpaid',
     [jwtauth, isManager],
     onlineLoans.getUnpaidOnlineInstallments
   );
