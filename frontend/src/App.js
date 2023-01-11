@@ -41,6 +41,7 @@ import HomePage from './pages/HomePage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoanApproveView from './pages/EmployeePortalPages/LoanApproveView';
 import TransactionReport from './pages/EmployeePortalPages/TransactionReport';
+import LoanReort from './pages/EmployeePortalPages/LoanReport';
 
 function App() {
   return (
