@@ -135,4 +135,51 @@ onlineLoan.getUnpaidOnlineInstallments = (result) => {
     }
   });
 };
+
+onlineLoan.getInstallmentByID = (installmentID, result) => {
+  sql.query(
+    'SELECT * from OnlineLoanInstallment WHERE InstallmentID = ?',
+    installmentID,
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error' }, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log('found installment: ', res);
+        result({ kind: 'success' }, res[0]);
+      } else {
+        console.log('installment not found');
+        result({ kind: 'not_found' }, null);
+      }
+    }
+  );
+};
+
+onlineLoan.payInstallment = (installmentID, result) => {
+  sql.query('CALL pay_onl_installment(?)', installmentID, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error' }, null);
+      return;
+    }
+
+    if (res === 'ALREADY_PAID') {
+      console.log('installment already paid');
+      result({ kind: 'already_paid ' }, null);
+    } else if (res === 'INSTALLMENT_NOT_FOUND') {
+      console.log('installment not found');
+      result({ kind: 'not_found' }, null);
+    } else if (res === 'FAILED') {
+      console.log('installment payment failed');
+      result({ kind: 'failed' }, null);
+    } else {
+      console.log('installment paid');
+      result({ kind: 'success' }, res);
+    }
+  });
+};
+
 module.exports = onlineLoan;

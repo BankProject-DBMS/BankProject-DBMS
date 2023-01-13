@@ -46,7 +46,6 @@ exports.create = (req, res) => {
     TypeID: req.body.account.accountType,
     BranchID: req.user.BranchID,
     Balance: req.body.account.initialBalance,
-    WCount: req.body.account.initialWithdrawals,
   };
   AccountModel.create(account, req, (err, data) => {
     if (err.kind === 'error') {

@@ -50,3 +50,27 @@ export async function getUnpaidOnlineInstallments() {
     return await Promise.reject('Failed to get unpaid online installments!');
   }
 }
+
+export async function getOnlineLoanInstallmentByID(installmentID) {
+  try {
+    const response = await axios.get(
+      `${HOST}/onlineLoans/installment/${installmentID}`
+    );
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to get installment!');
+  }
+}
+
+export async function payOnlineLoanInstallmentByID(installmentID) {
+  try {
+    const response = await axios.put(
+      `${HOST}/onlineLoans/installmentPay/${installmentID}`
+    );
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to pay installment!');
+  }
+}

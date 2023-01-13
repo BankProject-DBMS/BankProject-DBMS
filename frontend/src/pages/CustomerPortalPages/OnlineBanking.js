@@ -33,7 +33,10 @@ export default function OnlineBanking() {
       amount: values.amount,
       remarks: values.remarks,
     };
-    createTransaction(transaction).then(() => setSubmitting(false));
+    createTransaction(transaction).then(() => {
+      setSubmitting(false);
+      navigate('/customerPortal');
+    });
   };
 
   let options = accounts.map((account) => (

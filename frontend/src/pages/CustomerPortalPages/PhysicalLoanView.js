@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Table } from 'antd';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Logo from '../Images/Logo2.png';
 
 import {
@@ -32,6 +32,13 @@ export default function PhysicalLoanView() {
       title: 'Installment ID',
       dataIndex: 'InstallmentID',
       key: 'InstallmentID',
+      render: (text, record) => (
+        <Link
+          to={`/customerPortal/physical-loan-installment/${record.InstallmentID}`}
+        >
+          {text}
+        </Link>
+      ),
     },
     {
       title: 'Deadline Date and Time',

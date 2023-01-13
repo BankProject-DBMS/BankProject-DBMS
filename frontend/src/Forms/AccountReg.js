@@ -14,7 +14,6 @@ export default function AccountReg() {
     customerID: Yup.number().required().positive().integer(),
     accountType: Yup.string().required(),
     initialBalance: Yup.number().required().min(2000.0),
-    initialWithdrawals: Yup.number().required().positive().integer(),
   });
   console.log('Rendered');
   const handleSubmit = (values, { setSubmitting }) => {
@@ -24,7 +23,6 @@ export default function AccountReg() {
       customerID: values.customerID,
       accountType: values.accountType,
       initialBalance: values.initialBalance,
-      initialWithdrawals: values.initialWithdrawals,
     };
     addAccount({ account }).then(() => setSubmitting(false));
   };
@@ -45,7 +43,6 @@ export default function AccountReg() {
             customerID: '',
             accountType: '',
             initialBalance: '',
-            initialWithdrawals: '',
           }}
           validationSchema={accountRegSchema}
           onSubmit={handleSubmit}
@@ -64,50 +61,43 @@ export default function AccountReg() {
                   />
                 </span>
                 <span>
-                    <div
-                      name='AccountType'
-                      style={{ display: 'flex', flexDirection: 'column' , alignItems: 'left'}}
-                    >
-                      <h4>Account Type</h4>
-                      <div>
-                        <Field type='radio' name='accountType' value='SC' />
-                        <label htmlFor='Children Account'>
-                          Children Account
-                        </label>
-                      </div>
-
-                      <div>
-                        <Field type='radio' name='accountType' value='ST' />
-                        <label htmlFor='Teen Account'>Teen Account</label>
-                      </div>
-                      <div>
-                        <Field type='radio' name='accountType' value='SA' />
-                        <label htmlFor='Adult Account'>Adult Account</label>
-                      </div>
-                      <div>
-                        <Field type='radio' name='accountType' value='SS' />
-                        <label htmlFor='Senior Account'>Senior Account</label>
-                      </div>
-                      <div>
-                        <Field type='radio' name='accountType' value='C0' />
-                        <label htmlFor='Checking Account'>
-                          Checking Account
-                        </label>
-                      </div>
+                  <div
+                    name='AccountType'
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'left',
+                    }}
+                  >
+                    <h4>Account Type</h4>
+                    <div>
+                      <Field type='radio' name='accountType' value='SC' />
+                      <label htmlFor='Children Account'>Children Account</label>
                     </div>
+
+                    <div>
+                      <Field type='radio' name='accountType' value='ST' />
+                      <label htmlFor='Teen Account'>Teen Account</label>
+                    </div>
+                    <div>
+                      <Field type='radio' name='accountType' value='SA' />
+                      <label htmlFor='Adult Account'>Adult Account</label>
+                    </div>
+                    <div>
+                      <Field type='radio' name='accountType' value='SS' />
+                      <label htmlFor='Senior Account'>Senior Account</label>
+                    </div>
+                    <div>
+                      <Field type='radio' name='accountType' value='C0' />
+                      <label htmlFor='Checking Account'>Checking Account</label>
+                    </div>
+                  </div>
                 </span>
                 <span>
                   <Field
                     type='text'
                     name='initialBalance'
                     placeholder='Initial Balance'
-                  />
-                </span>
-                <span>
-                  <Field
-                    type='text'
-                    name='initialWithdrawals'
-                    placeholder='Initial Withdrawals'
                   />
                 </span>
                 <Button
@@ -124,7 +114,6 @@ export default function AccountReg() {
                       <ErrorMessage name='customerID' component='div' />
                       <ErrorMessage name='accountType' component='div' />
                       <ErrorMessage name='initialBalance' component='div' />
-                      <ErrorMessage name='initialWithdrawals' component='div' />
                     </Card>
                   )}
               </Form>
