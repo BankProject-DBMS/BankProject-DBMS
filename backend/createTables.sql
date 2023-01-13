@@ -7,6 +7,8 @@ drop procedure if exists withdrawals_procedure;
 drop procedure if exists transfers_procedure;
 drop procedure if exists approve_loan;
 drop procedure if exists create_onlineloan_procedure;
+drop procedure if exists pay_phys_installment;
+drop procedure if exists pay_onl_installment;
 drop trigger if exists gen_physical_installments_on_loan_approve;
 drop trigger if exists gen_online_installments_on_loan_approve;
 
@@ -349,7 +351,7 @@ END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE transfers_procedure (IN ID1 int, IN ID2 int, IN amount int, IN remark varchar(50), OUT code varchar(50))
+CREATE PROCEDURE transfers_procedure (IN to_ID int, IN from_ID int, IN amount int, IN remark varchar(50), OUT code varchar(50))
 BEGIN 
     DECLARE balance decimal(15,2);
     DECLARE EXIT HANDLER FOR SQLEXCEPTION 
@@ -359,16 +361,16 @@ BEGIN
         END;
 	
     START TRANSACTION;
-		SET balance = (SELECT CashAccount.balance FROM CashAccount WHERE AccountID = ID1);
+		SET balance = (SELECT CashAccount.balance FROM CashAccount WHERE AccountID = to_ID);
 
         IF 500>(balance - amount) THEN
             ROLLBACK;
             set code = 'Insufficient Balance';
             select code;
         ELSE
-            INSERT INTO Transaction(FromAccount, ToAccount, Amount, Remark) values (ID1,ID2,amount,remark);
-            UPDATE CashAccount SET Balance = Balance - amount WHERE AccountID = ID1;
-            UPDATE CashAccount SET Balance = Balance + amount WHERE AccountID = ID2;
+            INSERT INTO Transaction(FromAccount, ToAccount, Amount, Remark) values (to_ID,from_ID,amount,remark);
+            UPDATE CashAccount SET Balance = Balance - amount WHERE AccountID = to_ID;
+            UPDATE CashAccount SET Balance = Balance + amount WHERE AccountID = from_ID;
             COMMIT;
             set code = 'SUCCESS';
             select code;

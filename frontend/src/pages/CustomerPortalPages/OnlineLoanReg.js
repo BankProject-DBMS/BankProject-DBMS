@@ -55,7 +55,10 @@ export default function OnlineLoanReg() {
       duration: values.duration,
       savingsAccountID: parseInt(values.myAccountID, 10),
     };
-    createOnlineLoan({ loan }).then(() => setSubmitting(false));
+    createOnlineLoan({ loan }).then(() => {
+      setSubmitting(false);
+      navigate('/customerPortal');
+    });
   };
 
   let options = accounts.map((account) => (
