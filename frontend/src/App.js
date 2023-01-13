@@ -134,7 +134,9 @@ function App() {
                 />
               </RequireAuth>
             }
-          ></Route>
+          >
+            
+          </Route>
           <Route path='/employeeLogin'>
             <Route
               exact

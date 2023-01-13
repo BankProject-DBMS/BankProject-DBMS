@@ -72,7 +72,7 @@ export default function ApprovalLoansList() {
         />
         <h1 className='topic'>Loans Approval</h1>
       </div>
-      <Table
+      <Table className='table'
         columns={columns}
         dataSource={loans}
         onRow={(record, rowIndex) => {
