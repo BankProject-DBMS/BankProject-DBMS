@@ -6,7 +6,7 @@ export default function EmployeeHandling() {
   return (
     <div>
       <Card
-        title='Customer Handling'
+        title='Employee Handling'
         style={{
           borderRadius: 10,
           margin: '3% 1%',

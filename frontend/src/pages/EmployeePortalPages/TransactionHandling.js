@@ -5,7 +5,7 @@ export default function TransactionHandling() {
   return (
     <div>
       <Card
-        title='Customer Handling'
+        title='Transaction Handling'
         style={{
           borderRadius: 10,
           margin: '3% 1%',
