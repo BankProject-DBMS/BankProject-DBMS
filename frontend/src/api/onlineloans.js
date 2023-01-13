@@ -8,6 +8,45 @@ export async function getCustomerOnlineLoans() {
     return response.data;
   } catch (err) {
     // console.log(err);
-    return await Promise.reject('Failed to get online deposits list!');
+    return await Promise.reject('Failed to get online loans list!');
+  }
+}
+
+// gets installmetns for a givwen loan ID
+export async function getOnlineLoanInstallment(accountID) {
+  try {
+    const response = await axios.get(
+      `${HOST}/onlineLoans/onlineLoanInstallment/${accountID}`
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    return await Promise.reject('Failed to get installment list!');
+  }
+}
+
+// create a new online loan
+export async function createOnlineLoan(loan) {
+  try {
+    console.log(loan);
+    const response = await axios.post(`${HOST}/onlineLoans/create`, loan);
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to create online loan!');
+  }
+}
+
+// get all unpaid online loan installments
+export async function getUnpaidOnlineInstallments() {
+  try {
+    const response = await axios.get(
+      `${HOST}/onlineLoans/onlineLoanInstallmentUnpaid`
+    );
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to get unpaid online installments!');
   }
 }

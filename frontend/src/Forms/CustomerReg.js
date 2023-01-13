@@ -1,10 +1,10 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Button , Card} from 'antd';
+import { Button, Card } from 'antd';
 import { addCustomer } from '../api/customers';
 import * as Yup from 'yup';
 import { Navigate, useNavigate, Outlet } from 'react-router-dom';
 import Logo from '../pages/Images/Logo2.png';
-import '../pages/PageStyling/Navbar.css'
+import '../pages/PageStyling/Navbar.css';
 
 // Use this instead https://github.com/jannikbuschke/formik-antd
 export default function CustomerReg() {
@@ -37,78 +37,83 @@ export default function CustomerReg() {
   return (
     <div>
       <div className='navbar'>
-        <img 
-        className='aruci--logo' 
-        src={Logo}
-        onClick={() => navigate('/employeePortal/')} />
+        <img
+          className='aruci--logo'
+          src={Logo}
+          alt='ARUCI Logo'
+          onClick={() => navigate('/employeePortal/')}
+        />
         <h1 className='topic'>Customer Registration</h1>
       </div>
       <Card className='form'>
-      <Formik
-        initialValues={{
-          name: '',
-          dob: '',
-          address: '',
-          phone: '',
-          occupation: '',
-        }}
-        validationSchema={customerRegSchema}
-        onSubmit={handleSubmit}
-      >
-        {(props) => {
-          const errorInputStyle = {
-            borderColor: 'red',
-          };
-          return (
-            <Form className='customer--reg--form'>
-              <span>
-                <Field
-                  type='text'
-                  name='name'
-                  placeholder='Full Name'
-                  style={
-                    props.touched.name && props.errors.name
-                      ? errorInputStyle
-                      : null
-                  }
-                />
-              </span>
-              <span>
-                <Field type='date' name='dob' placeholder='Date of Birth' />
-              </span>
-              <span>
-                <Field type='text' name='address' placeholder='Address' />
-              </span>
-              <span>
-                <Field type='text' name='phone' placeholder='Phone' />
-              </span>
-              <span>
-                <Field type='text' name='occupation' placeholder='Occupation' />
-              </span>
+        <Formik
+          initialValues={{
+            name: '',
+            dob: '',
+            address: '',
+            phone: '',
+            occupation: '',
+          }}
+          validationSchema={customerRegSchema}
+          onSubmit={handleSubmit}
+        >
+          {(props) => {
+            const errorInputStyle = {
+              borderColor: 'red',
+            };
+            return (
+              <Form className='customer--reg--form'>
+                <span>
+                  <Field
+                    type='text'
+                    name='name'
+                    placeholder='Full Name'
+                    style={
+                      props.touched.name && props.errors.name
+                        ? errorInputStyle
+                        : null
+                    }
+                  />
+                </span>
+                <span>
+                  <Field type='date' name='dob' placeholder='Date of Birth' />
+                </span>
+                <span>
+                  <Field type='text' name='address' placeholder='Address' />
+                </span>
+                <span>
+                  <Field type='text' name='phone' placeholder='Phone' />
+                </span>
+                <span>
+                  <Field
+                    type='text'
+                    name='occupation'
+                    placeholder='Occupation'
+                  />
+                </span>
 
-              <Button
-                className='customer--reg--form--submit'
-                type='primary'
-                onClick={props.handleSubmit}
-                disabled={props.isSubmitting}
-              >
-                Submit
-              </Button>
-              {Object.values(props.touched).includes(true) &&
-                Object.values(props.errors).length !== 0 && (
-                  
-                  <Card className='errors'>
-                    <ErrorMessage name='name' component='div' />
-                    <ErrorMessage name='dob' component='div' />
-                    <ErrorMessage name='address' component='div' />
-                    <ErrorMessage name='phone' component='div' />
-                    <ErrorMessage name='occupation' component='div' />
-                  </Card>
-                )}
-            </Form>
-          );
-        }}
-      </Formik>
+                <Button
+                  className='customer--reg--form--submit'
+                  type='primary'
+                  onClick={props.handleSubmit}
+                  disabled={props.isSubmitting}
+                >
+                  Submit
+                </Button>
+                {Object.values(props.touched).includes(true) &&
+                  Object.values(props.errors).length !== 0 && (
+                    <Card className='errors'>
+                      <ErrorMessage name='name' component='div' />
+                      <ErrorMessage name='dob' component='div' />
+                      <ErrorMessage name='address' component='div' />
+                      <ErrorMessage name='phone' component='div' />
+                      <ErrorMessage name='occupation' component='div' />
+                    </Card>
+                  )}
+              </Form>
+            );
+          }}
+        </Formik>
       </Card>
     </div>
   );

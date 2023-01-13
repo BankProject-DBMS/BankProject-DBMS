@@ -24,7 +24,7 @@ export default function AccountView() {
     );
     getDebitTransactions(accountID).then((data) => setDebitTransactions(data));
   }, [accountID]);
-
+  console.log(debitTransactions);
   const columns = [
     {
       title: 'Transaction ID',
@@ -59,6 +59,10 @@ export default function AccountView() {
         <p>
           <b>Account ID: </b>
           {account?.AccountID}
+        </p>
+        <p>
+          <b>Branch ID: </b>
+          {account?.BranchID}
         </p>
         <p>
           <b>Customer ID: </b>

@@ -1,11 +1,13 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Button } from 'antd';
-import { addDeposit } from '../api/deposites';
+import { Button, Card } from 'antd';
+import { addDeposit } from '../api/deposits';
 import * as Yup from 'yup';
+import { Navigate, useNavigate, Outlet } from 'react-router-dom';
+import Logo from '../pages/Images/Logo2.png';
+import '../pages/PageStyling/Navbar.css';
 
 export default function DepositCreate() {
   const depositCreateSchema = Yup.object().shape({
-
     accountID: Yup.number().required().positive().integer(),
     amount: Yup.number().required().positive(),
     remark: Yup.string(),
@@ -20,8 +22,18 @@ export default function DepositCreate() {
     };
     addDeposit({ deposit }).then(() => setSubmitting(false));
   };
+  const navigate = useNavigate();
   return (
     <div>
+      <div className='navbar'>
+        <img
+          className='aruci--logo'
+          src={Logo}
+          onClick={() => navigate('/employeePortal/')}
+        />
+        <h1 className='topic'>Create Deposit</h1>
+      </div>
+      <Card className='form'>
       <Formik
         initialValues={{
           accountID: '',
@@ -36,7 +48,7 @@ export default function DepositCreate() {
             borderColor: 'red',
           };
           return (
-            <Form className='deposit--create--form'>
+            <Form className='customer--reg--form'>
               <span>
                 <Field
                   type='number'
@@ -47,8 +59,6 @@ export default function DepositCreate() {
                       ? errorInputStyle
                       : null
                   }
-
-
                 />
               </span>
               <span>
@@ -57,7 +67,6 @@ export default function DepositCreate() {
               <span>
                 <Field type='text' name='remark' placeholder='Remark' />
               </span>
-
 
               <Button
                 className='deposit--create--form--submit'
@@ -69,16 +78,17 @@ export default function DepositCreate() {
               </Button>
               {Object.values(props.touched).includes(true) &&
                 Object.values(props.errors).length !== 0 && (
-                  <div className='deposit--create--form--errors'>
+                  <Card className='errors'>
                     <ErrorMessage name='accountID' component='div' />
                     <ErrorMessage name='amount' component='div' />
                     <ErrorMessage name='remark' component='div' />
-                  </div>
+                  </Card>
                 )}
             </Form>
           );
         }}
       </Formik>
+      </Card>
     </div>
   );
 }

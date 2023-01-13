@@ -1,4 +1,4 @@
-const employees = require('../models/employees');
+const employees = require('../models/employee.model');
 
 exports.getAll = (req, res) => {
   const employeeName = req.body.employeeName;
@@ -21,6 +21,24 @@ exports.getFromID = (req, res) => {
         message: `No employee found with id ${employeeID}.`,
       });
     } else if (err.kind != 'success') {
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while retrieving employee.',
+      });
+    } else res.send(data);
+  });
+};
+
+exports.create = (req, res) => {
+  const newEmployee = {
+    Name: req.body.name,
+    Position: req.body.position,
+    BranchID: req.body.branchID,
+    OnlineID: req.body.onlineID,
+    Password: req.body.password,
+  };
+  employees.createEmployee(newEmployee, (err, data) => {
+    if (err.kind != 'success') {
       res.status(500).send({
         message:
           err.message || 'Some error occurred while retrieving employee.',

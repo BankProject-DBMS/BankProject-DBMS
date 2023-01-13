@@ -1,35 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, useNavigate, Outlet } from 'react-router-dom';
 import { Breadcrumb, Layout, Menu, Button } from 'antd';
 import CustomerHandling from './EmployeePortalPages/CustomerHandling';
 import AccountHandling from './EmployeePortalPages/AccountHandling';
 import LoanHandling from './EmployeePortalPages/LoanHandling';
 import WithdrawalHandling from './EmployeePortalPages/WithdrawalHandling';
+import DepositHandling from './EmployeePortalPages/DepositHandling';
 import { customerLogout } from '../api/auth';
 import Logo from './Images/Logo2.png';
 import './PageStyling/EmployeeHome.css';
+import ManagerReports from './EmployeePortalPages/ManagerReportsHandling';
+import EmployeeHandling from './EmployeePortalPages/EmployeeHandling';
+import TransactionHandling from './EmployeePortalPages/TransactionHandling';
 
 const { Header, Content, Footer } = Layout;
 
-function getItem(label, key, component, icon, children) {
+function getItem(label, key, component, disabled, icon, children) {
   return {
     key,
     icon,
     children,
     label,
     component,
+    disabled,
   };
 }
 
-const items = [
-  getItem('Customer', '0', <CustomerHandling />),
-  getItem('Account', '1', <AccountHandling />),
-  getItem('Loan', '2', <LoanHandling />),
-  getItem('Withdrawal', '3', <WithdrawalHandling />),
-];
-
 export default function EmployeeHome() {
-  const [Links, setLinks] = React.useState(<h1>ARUCI</h1>);
+  const [Links, setLinks] = useState(<h1>ARUCI</h1>);
+  const [role] = useState(localStorage.getItem('role'));
+  const [items, setItems] = useState([
+    getItem('Customer', '0', <CustomerHandling />),
+    getItem('Account', '1', <AccountHandling />),
+    getItem('Loan', '2', <LoanHandling role={role} />),
+    getItem('Withdrawal', '3', <WithdrawalHandling />),
+    getItem('Deposit', '4', <DepositHandling />),
+    getItem('Transaction', '5', <TransactionHandling />),
+    getItem('Employee', '6', <EmployeeHandling />, true),
+    getItem('Reports', '7', <ManagerReports />, true),
+  ]);
+
+  useEffect(() => {
+    if (role === 'manager') {
+      setItems((oldItems) => {
+        let newItems = [...oldItems];
+        newItems[6].disabled = false;
+        newItems[7].disabled = false;
+        return newItems;
+      });
+    }
+  }, [role]);
 
   function handleClick(event) {
     console.log(items[event.key].label);
@@ -51,6 +71,9 @@ export default function EmployeeHome() {
         </div>
         <div className='employeePortal--menu'>
           <Menu
+            style={{
+              borderRadius: 10,
+            }}
             theme='light'
             mode='horizontal'
             items={items}
@@ -58,7 +81,6 @@ export default function EmployeeHome() {
           />
         </div>
         <div className='employeePortal--buttons'>
-
           <Button
             danger
             className='employeePortal--button'
@@ -71,7 +93,7 @@ export default function EmployeeHome() {
           </Button>
         </div>
       </div>
-      <Content style={{ padding: '0 50px' }}>
+      <Content style={{ padding: '0 50px', height: '575px' }}>
         {/* <Breadcrumb style={{ margin: '16px 0' }}>
           <Breadcrumb.Item>Home</Breadcrumb.Item>
           <Breadcrumb.Item>List</Breadcrumb.Item>

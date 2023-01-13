@@ -80,6 +80,7 @@ export default function CustomerHome(props) {
         renderItem={(item) => (
           <List.Item>
             <Typography.Text
+              style={{ cursor: 'pointer' }}
               mark
               onClick={(e) => navigate(`account/${item.key}`)}
             >
@@ -102,7 +103,8 @@ export default function CustomerHome(props) {
         dataSource={fdList}
         renderItem={(item) => (
           <List.Item>
-            <Typography.Text 
+            <Typography.Text
+              style={{ cursor: 'pointer' }}
               mark
               onClick={(e) => navigate(`fixedDeposits/${item.key}`)}
             >
@@ -129,8 +131,12 @@ export default function CustomerHome(props) {
         dataSource={pLoanList}
         renderItem={(item) => (
           <List.Item>
-            <Typography.Text mark>
-              Loan ID Number : {<b>{item.key}</b>}
+            <Typography.Text
+              style={{ cursor: 'pointer' }}
+              mark
+              onClick={(e) => navigate(`physicalLoans/${item.key}`)}
+            >
+              Physical Loan ID : {<b>{item.key}</b>}
             </Typography.Text>{' '}
             {item}
           </List.Item>
@@ -151,8 +157,12 @@ export default function CustomerHome(props) {
         dataSource={oLoanList}
         renderItem={(item) => (
           <List.Item>
-            <Typography.Text mark>
-              Account Number : {<b>{item.key}</b>}
+            <Typography.Text
+              style={{ cursor: 'pointer' }}
+              mark
+              onClick={(e) => navigate(`onlineLoans/${item.key}`)}
+            >
+              Online Loan ID : {<b>{item.key}</b>}
             </Typography.Text>{' '}
             {item}
           </List.Item>
@@ -171,6 +181,12 @@ export default function CustomerHome(props) {
           onClick={() => navigate('/')}
         />
         <div className='customerPortal--buttons'>
+          <Button
+            className='customerPortal--button'
+            onClick={() => navigate('onlineLoan')}
+          >
+            Online Loan
+          </Button>
           <Button
             className='customerPortal--button'
             onClick={() => navigate('onlineBanking')}

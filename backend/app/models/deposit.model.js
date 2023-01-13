@@ -24,9 +24,25 @@ Deposit.getAll = (transactionID, result) => {
 };
 
 Deposit.findById = (id, result) => {
+  sql.query('SELECT * FROM Deposit WHERE TransactionID = ?', id, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log('found deposit: ', res[0]);
+      result(null, res[0]);
+      return;
+    }
+  });
+};
+
+Deposit.findByAccountId = (accountid, result) => {
   sql.query(
-    'SELECT * FROM Deposit WHERE TransactionID = ?',
-    id,
+    'SELECT * FROM Deposit WHERE AccountID = ?',
+    accountid,
     (err, res) => {
       if (err) {
         console.log('error: ', err);
@@ -35,32 +51,15 @@ Deposit.findById = (id, result) => {
       }
 
       if (res.length) {
-        console.log('found deposit: ', res[0]);
-        result(null, res[0]);
+        console.log('found deposit: ', res);
+        result(null, res);
         return;
       }
     }
   );
 };
 
-Deposit.findByAccountId = (accountid, result) => {
-  sql.query('SELECT * FROM Deposit WHERE AccountID = ?', accountid, (err, res) => {
-    if (err) {
-      console.log('error: ', err);
-      result(err, null);
-      return;
-    }
-
-    if (res.length) {
-      console.log('found deposit: ', res);
-      result(null, res);
-      return;
-    }
-  });
-};
-
 Deposit.create = (newDeposit, result) => {
-
   sql.query('INSERT INTO Deposit SET ?', newDeposit, (err, res) => {
     if (err) {
       console.log('error: ', err);
@@ -69,20 +68,20 @@ Deposit.create = (newDeposit, result) => {
     }
 
     console.log('Created Deposit:', newDeposit);
-    const account = newDeposit.AccountID;
-    const amount = newDeposit.Amount;
-    
-    query0 = `update cashaccount set balance = balance + ? where accountID = ?`;
+    const account = newDeposit.accountID;
+    const amount = newDeposit.amount;
+
+    query0 = `update CashAccount set Balance = Balance + ? where AccountID = ?`;
 
     sql.query(query0, [amount, account], (err, res) => {
-    
       if (err) {
         console.log('error: ', err);
-        result( err, null);
+        result(err, null);
         return;
       }
-      if (res.affectedRows == 0){
-        result('deposit failed',null);
+      console.log('updated balance');
+      if (res.affectedRows == 0) {
+        result('deposit failed', null);
         return;
       }
       result(null, newDeposit);

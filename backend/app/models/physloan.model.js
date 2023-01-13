@@ -48,4 +48,143 @@ physLoan.create = (newPhysLoan, result) => {
   });
 };
 
+physLoan.getInstallmentsByAccountID = (accountID, req, result) => {
+  sql.query(
+    'SELECT * from PhysicalLoanInstallment WHERE LoanID = ?',
+    accountID,
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error', ...err }, null);
+        return;
+      }
+      sql.query(
+        'SELECT * from PhysicalLoan WHERE LoanID = ?',
+        accountID,
+        (err, res1) => {
+          if (res1.length) {
+            console.log(res1);
+            if (
+              req.user.role === 'customer' &&
+              !(req.user.CustomerID === res1[0].CustomerID)
+            ) {
+              console.log('no access physical loan installments find by id');
+              result({ kind: 'access denied' }, null);
+              return;
+            }
+
+            console.log('found installments for account: ', res);
+            result({ kind: 'success' }, res);
+          } else {
+            result({ kind: 'not_found' }, null);
+          }
+        }
+      );
+    }
+  );
+};
+
+physLoan.getUnpaidPhysicalInstallments = (result) => {
+  const query =
+    'select * from PhysicalLoanInstallment where DeadlineDate < CURRENT_TIMESTAMP and Paid = false order by DeadlineDate';
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error', ...err }, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log('found unpaid installments: ', res);
+      result({ kind: 'success' }, res);
+    } else {
+      result({ kind: 'not_found' }, null);
+    }
+  });
+};
+
+physLoan.getLoansNeedingApproval = (req, result) => {
+  const branchID = req.user.BranchID;
+  sql.query(
+    'SELECT * from PhysicalLoan WHERE Approved = false and BranchID = ?',
+    branchID,
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error' }, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log('found loans needing approval: ', res);
+        result({ kind: 'success' }, res);
+      } else {
+        console.log('no loans needing approval');
+        result({ kind: 'not_found' }, null);
+      }
+    }
+  );
+};
+
+physLoan.approveLoan = (loanID, result) => {
+  sql.query('CALL approve_loan(?)', loanID, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error' }, null);
+      return;
+    }
+
+    if (res === 'ALREADY_APPROVED') {
+      console.log('loan already approved');
+      result({ kind: 'already_approved' }, null);
+    } else if (res === 'LOAN_NOT_FOUND') {
+      console.log('loan not found');
+      result({ kind: 'not_found' }, null);
+    } else {
+      console.log('loan approved');
+      result({ kind: 'success' }, res);
+    }
+  });
+};
+
+physLoan.rejectLoan = (loanID, result) => {
+  sql.query('DELETE FROM PhysicalLoan WHERE LoanID = ?', loanID, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error' }, null);
+      return;
+    }
+
+    if (res.affectedRows === 0) {
+      console.log('loan not found');
+      result({ kind: 'not_found' }, null);
+    }
+
+    console.log('loan rejected');
+    result({ kind: 'success' }, res);
+  });
+};
+
+physLoan.getLoanByID = (loanID, result) => {
+  sql.query(
+    'SELECT * from PhysicalLoan WHERE LoanID = ?',
+    loanID,
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error' }, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log('found loan: ', res);
+        result({ kind: 'success' }, res[0]);
+      } else {
+        console.log('loan not found');
+        result({ kind: 'not_found' }, null);
+      }
+    }
+  );
+};
+
 module.exports = physLoan;

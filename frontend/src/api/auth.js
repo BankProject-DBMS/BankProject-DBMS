@@ -34,7 +34,7 @@ export async function login(credentials) {
       }
     }
   } catch (error) {
-    return await Promise.reject('Login Error: ', error);
+    return await Promise.reject(error.message);
   }
 }
 
@@ -77,6 +77,28 @@ export async function employeeLoggedIn() {
   const tokenExpiration = localStorage.getItem('tokenExpiration');
   if (role !== 'employee') {
     console.log('Role is not employee');
+    return false;
+  }
+
+  if (!token) {
+    console.log('No token');
+    return false;
+  }
+
+  if (Date.now() > tokenExpiration) {
+    console.log('Token expired');
+    return false;
+  }
+
+  return true;
+}
+
+export async function managerLoggedIn() {
+  const role = localStorage.getItem('role');
+  const token = localStorage.getItem('token');
+  const tokenExpiration = localStorage.getItem('tokenExpiration');
+  if (role !== 'manager') {
+    console.log('Role is not manager');
     return false;
   }
 

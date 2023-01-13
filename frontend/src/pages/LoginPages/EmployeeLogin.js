@@ -3,6 +3,7 @@ import { Button, Card } from 'antd';
 import { login } from '../../api/auth';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import Logo from '../Images/Logo2.png';
 // Use this instead https://github.com/jannikbuschke/formik-antd
 export default function EmployeeLogin() {
@@ -12,6 +13,8 @@ export default function EmployeeLogin() {
 
   const navigate = useNavigate();
 
+  const [loginError, setLoginError] = useState(false);
+
   const handleSubmit = (values, { setSubmitting }) => {
     setSubmitting(true);
     const loginDetails = {
@@ -19,18 +22,25 @@ export default function EmployeeLogin() {
       password: values.password,
       role: 'employee',
     };
-    login({ loginDetails }).then((response) => {
-      console.log(response);
-      setSubmitting(false);
-      if (response.auth === 'success') {
-        navigate('/employeePortal');
-      }
-    });
+    login({ loginDetails })
+      .then((response) => {
+        console.log(response);
+        setSubmitting(false);
+        if (response.auth === 'success') {
+          navigate('/employeePortal');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoginError(true);
+        setSubmitting(false);
+      });
   };
   return (
     <div className='login-box'>
       <div className='navbar'>
         <img className='aruci--logo' src={Logo} onClick={() => navigate('/')} />
+        <h1 className='topic'>Employee Login</h1>
       </div>
       <Card
         hoverable
@@ -75,15 +85,17 @@ export default function EmployeeLogin() {
                 <Button
                   className='customer--reg--form--submit'
                   type='primary'
+                  danger={loginError}
                   onClick={props.handleSubmit}
                   disabled={props.isSubmitting}
                 >
-                  Submit
+                  Login
                 </Button>
                 {Object.values(props.touched).includes(true) &&
                   Object.values(props.errors).length !== 0 && (
                     <div className='customer--reg--form--errors'>
                       <ErrorMessage name='username' component='div' />
+                      <ErrorMessage name='password' component='div' />
                     </div>
                   )}
               </Form>

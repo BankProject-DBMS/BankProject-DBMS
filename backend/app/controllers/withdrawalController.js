@@ -44,6 +44,9 @@ exports.create = (req, res) => {
         message:
           err.message || 'Some error occurred while creating withdrawal.',
       });
-    } else res.send(data);
+    } else {
+      console.log(data);
+      res.send(data);
+    }
   });
 };

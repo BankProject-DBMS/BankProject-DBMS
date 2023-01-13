@@ -86,38 +86,20 @@ Transaction.findFromTo = (fromAccount, toAccount, result) => {
 
 // SQL query to create a new transaction
 Transaction.create = (newTransaction, result) => {
-  sql.query('INSERT INTO Transaction SET ?', newTransaction, (err, res) => {
+  const toAccount = newTransaction.FromAccount;
+  const fromAccount = newTransaction.ToAccount;
+  const amount = newTransaction.Amount;
+  const remark = newTransaction.Remark;
+  const query = 'CALL transfers_procedure(?, ?, ?, ?, @code)';
+  sql.query(query, [toAccount, fromAccount, amount, remark], (err, res) => {
     if (err) {
       console.log('error: ', err);
       result({ kind: 'error', ...err }, null);
       return;
     }
-
-    console.log('created transaction: ', newTransaction);
-    // after creating a transaction, update the balance of both accounts
-    const fromAccount = newTransaction.fromAccount;
-    const toAccount = newTransaction.toAccount;
-    const amount = newTransaction.amount;
-
-    const query1 = `UPDATE CashAccount SET Balance = Balance - ? WHERE AccountID = ?`;
-    const query2 = `UPDATE CashAccount SET Balance = Balance + ? WHERE AccountID = ?`;
-
-    console.log({ query1, query2 });
-    sql.query(query1, [amount, fromAccount], (err, res) => {
-      if (err) {
-        console.log('error: ', err);
-        result({ kind: 'error', ...err }, null);
-        return;
-      }
-      sql.query(query2, [amount, toAccount], (err, res) => {
-        if (err) {
-          console.log('error: ', err);
-          result({ kind: 'error', ...err }, null);
-          return;
-        }
-        result({ kind: 'success' }, newTransaction);
-      });
-    });
+    console.log('res: ', res);
+    console.log('created transaction: ', { ...newTransaction });
+    result({ kind: 'success' }, { ...newTransaction });
   });
 };
 
@@ -141,6 +123,77 @@ Transaction.findById = (id, result) => {
       }
     }
   );
+};
+
+Transaction.getAll = (transactionID, result) => {
+  let query1 = 'SELECT * FROM Transaction';
+
+  sql.query(query1, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
+    }
+
+    result(null, res);
+    return;
+  });
+};
+
+Transaction.getBranchInReport = (branchID, result) => {
+  const query = `select * from Transaction t left join CashAccount ct on ct.AccountID = t.ToAccount WHERE ct.BranchID = ?;`;
+  sql.query(query, branchID, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error' }, null);
+      return;
+    }
+
+    result({ kind: 'success' }, res);
+    return;
+  });
+};
+
+Transaction.getBranchOutReport = (branchID, result) => {
+  const query = `select * from Transaction t left join CashAccount ca on ca.AccountID = t.FromAccount WHERE ca.BranchID = ?`;
+  sql.query(query, branchID, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error' }, null);
+      return;
+    }
+
+    result({ kind: 'success' }, res);
+    return;
+  });
+};
+
+Transaction.getBranchInCount = (branchID, result) => {
+  const query = `select count(*) as count from Transaction t left join CashAccount ct on ct.AccountID = t.ToAccount WHERE ct.BranchID = ?;`;
+  sql.query(query, branchID, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error' }, null);
+      return;
+    }
+
+    result({ kind: 'success' }, res[0]);
+    return;
+  });
+};
+
+Transaction.getBranchOutCount = (branchID, result) => {
+  const query = `select count(*) as count from Transaction t left join CashAccount ca on ca.AccountID = t.FromAccount WHERE ca.BranchID = ?`;
+  sql.query(query, branchID, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error' }, null);
+      return;
+    }
+
+    result({ kind: 'success' }, res[0]);
+    return;
+  });
 };
 
 module.exports = Transaction;

@@ -4,6 +4,7 @@ import { HOST } from './config';
 export async function getDeposites() {
   try {
     const response = await axios.post(`${HOST}/deposites`);
+    console.log(response);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -30,4 +31,3 @@ export async function addDeposit(newDeposit) {
     return await Promise.reject('Failed to create the deposit!');
   }
 }
-

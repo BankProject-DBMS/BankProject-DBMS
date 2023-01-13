@@ -1,7 +1,10 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Button } from 'antd';
+import { Button,Card } from 'antd';
 import { addWithdrawal } from '../api/withdrawals';
 import * as Yup from 'yup';
+import { Navigate, useNavigate, Outlet } from 'react-router-dom';
+import Logo from '../pages/Images/Logo2.png';
+import '../pages/PageStyling/Navbar.css'
 
 export default function WithdrawalCreate() {
   const withdrawalCreateSchema = Yup.object().shape({
@@ -20,9 +23,19 @@ export default function WithdrawalCreate() {
     console.log('Withdarawal', withdrawal);
     addWithdrawal({ withdrawal }).then(() => setSubmitting(false));
   };
+
+  const navigate = useNavigate();
+
   return (
     <div>
-      <h2>Record New Withdrawal</h2>
+      <div className='navbar'>
+        <img 
+        className='aruci--logo' 
+        src={Logo}
+        onClick={() => navigate('/employeePortal/')} />
+        <h1 className='topic'>Withdrawal Registration</h1>
+      </div>
+      <Card className='form'>
       <Formik
         initialValues={{
           accountID: '',
@@ -37,10 +50,10 @@ export default function WithdrawalCreate() {
             borderColor: 'red',
           };
           return (
-            <Form className='withdrawal--create--form'>
+            <Form className='customer--reg--form'>
               <span>
                 <Field
-                  type='text'
+                  type='number'
                   name='accountID'
                   placeholder='Account ID'
                   style={
@@ -67,16 +80,17 @@ export default function WithdrawalCreate() {
               </Button>
               {Object.values(props.touched).includes(true) &&
                 Object.values(props.errors).length !== 0 && (
-                  <div className='withdrawal--create--form--errors'>
+                  <Card className='errors'>
                     <ErrorMessage name='accountID' component='div' />
                     <ErrorMessage name='amount' component='div' />
                     <ErrorMessage name='remark' component='div' />
-                  </div>
+                  </Card>
                 )}
             </Form>
           );
         }}
       </Formik>
+      </Card>
     </div>
   );
 }

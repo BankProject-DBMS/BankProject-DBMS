@@ -11,10 +11,13 @@ const Employee = function (employee) {
 };
 
 Employee.getAll = (name, result) => {
-  let query = 'SELECT * FROM Employee';
+  let query = 'SELECT EmployeeID, Name, Position, BranchID FROM Employee';
 
   if (name) {
     query += ` WHERE Name LIKE ${sql.escape(`%${name}%`)}`;
+  }
+  else {
+    query += ` WHERE isManager = 0`;
   }
 
   sql.query(query, (err, res) => {
@@ -76,4 +79,33 @@ Employee.findByUsername = (userName, result) => {
     }
   );
 };
+
+Employee.createEmployee = (newEmployee, result) => {
+
+  const bcrypt = require('bcrypt');
+  const saltRounds = 10;
+  console.log('in create ', newEmployee);
+  const query = `INSERT INTO Employee SET ?`;
+
+  bcrypt.hash(newEmployee.Password, saltRounds, function(err, hash){
+
+    if (err) {
+      console.log('error: ', err);
+      result({ kind: 'error', err }, null);
+      return;
+    }
+
+    newEmployee.Password = hash;
+    sql.query(query, newEmployee, (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error', err }, null);
+        return;
+      }
+      console.log('created employee: ', newEmployee);
+      result({ kind: 'success' }, newEmployee);
+    });
+  });
+  };
+
 module.exports = Employee;
