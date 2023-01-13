@@ -19,6 +19,18 @@ module.exports = (app) => {
     onlineLoans.getUnpaidOnlineInstallments
   );
 
+  router.get(
+    '/installment/:installmentID',
+    [jwtauth],
+    onlineLoans.getInstallment
+  );
+
+  router.put(
+    '/installmentPay/:installmentID',
+    [jwtauth],
+    onlineLoans.payInstallment
+  );
+
   router.post('/create', [jwtauth], onlineLoans.createOnlineLoan);
 
   app.use('/onlineLoans', router);
