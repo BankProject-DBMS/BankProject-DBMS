@@ -159,7 +159,7 @@ onlineLoan.getInstallmentByID = (installmentID, result) => {
 };
 
 onlineLoan.payInstallment = (installmentID, result) => {
-  sql.query('CALL pay_installment(?)', installmentID, (err, res) => {
+  sql.query('CALL pay_onl_installment(?)', installmentID, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result({ kind: 'error' }, null);

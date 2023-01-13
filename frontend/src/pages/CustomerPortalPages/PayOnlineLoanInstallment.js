@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   getOnlineLoanInstallmentByID,
-  payOnlineLoanInstallment,
-} from '../../api/physloans';
+  payOnlineLoanInstallmentByID,
+} from '../../api/onlineloans';
 import Logo from '../Images/Logo2.png';
 import { Button } from 'antd';
 
@@ -21,9 +21,9 @@ export default function OnlineLoanInstallmentPay() {
   const navigate = useNavigate();
 
   const handlePay = () => {
-    payOnlineLoanInstallment(InstallmentID)
+    payOnlineLoanInstallmentByID(InstallmentID)
       .then(() => {
-        navigate('/customerPortal/onlineLoans');
+        navigate(-1);
       })
       .catch((err) => {
         console.log(err);

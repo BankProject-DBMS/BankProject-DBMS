@@ -35,7 +35,7 @@ import PhysicalLoanView from './pages/CustomerPortalPages/PhysicalLoanView';
 import OnlineBanking from './pages/CustomerPortalPages/OnlineBanking';
 import OnlineLoanReg from './pages/CustomerPortalPages/OnlineLoanReg';
 import ApprovalLoansList from './Forms/ApprovalLoansList';
-// import PayOnlineLoanInstallment from './pages/CustomerPortalPages/PayOnlineLoanInstallment';
+import PayOnlineLoanInstallment from './pages/CustomerPortalPages/PayOnlineLoanInstallment';
 import PayPhysicalLoanInstallment from './pages/CustomerPortalPages/PayPhysicalLoanInstallment';
 // import for home page
 import HomePage from './pages/HomePage';
@@ -136,9 +136,7 @@ function App() {
                 />
               </RequireAuth>
             }
-          >
-            
-          </Route>
+          ></Route>
           <Route path='/employeeLogin'>
             <Route
               exact
@@ -168,10 +166,10 @@ function App() {
                   path='physicalLoans/:physicalLoanID'
                   element={<PhysicalLoanView />}
                 />
-                {/* <Route
-                  path='payOnlineLoanInstallment/:InstallmentID'
+                <Route
+                  path='online-loan-installment/:InstallmentID'
                   element={<PayOnlineLoanInstallment />}
-                /> */}
+                />
                 <Route
                   path='physical-loan-installment/:InstallmentID'
                   element={<PayPhysicalLoanInstallment />}

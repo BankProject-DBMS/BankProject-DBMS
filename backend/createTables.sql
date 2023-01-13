@@ -417,6 +417,7 @@ BEGIN
     DECLARE code varchar(50);
     DECLARE amount int;
     DECLARE savingsID int;
+    DECLARE balance decimal(15,2);
     
     DECLARE EXIT HANDLER FOR SQLEXception 
         BEGIN
@@ -439,11 +440,62 @@ BEGIN
             UPDATE PhysicalLoanInstallment SET Paid = true WHERE PhysicalLoanInstallment.InstallmentID = installmentID;
             SET amount = (SELECT PhysicalLoanInstallment.Amount FROM PhysicalLoanInstallment WHERE PhysicalLoanInstallment.InstallmentID = installmentID LIMIT 1);
             set savingsID = (select PhysicalLoan.SavingsAccountID from PhysicalLoanInstallment join PhysicalLoan using (LoanID) WHERE PhysicalLoanInstallment.InstallmentID = installmentID LIMIT 1);
-            UPDATE CashAccount SET Balance = Balance - amount 
-            WHERE CashAccount.AccountID = savingsID;
-            COMMIT;
-            set code = 'SUCCESS';
+            set balance = (select CashAccount.Balance from CashAccount where CashAccount.AccountID = savingsID LIMIT 1);
+            IF 500 >= balance - amount THEN
+                ROLLBACK;
+                set code = 'INSUFFICIENT_BALANCE';
+                select code;
+            ELSE
+                UPDATE CashAccount SET Balance = Balance - amount WHERE CashAccount.AccountID = savingsID;
+                COMMIT;
+                set code = 'SUCCESS';
+                select code;
+            END IF;
+        END IF;
+END$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE pay_onl_installment (IN installmentID INT)
+BEGIN
+    DECLARE paid boolean;
+    DECLARE code varchar(50);
+    DECLARE amount int;
+    DECLARE savingsID int;
+    DECLARE balance decimal(15,2);
+    
+    DECLARE EXIT HANDLER FOR SQLEXception 
+        BEGIN
+            set code = 'FAILED';
             select code;
+            ROLLBACK;
+            RESIGNAL;
+        END;
+    START TRANSACTION;
+        SET paid = (SELECT OnlineLoanInstallment.Paid FROM OnlineLoanInstallment WHERE OnlineLoanInstallment.InstallmentID = installmentID LIMIT 1);
+        IF paid is NULL THEN
+            ROLLBACK;
+            set code = 'INSTALLMENT_NOT_FOUND';
+            select code;
+        ELSEIF paid = true THEN
+            ROLLBACK;
+            set code = 'ALREADY_PAID';
+            select code;
+        ELSE
+            UPDATE OnlineLoanInstallment SET Paid = true WHERE OnlineLoanInstallment.InstallmentID = installmentID;
+            SET amount = (SELECT OnlineLoanInstallment.Amount FROM OnlineLoanInstallment WHERE OnlineLoanInstallment.InstallmentID = installmentID LIMIT 1);
+            set savingsID = (select OnlineLoan.SavingsAccountID from OnlineLoanInstallment join OnlineLoan using (LoanID) WHERE OnlineLoanInstallment.InstallmentID = installmentID LIMIT 1);
+            set balance = (select CashAccount.Balance from CashAccount where CashAccount.AccountID = savingsID LIMIT 1);
+            IF 500 >= balance - amount THEN
+                ROLLBACK;
+                set code = 'INSUFFICIENT_BALANCE';
+                select code;
+            ELSE
+                UPDATE CashAccount SET Balance = Balance - amount WHERE CashAccount.AccountID = savingsID;
+                COMMIT;
+                set code = 'SUCCESS';
+                select code;
+            END IF;
         END IF;
 END$$
 DELIMITER ;

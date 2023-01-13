@@ -33,7 +33,9 @@ export default function PhysicalLoanView() {
       dataIndex: 'InstallmentID',
       key: 'InstallmentID',
       render: (text, record) => (
-        <Link to={`/customerPortal/physical-loan-installment/${record.InstallmentID}`}>
+        <Link
+          to={`/customerPortal/physical-loan-installment/${record.InstallmentID}`}
+        >
           {text}
         </Link>
       ),

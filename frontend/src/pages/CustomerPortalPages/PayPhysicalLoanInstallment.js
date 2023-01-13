@@ -23,7 +23,7 @@ export default function PhysicalLoanInstallmentPay() {
   const handlePay = () => {
     payPhysicalLoanInstallment(InstallmentID)
       .then(() => {
-        navigate('/customerPortal/physicalLoans');
+        navigate(-1);
       })
       .catch((err) => {
         console.log(err);
