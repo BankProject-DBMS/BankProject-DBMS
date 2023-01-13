@@ -15,9 +15,9 @@ export default function OnlineLoanReg() {
   const navigate = useNavigate();
 
   const maxAmount = selectedFD
-    ? selectedFD.Amount > 500000
+    ? selectedFD.Amount * 0.6 > 500000
       ? 500000
-      : selectedFD.Amount
+      : selectedFD.Amount * 0.6
     : 500000;
 
   const validateAmount = (value) => {
@@ -98,8 +98,8 @@ export default function OnlineLoanReg() {
           initialValues={{
             myAccountID: accounts[0]?.AccountID,
             fdAccountID: fds[0]?.AccountID,
-            amount: 0,
-            duration: 0,
+            amount: '',
+            duration: '',
           }}
           onSubmit={handleSubmit}
           validationSchema={customerRegSchema}

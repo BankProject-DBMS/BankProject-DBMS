@@ -1,9 +1,16 @@
 import axios from 'axios';
 import { HOST } from './config';
+import { parseISODate } from '../utils/dateFormat';
 
 export async function getTransactions() {
   try {
     const response = await axios.get(`${HOST}/transactions`);
+    for (let i = 0; i < response.data.length; i++) {
+      response.data[i].transactionTime = parseISODate(
+        response.data[i].transactionTime
+      );
+      console.log(response.data[i].transactionTime);
+    }
     return response.data;
   } catch (err) {
     console.log(err);
@@ -16,6 +23,12 @@ export async function getCreditTransactions(accountID) {
     const response = await axios.get(
       `${HOST}/transactions/credit/${accountID}`
     );
+    for (let i = 0; i < response.data.length; i++) {
+      response.data[i].transactionTime = parseISODate(
+        response.data[i].transactionTime
+      );
+      console.log(response.data[i].transactionTime);
+    }
     return response.data;
   } catch (err) {
     // console.log(err);
@@ -26,6 +39,12 @@ export async function getCreditTransactions(accountID) {
 export async function getDebitTransactions(accountID) {
   try {
     const response = await axios.get(`${HOST}/transactions/debit/${accountID}`);
+    for (let i = 0; i < response.data.length; i++) {
+      response.data[i].transactionTime = parseISODate(
+        response.data[i].transactionTime
+      );
+      console.log(response.data[i].transactionTime);
+    }
     return response.data;
   } catch (err) {
     // console.log(err);

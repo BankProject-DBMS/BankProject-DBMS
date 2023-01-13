@@ -89,7 +89,7 @@ export default function EmployeeLogin() {
                   onClick={props.handleSubmit}
                   disabled={props.isSubmitting}
                 >
-                  Submit
+                  Login
                 </Button>
                 {Object.values(props.touched).includes(true) &&
                   Object.values(props.errors).length !== 0 && (

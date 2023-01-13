@@ -41,9 +41,14 @@ onlineLoan.create = (newOnlineLoan, result) => {
     return;
   }
   sql.query(
-    'SELECT amount FROM fdaccount WHERE AccountID = ?',
+    'SELECT amount FROM FDAccount WHERE AccountID = ?',
     newOnlineLoan.FDAccountID,
     (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error', ...err }, null);
+        return;
+      }
       if (0.6 * res[0].amount < newOnlineLoan.Amount) {
         result({ kind: 'FD Amount is not sufficient' }, null);
         return;

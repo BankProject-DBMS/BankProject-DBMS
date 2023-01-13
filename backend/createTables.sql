@@ -294,13 +294,13 @@ BEGIN
         END;
     
     START TRANSACTION;
-		SET branchID = (SELECT cashaccount.BranchID FROM CashAccount WHERE cashaccount.AccountID = savingsAccountID);
+		SET branchID = (SELECT CashAccount.BranchID FROM CashAccount WHERE CashAccount.AccountID = savingsAccountID);
         SELECT branchID;
 		INSERT INTO OnlineLoan 
         (OnlineLoan.CustomerID, OnlineLoan.FDAccountID, OnlineLoan.Amount, OnlineLoan.Duration, OnlineLoan.InterestRate, OnlineLoan.SavingsAccountID,OnlineLoan.BranchID) 
         Values 
 			(customerID,fDAccountID,amount,duration,interestRate,savingsAccountID,branchID);
-		UPDATE cashaccount SET Balance = Balance + amount WHERE cashaccount.AccountID = savingsAccountID;
+		UPDATE CashAccount SET Balance = Balance + amount WHERE CashAccount.AccountID = savingsAccountID;
 		COMMIT;
 END$$
 DELIMITER ;
@@ -323,8 +323,8 @@ BEGIN
     -- SELECT ID,amount,remark;
     
     START TRANSACTION;
-		SET wCount = (SELECT cashaccount.WCount FROM cashaccount WHERE AccountID = ID);
-		SET balance = (SELECT cashaccount.balance FROM cashaccount WHERE AccountID = ID);
+		SET wCount = (SELECT CashAccount.WCount FROM CashAccount WHERE AccountID = ID);
+		SET balance = (SELECT CashAccount.Balance FROM CashAccount WHERE AccountID = ID);
         
         
         IF 0 >= wCount  THEN
@@ -338,9 +338,9 @@ BEGIN
 				SET new_w = WCount-1;
                 SET new_b = balance - amount;
                 SELECT new_b,new_w;
-				INSERT INTO withdrawal(AccountID, Amount, Remark) values (ID,amount,remark);
-                UPDATE cashaccount SET WCount = new_w  WHERE AccountID = ID;
-				UPDATE cashaccount SET Balance = new_b WHERE AccountID = ID;
+				INSERT INTO Withdrawal(AccountID, Amount, Remark) values (ID,amount,remark);
+                UPDATE CashAccount SET WCount = new_w  WHERE AccountID = ID;
+				UPDATE CashAccount SET Balance = new_b WHERE AccountID = ID;
 				COMMIT;	
 				SET code =  'SUCCESS';
 			END IF;
@@ -401,8 +401,8 @@ BEGIN
             # TO BE CHECKED
             SET amount = (SELECT PhysicalLoan.Amount FROM PhysicalLoan WHERE PhysicalLoan.LoanID = loanID);
             # SELECT amount;
-            UPDATE cashaccount SET Balance = Balance + (SELECT PhysicalLoan.Amount FROM PhysicalLoan WHERE PhysicalLoan.LoanID = loanID) 
-            WHERE cashaccount.AccountID =(SELECT PhysicalLoan.SavingsAccountID FROM PhysicalLoan WHERE PhysicalLoan.LoanID = loanID) ;
+            UPDATE CashAccount SET Balance = Balance + (SELECT PhysicalLoan.Amount FROM PhysicalLoan WHERE PhysicalLoan.LoanID = loanID) 
+            WHERE CashAccount.AccountID =(SELECT PhysicalLoan.SavingsAccountID FROM PhysicalLoan WHERE PhysicalLoan.LoanID = loanID) ;
             COMMIT;
             set code = 'SUCCESS';
             select code;
