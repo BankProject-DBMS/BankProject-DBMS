@@ -112,3 +112,15 @@ export async function getInstallment(installmentID) {
     return await Promise.reject('Failed to get installment!');
   }
 }
+
+export async function payInstallment(installmentID) {
+  try {
+    const response = await axios.put(
+      `${HOST}/physicalLoans/installmentPay/${installmentID}`
+    );
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to pay installment!');
+  }
+}
