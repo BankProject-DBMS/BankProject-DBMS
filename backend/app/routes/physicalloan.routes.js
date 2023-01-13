@@ -29,6 +29,18 @@ module.exports = (app) => {
   );
 
   router.get(
+    '/installment/:installmentID',
+    [jwtauth],
+    physLoans.getInstallment
+  );
+
+  router.put(
+    '/installmentPay/:installmentID',
+    [jwtauth],
+    physLoans.payInstallment
+  );
+
+  router.get(
     '/needApproval',
     [jwtauth, isManager],
     physLoans.getLoansNeedingApproval

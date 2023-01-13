@@ -100,3 +100,15 @@ export async function getUnpaidPhysicalInstallments() {
     return await Promise.reject('Failed to get unpaid installments!');
   }
 }
+
+export async function getInstallment(installmentID) {
+  try {
+    const response = await axios.get(
+      `${HOST}/physicalLoans/installment/${installmentID}`
+    );
+    return response.data;
+  } catch (err) {
+    // console.log(err);
+    return await Promise.reject('Failed to get installment!');
+  }
+}

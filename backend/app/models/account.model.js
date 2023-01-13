@@ -69,21 +69,34 @@ Account.findById = (id, req, result) => {
 
 // SQL query to create a new account
 Account.create = (newAccount, req, result) => {
-  sql.query('INSERT INTO CashAccount SET ?', newAccount, (err, res) => {
-    if (err) {
-      console.log('error: ', err);
-      result({ kind: 'error', ...err }, null);
-      return;
-    }
-    if (req.user.role === 'customer') {
-      console.log('no access acc create');
-      result({ kind: 'access denied' }, null);
-      return;
-    }
+  sql.query(
+    'SELECT WCountMax FROM CashAccountType WHERE TypeID = ?',
+    newAccount.TypeID,
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result({ kind: 'error', ...err }, null);
+        return;
+      }
+      newAccount.WCount = res[0].WCountMax;
 
-    console.log('created account: ', newAccount);
-    result({ kind: 'success' }, newAccount);
-  });
+      sql.query('INSERT INTO CashAccount SET ?', newAccount, (err, res) => {
+        if (err) {
+          console.log('error: ', err);
+          result({ kind: 'error', ...err }, null);
+          return;
+        }
+        if (req.user.role === 'customer') {
+          console.log('no access acc create');
+          result({ kind: 'access denied' }, null);
+          return;
+        }
+
+        console.log('created account: ', newAccount);
+        result({ kind: 'success' }, newAccount);
+      });
+    }
+  );
 };
 
 // SQL query to update balance of an account

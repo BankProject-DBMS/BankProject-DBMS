@@ -211,3 +211,38 @@ exports.getUnpaidPhysicalInstallments = (req, res) => {
     } else res.send(data);
   });
 };
+
+exports.getInstallment = (req, res) => {
+  const installmentID = req.params.installmentID;
+  PhysLoanModel.getInstallmentByID(installmentID, (err, data) => {
+    if (err.kind === 'not_found') {
+      res.status(404).send({
+        message: `No installment found with id ${installmentID}.`,
+      });
+    } else if (err.kind != 'success') {
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while retrieving installment.',
+      });
+    } else res.send(data);
+  });
+};
+
+exports.payInstallment = (req, res) => {
+  const installmentID = req.params.installmentID;
+  PhysLoanModel.payInstallment(installmentID, (err, data) => {
+    if (err.kind === 'not_found') {
+      res.status(404).send({
+        message: `No installment found with id ${installmentID}.`,
+      });
+    } else if (err.kind === 'already_paid') {
+      res.status(400).send({
+        message: 'Installment has already been paid.',
+      });
+    } else if (err.kind != 'success') {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while paying installment.',
+      });
+    } else res.send(data);
+  });
+};

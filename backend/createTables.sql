@@ -410,6 +410,43 @@ BEGIN
 END$$
 DELIMITER ;
 
+DELIMITER $$
+CREATE PROCEDURE pay_phys_installment (IN installmentID INT)
+BEGIN
+    DECLARE paid boolean;
+    DECLARE code varchar(50);
+    DECLARE amount int;
+    DECLARE savingsID int;
+    
+    DECLARE EXIT HANDLER FOR SQLEXception 
+        BEGIN
+            set code = 'FAILED';
+            select code;
+            ROLLBACK;
+            RESIGNAL;
+        END;
+    START TRANSACTION;
+        SET paid = (SELECT PhysicalLoanInstallment.Paid FROM PhysicalLoanInstallment WHERE PhysicalLoanInstallment.InstallmentID = installmentID LIMIT 1);
+        IF paid is NULL THEN
+            ROLLBACK;
+            set code = 'INSTALLMENT_NOT_FOUND';
+            select code;
+        ELSEIF paid = true THEN
+            ROLLBACK;
+            set code = 'ALREADY_PAID';
+            select code;
+        ELSE
+            UPDATE PhysicalLoanInstallment SET Paid = true WHERE PhysicalLoanInstallment.InstallmentID = installmentID;
+            SET amount = (SELECT PhysicalLoanInstallment.Amount FROM PhysicalLoanInstallment WHERE PhysicalLoanInstallment.InstallmentID = installmentID LIMIT 1);
+            set savingsID = (select PhysicalLoan.SavingsAccountID from PhysicalLoanInstallment join PhysicalLoan using (LoanID) WHERE PhysicalLoanInstallment.InstallmentID = installmentID LIMIT 1);
+            UPDATE CashAccount SET Balance = Balance - amount 
+            WHERE CashAccount.AccountID = savingsID;
+            COMMIT;
+            set code = 'SUCCESS';
+            select code;
+        END IF;
+END$$
+DELIMITER ;
 
 -- suggestions for upgrading the database
 -- 1. give special privilages to customers who are also employees
