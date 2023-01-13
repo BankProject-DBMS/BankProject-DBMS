@@ -210,7 +210,7 @@ physLoan.getInstallmentByID = (installmentID, result) => {
 };
 
 physLoan.payInstallment = (installmentID, result) => {
-  sql.query('CALL pay_installment(?)', installmentID, (err, res) => {
+  sql.query('CALL pay_phys_installment(?)', installmentID, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result({ kind: 'error' }, null);
