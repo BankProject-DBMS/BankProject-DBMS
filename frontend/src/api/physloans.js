@@ -101,7 +101,7 @@ export async function getUnpaidPhysicalInstallments() {
   }
 }
 
-export async function getInstallment(installmentID) {
+export async function getPhysicalLoanInstallmentByID(installmentID) {
   try {
     const response = await axios.get(
       `${HOST}/physicalLoans/installment/${installmentID}`
@@ -113,7 +113,7 @@ export async function getInstallment(installmentID) {
   }
 }
 
-export async function payInstallment(installmentID) {
+export async function payPhysicalLoanInstallment(installmentID) {
   try {
     const response = await axios.put(
       `${HOST}/physicalLoans/installmentPay/${installmentID}`
