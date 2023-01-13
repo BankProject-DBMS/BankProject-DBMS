@@ -3,7 +3,7 @@ import { getTransactions } from '../api/transactions';
 import { Table } from 'antd';
 import Logo from '../pages/Images/Logo2.png';
 import { Navigate, useNavigate, Outlet } from 'react-router-dom';
-import '../pages/PageStyling/Navbar.css'
+import '../pages/PageStyling/Navbar.css';
 
 export default function TransactionList() {
   const columns = [
@@ -47,6 +47,7 @@ export default function TransactionList() {
   function loadTransactionList() {
     getTransactions()
       .then((data) => {
+        console.log(data);
         setTransaction(data);
       })
       .catch((err) => console.log(err));
@@ -57,14 +58,15 @@ export default function TransactionList() {
   return (
     <div>
       <div className='navbar'>
-        <img 
-        className='aruci--logo' 
-        src={Logo}
-        onClick={() => navigate('/employeePortal/')} />
+        <img
+          className='aruci--logo'
+          src={Logo}
+          onClick={() => navigate('/employeePortal/')}
+        />
         <h1 className='topic'>Transaction List</h1>
-      </div >
+      </div>
       <div className='table'>
-      {<Table dataSource={Transaction} columns={columns} />}
+        {<Table dataSource={Transaction} columns={columns} />}
       </div>
     </div>
   );

@@ -6,10 +6,9 @@ export async function getTransactions() {
   try {
     const response = await axios.get(`${HOST}/transactions`);
     for (let i = 0; i < response.data.length; i++) {
-      response.data[i].transactionTime = parseISODate(
-        response.data[i].transactionTime
+      response.data[i].TransactionTime = parseISODate(
+        response.data[i].TransactionTime
       );
-      console.log(response.data[i].transactionTime);
     }
     return response.data;
   } catch (err) {
