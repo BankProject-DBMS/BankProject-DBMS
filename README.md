@@ -1,5 +1,5 @@
 # Bank Management System using React.js, Node.js, and MySQL
-
+![Home](Home.png)
 ## Introduction
 
 The Bank Management System project is a comprehensive database management system developed as part of the CS3043 - Database Systems course. This system is designed to provide a user-friendly interface for managing various banking operations. It comprises a frontend built with React.js, a backend powered by Node.js, and utilizes a MySQL database to store and manage data efficiently.
@@ -23,6 +23,11 @@ The frontend of the Bank Management System is built using React.js, a popular Ja
 5. **Loan Application:** Users can apply for loans and track the status of their loan applications.
 
 6. **Profile Management:** Users can update their personal information, change passwords, and manage their contact details.
+
+
+![Customer](Customer.png)
+![Manager](Manager.png)
+![Details](Details.png)
 
 ### Backend (Node.js)
 
