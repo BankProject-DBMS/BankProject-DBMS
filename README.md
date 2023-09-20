@@ -57,3 +57,8 @@ The MySQL database stores and manages all the data necessary for the Bank Manage
 
 The Bank Management System project is a collaborative effort that integrates a frontend developed with React.js, a backend powered by Node.js, and a MySQL database to provide users with a secure and user-friendly platform for banking operations. This project not only demonstrates the principles of database management but also showcases the capabilities of modern web development technologies.
 
+## Contributors
+
+<a href="https://github.com/BankProject-DBMS/BankProject-DBMS/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=BankProject-DBMS/BankProject-DBMS" />
+</a>
