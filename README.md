@@ -18,11 +18,9 @@ The frontend of the Bank Management System is built using React.js, a popular Ja
 
 3. **Transaction Management:** Users can perform various banking operations, such as deposit, withdrawal, fund transfer, and account statement generation.
 
-4. **Bill Payments:** The system allows users to pay bills, including utilities, credit cards, and loans, directly from their bank accounts.
+4. **Loan Application:** Users can apply for loans and track the status of their loan applications.
 
-5. **Loan Application:** Users can apply for loans and track the status of their loan applications.
-
-6. **Profile Management:** Users can update their personal information, change passwords, and manage their contact details.
+5. **Profile Management:** Users can update their personal information, change passwords, and manage their contact details.
 
 
 ![Customer](Customer.png)
